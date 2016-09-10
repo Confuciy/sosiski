@@ -2,6 +2,7 @@
 namespace Album\Model;
 
 use Zend\Db\TableGateway\TableGateway;
+use Zend\Db\Sql\Select;
 
 class AlbumTable
 {
@@ -14,7 +15,10 @@ class AlbumTable
 
     public function fetchAll()
     {
-        $resultSet = $this->tableGateway->select();
+        #$resultSet = $this->tableGateway->select();
+        $resultSet = $this->tableGateway->select(function (Select $select) {
+		     $select->order('id DESC');
+		});
         return $resultSet;
     }
 

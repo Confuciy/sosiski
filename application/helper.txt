@@ -1,0 +1,3 @@
+# Generating Doctrine entities from the database
+php doctrine.php orm:convert-mapping --namespace=Application\Entity\  --from-database annotation ..\library\
+php doctrine.php orm:generate-entities --generate-annotations="true"  --generate-methods="true" ..\library\

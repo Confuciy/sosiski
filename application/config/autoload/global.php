@@ -14,15 +14,14 @@
 return array(
     'db' => array(
         'driver'         => 'Pdo',
-        'dsn'            => 'mysql:dbname=confuciy_sosiski;host=db37.valuehost.ru',
+        'dsn'            => 'mysql:dbname=confuciy_sosiski;host=db35.valuehost.ru',
         'driver_options' => array(
             PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\''
         ),
     ),
     'service_manager' => array(
         'factories' => array(
-            'Zend\Db\Adapter\Adapter'
-                    => 'Zend\Db\Adapter\AdapterServiceFactory',
+            'Zend\Db\Adapter\Adapter' => 'Zend\Db\Adapter\AdapterServiceFactory',
         ),
     ),
 );
