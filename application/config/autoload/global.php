@@ -11,7 +11,11 @@
  * file.
  */
 
+use DoctrineORMModule\Service\ConfigurationFactory as DoctrineConfigurationFactory;
+use Zend\ServiceManager\ServiceLocatorInterface;
+
 return array(
+    #/*
     'db' => array(
         'driver'         => 'Pdo',
         'dsn'            => 'mysql:dbname=confuciy_sosiski;host=db35.valuehost.ru',
@@ -19,9 +23,16 @@ return array(
             PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\''
         ),
     ),
+    #*/
+    /*
+    'db' => array(
+        'driver'         => 'Pdo',
+        'dsn' => 'pgsql:host=db35.valuehost.ru;port=5432;user=confuciy_so_p;password=KilyhhhRThT',
+    ),
     'service_manager' => array(
         'factories' => array(
             'Zend\Db\Adapter\Adapter' => 'Zend\Db\Adapter\AdapterServiceFactory',
         ),
     ),
+    */
 );
