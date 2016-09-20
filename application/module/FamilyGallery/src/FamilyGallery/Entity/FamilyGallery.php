@@ -34,9 +34,9 @@ class FamilyGallery
 
     /**
      * @var int
-     * @ORM\JoinColumn(name="member_id", referencedColumnName="id")
+     * @ORM\ManyToOne(targetEntity="FamilyGalleryMember", cascade={"all"}, fetch="EAGER")
      */
-    protected $memberId;
+    protected $member;
 
     /**
      * @var int

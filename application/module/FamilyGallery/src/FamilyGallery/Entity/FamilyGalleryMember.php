@@ -5,12 +5,12 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * An example of how to implement a FamilyGallery entity.
+ * An example of how to implement a FamilyGalleryMember entity.
  *
  * @ORM\Entity
  * @ORM\Table(name="family_gallery_member")
  */
-class FamilyGalleryMemeber
+class FamilyGalleryMember
 {
     /**
      * @var int

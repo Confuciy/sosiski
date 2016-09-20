@@ -14,6 +14,7 @@ return array(
             )
         )
     ),
+
     'controllers' => array(
         'invokables' => array(
             'FamilyGallery\Controller\FamilyGalleryController' => 'FamilyGallery\Controller\FamilyGalleryController',
@@ -22,7 +23,7 @@ return array(
 
     'router' => array(
         'routes' => array(
-            'familyGallery' => array(
+            'family-gallery' => array(
                 'type'    => 'segment',
                 'options' => array(
                     'route'    => '/family-gallery[/:member_id[/:year[/:month]]][/]',//'/blog[/][:action][/:id][/]', //'[/blog[/:action[/:id]]][/]'
@@ -51,11 +52,9 @@ return array(
         ),
     ),
 
-    /*
     'view_helpers' => array(
         'invokables' => array(
             'showMessages' => 'FamilyGallery\View\Helper\ShowMessages',
         ),
     ),
-    */
 );

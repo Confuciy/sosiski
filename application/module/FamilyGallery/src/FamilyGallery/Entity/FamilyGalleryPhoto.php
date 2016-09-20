@@ -5,7 +5,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * An example of how to implement a FamilyGallery entity.
+ * An example of how to implement a FamilyGalleryPhoto entity.
  *
  * @ORM\Entity
  * @ORM\Table(name="family_gallery_photo")
@@ -21,8 +21,8 @@ class FamilyGalleryPhoto
     protected $id;
 
     /**
-     * @var FamilyGallery
-     * @ORM\ManyToOne(targetEntity="FamilyGallery\Entity\FamilyGallery")
+     * @var int
+     * @ORM\ManyToOne(targetEntity="FamilyGallery")
      * @ORM\JoinColumn(name="gallery_id", referencedColumnName="id")
      */
     protected $galleryId;
@@ -40,13 +40,19 @@ class FamilyGalleryPhoto
     protected $path;
 
     /**
+     * @var int
+     * @ORM\Column(type="integer", nullable=false)
+     */
+    protected $sortby;
+
+    /**
      * @var text
      * @ORM\Column(type="text")
      */
     protected $info;
 
     /**
-     * @var int
+     * @var date
      * @ORM\Column(type="date")
      */
     protected $date;
@@ -121,6 +127,28 @@ class FamilyGalleryPhoto
     public function setPath($path)
     {
         $this->path = $path;
+    }
+
+    /**
+     * Get sortby.
+     *
+     * @return int
+     */
+    public function getSortby()
+    {
+        return $this->sortby;
+    }
+
+    /**
+     * Set sortby.
+     *
+     * @param int $sortby
+     *
+     * @return void
+     */
+    public function setSortby($sortby)
+    {
+        $this->sortby = (int)$sortby;
     }
 
     /**

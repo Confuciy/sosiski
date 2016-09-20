@@ -16,8 +16,8 @@ return array(
         //'ZfcBase',
         //'ZfcUser',
         //'ZfcUserDoctrineORM',
-        //'BjyAuthorize',
-        //'Album',
+        //'BjyAuthorize'
+        'Album',
         //'MyBlog',
         //'MyUser',
         'ZfcTwig'
