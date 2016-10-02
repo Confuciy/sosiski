@@ -27,6 +27,12 @@ class FamilyGalleryMember
     protected $name;
 
     /**
+     * @var string
+     * @ORM\Column(type="string", length=255, nullable=false)
+     */
+    protected $photo;
+
+    /**
      * @var text
      * @ORM\Column(type="text")
      */
@@ -86,6 +92,28 @@ class FamilyGalleryMember
     public function setName($name)
     {
         $this->name = $name;
+    }
+
+    /**
+     * Get photo.
+     *
+     * @return string
+     */
+    public function getPhoto()
+    {
+        return $this->photo;
+    }
+
+    /**
+     * Set photo.
+     *
+     * @param string $photo
+     *
+     * @return void
+     */
+    public function setPhoto($photo)
+    {
+        $this->photo = $photo;
     }
 
     /**

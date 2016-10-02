@@ -26,10 +26,12 @@ return array(
             'family-gallery' => array(
                 'type'    => 'segment',
                 'options' => array(
-                    'route'    => '/family-gallery[/:member_id[/:year[/:month]]][/]',//'/blog[/][:action][/:id][/]', //'[/blog[/:action[/:id]]][/]'
+                    'route'    => '/family-gallery[/:action[/:member_id[/:year[/:month]]]][/]',//'/blog[/][:action][/:id][/]', //'[/blog[/:action[/:id]]][/]'
                     'constraints' => array(
-                        'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
-                        'id'     => '[0-9]+',
+                        'action'    => '[a-zA-Z][a-zA-Z0-9_-]*',
+                        'member_id' => '[0-9]+',
+                        'year'      => '[0-9]+',
+                        'month'     => '[0-9]+',
                     ),
                     'defaults' => array(
                         'controller' => 'FamilyGallery\Controller\FamilyGalleryController',

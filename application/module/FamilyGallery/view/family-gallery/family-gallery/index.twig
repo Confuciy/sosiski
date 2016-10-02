@@ -1,31 +1,53 @@
-{% extends 'family-gallery/layout/layout.twig' %}
+{% extends 'family-gallery/layout/dopetrope.twig' %}
 
-{% block content %}
+
+{% block logo %}
+    <h1><a href="/">Family Gallery</a></h1>
+{% endblock logo %}
+{% block nav %}{% endblock nav %}
+{% block banner %}{% endblock banner %}
+{% block intro %}{% endblock intro %}
+{% block major %}{% endblock major %}
+
+{% block portfolio_rows %}
+    {#
     {% for gallery in galleries %}
-        <article class="post">
-            <header>
-                <div class="title">
-                    <h2><a href="{{ url('family-gallery', {'action': 'view', 'id': gallery.id}) }}">{{ gallery.title|e }}</a></h2>
-                    <p>{{ gallery.text|e }}</p>
-                </div>
-                <div class="meta">
-                    <time class="published" datetime="2015-11-01">November, {{ gallery.year }}</time>
-                    <a href="{{ url('family-gallery', {'action': 'view', 'id': gallery.id}) }}" class="author"><span class="name">{{ gallery.member['name'] }}</span><img src="/img/avatar.jpg" alt="" /></a>
-                </div>
-            </header>
-            <a href="#" class="image featured"><img src="/img/pic01.jpg" alt="" /></a>
-            <p>{{ gallery.title|e }}</p>
-            <footer>
-                <ul class="actions">
-                    <li><a href="{{ url('family-gallery', {'action': 'view', 'id': gallery.id}) }}" class="button big">View more</a></li>
-                </ul>
-                <ul class="stats" style="display: none;">
-                    <li><a href="#">General</a></li>
-                    <li><a href="#" class="icon fa-heart">28</a></li>
-                    <li><a href="#" class="icon fa-comment">128</a></li>
-                </ul>
-            </footer>
-        </article>
+        <div class="4u 12u(mobile)">
+            <section class="box">
+                <a href="{{ url('family-gallery', {'action': 'view', 'id': gallery.id}) }}" class="image featured"><img src="{{ t_path }}/images/pic02.jpg" alt="" /></a>
+                <header>
+                    <h3>{{ gallery.title|e }}</h3>
+                </header>
+                <p>{{ gallery.member['name'] }}, {{ gallery.year }}</p>
+                <p>{{ gallery.text|e }}</p>
+            </section>
+        </div>
     {% endfor %}
-{% endblock content %}
+
+    #}
+
+    {% for member in members %}
+        <div class="4u 12u(mobile)">
+            <section class="box">
+                <a href="{{ url('family-gallery', {'action': 'view', 'member_id': member.id}) }}" class="image featured">
+                    {% if member.photo %}
+                        <img src="/img/family-gallery-member/{{ member.id }}/{{ member.photo }}" alt="" />
+                    {% else %}
+                        <img src="/img/family-gallery-member/0.jpg" alt="" />
+                    {% endif %}
+                </a>
+                <header>
+                    <h3><a href="{{ url('family-gallery', {'action': 'view', 'member_id': member.id}) }}">{{ member.name }}</a></h3>
+                </header>
+                <p>{{ member.date|date('d.m.Y') }}</p>
+                {#<p>{{ gallery.text|e }}</p>#}
+            </section>
+        </div>
+    {% endfor %}
+
+{% endblock portfolio_rows %}
+
+{% block blog %}{% endblock blog %}
+
+{% block footer_wrapper %}{% endblock footer_wrapper %}
 

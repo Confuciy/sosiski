@@ -13,7 +13,7 @@ class FamilyGalleryController extends AbstractActionController
     {
         $objectManager = $this->getServiceLocator()->get('Doctrine\ORM\EntityManager');
 
-        $member_id = (int) $this->params()->fromRoute('member_id', 0);
+        $member_id = (int) $this->params()->fromRoute('member_id');
         if (!$member_id or empty($member_id)) {
             #$galleries = $objectManager
             #    ->getRepository('\FamilyGallery\Entity\FamilyGallery')
@@ -42,41 +42,40 @@ class FamilyGalleryController extends AbstractActionController
                 #$col++;
             #}
 
-            $this->flashMessenger()->addErrorMessage('asdasdsad');
+            #$this->flashMessenger()->addErrorMessage('asdasdsad');
 
-
+            /*
             $galleries = $objectManager
-                ->createQuery('SELECT f, m FROM \FamilyGallery\Entity\FamilyGallery f LEFT JOIN f.member m where f.state = 1 order by f.year desc, f.month desc')
+                ->createQuery('SELECT f, m FROM \FamilyGallery\Entity\FamilyGallery f 
+                    JOIN f.member m where f.state = 1 order by f.year desc, f.month desc')
+                ->getArrayResult();
+            */
+
+            $members = $objectManager
+                ->createQuery('SELECT distinct m FROM \FamilyGallery\Entity\FamilyGalleryMember m  
+                    JOIN \FamilyGallery\Entity\FamilyGallery f where m.state = 1 AND f.state = 1')
                 ->getArrayResult();
 
-            #echo '<pre>'; print_r($galleries_array); echo '</pre>';
+            #echo '<pre>'; print_r($members); echo '</pre>';
             #die;
         }
-        else {
-            //
-        }
 
         $view = new ViewModel([
-            'galleries' => $galleries,
+            'members' => $members,
         ]);
 
         return $view;
+    }
 
-        /*
-        $galleries = $objectManager
-            ->getRepository('\FamilyGallery\Entity\FamilyGallery')
-            ->findBy([('state' => 1, 'member_id' => $member_id], ['year' => 'DESC', 'month' => 'DESC']);
+    public function viewAction()
+    {
+        $member_id = (int)$this->params()->fromRoute('member_id');
+        if ($member_id or !empty($member_id)) {
+            $view = new ViewModel([
+                'member_id' => $member_id,
+            ]);
 
-        $galleries_array = [];
-        foreach ($galleries as $gallery) {
-            $galleries_array[] = $gallery->getArrayCopy();
+            return $view;
         }
-
-        $view = new ViewModel([
-            'posts' => $galleries_array,
-        ]);
-
-        return $view;
-        */
     }
 }

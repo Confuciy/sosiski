@@ -1,0 +1,34 @@
+{% extends 'family-gallery/layout/lens.twig' %}
+
+
+{% block header_h1 %}
+    <h1>member_id: {{ member_id }}</h1>
+{% endblock header_h1 %}
+{% block header_text %}
+    <p>asd asd asd</p>
+{% endblock header_text %}
+{% block header_ul %}{% endblock header_ul %}
+
+{% block thumbnail_article %}
+    <article>
+        <a class="thumbnail" href="{{ t_path }}/images/fulls/01.jpg" data-position="left center"><img src="{{ t_path }}/images/thumbs/01.jpg" alt="" /></a>
+        <h2>Diam tempus accumsan</h2>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+    </article>
+    {#
+    {% for gallery in galleries %}
+        <div class="4u 12u(mobile)">
+            <section class="box">
+                <a href="{{ url('family-gallery', {'action': 'view', 'id': gallery.id}) }}" class="image featured"><img src="{{ t_path }}/images/pic02.jpg" alt="" /></a>
+                <header>
+                    <h3>{{ gallery.title|e }}</h3>
+                </header>
+                <p>{{ gallery.member['name'] }}, {{ gallery.year }}</p>
+                <p>{{ gallery.text|e }}</p>
+            </section>
+        </div>
+    {% endfor %}
+    #}
+{% endblock thumbnail_article %}
+
+{% block footer %}{% endblock footer %}

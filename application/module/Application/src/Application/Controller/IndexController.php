@@ -16,7 +16,7 @@ class IndexController extends AbstractActionController
 {
     public function indexAction()
     {
-        $this->layout('layout/normal_layout');
+        $this->layout('layout/zend_layout');
 
         return new ViewModel();
     }
