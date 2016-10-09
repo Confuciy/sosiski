@@ -21,10 +21,10 @@ class Module
         $moduleRouteListener->attach($eventManager);
 
         $eventManager->getSharedManager()->attach(__NAMESPACE__, MvcEvent::EVENT_DISPATCH, function ($e) {
-//            $serviceManager = $e->getApplication()->getServiceManager();
-//            $pluginManager = $serviceManager->get('Zend\Mvc\Controller\PluginManager');
-//            $redirectPlugin = $pluginManager->get('redirect');
-//            return $redirectPlugin->toRoute('family-gallery', array('controller' => 'FamilyGallery', 'action' => 'view', 'member_id' => 1));
+            $serviceManager = $e->getApplication()->getServiceManager();
+            $pluginManager = $serviceManager->get('Zend\Mvc\Controller\PluginManager');
+            $redirectPlugin = $pluginManager->get('redirect');
+            return $redirectPlugin->toRoute('family-gallery', array('controller' => 'FamilyGallery', 'action' => 'view', 'member_id' => 1));
 
             #die($hit_controller.'');
 //            return $this->forward()->dispatch('FamilyGallery\Controller\FamilyGalleryController', array(

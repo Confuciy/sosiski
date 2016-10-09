@@ -15,7 +15,7 @@ class FamilyGalleryController extends AbstractActionController
 
         $objectManager = $this->getServiceLocator()->get('Doctrine\ORM\EntityManager');
 
-        $member_id = (int) $this->params()->fromRoute('member_id');
+        $member_id = (int)$this->params()->fromRoute('member_id');
         if (!$member_id or empty($member_id)) {
             #$galleries = $objectManager
             #    ->getRepository('\FamilyGallery\Entity\FamilyGallery')
@@ -24,24 +24,24 @@ class FamilyGalleryController extends AbstractActionController
             #$galleries_array = [];
             #$col = 0;
             #foreach ($galleries as $gallery) {
-                /*
-                $photos = $objectManager
-                    ->getRepository('\FamilyGallery\Entity\FamilyGalleryPhoto')
-                    ->findBy(['galleryId' => $gallery->getId(), 'state' => 1], ['sortby' => 'DESC']);
-                $photos_array = [];
-                foreach ($photos as $photo) {
-                    $photos_array[] = $photo->getArrayCopy();
-                }
-                */
+            /*
+            $photos = $objectManager
+                ->getRepository('\FamilyGallery\Entity\FamilyGalleryPhoto')
+                ->findBy(['galleryId' => $gallery->getId(), 'state' => 1], ['sortby' => 'DESC']);
+            $photos_array = [];
+            foreach ($photos as $photo) {
+                $photos_array[] = $photo->getArrayCopy();
+            }
+            */
 
-                #$member = $objectManager
-                #   ->getRepository('\FamilyGallery\Entity\FamilyGalleryMember')
-                #   ->findBy(['id' => 1]);
+            #$member = $objectManager
+            #   ->getRepository('\FamilyGallery\Entity\FamilyGalleryMember')
+            #   ->findBy(['id' => 1]);
 
-                #$galleries_array[$col]['member'] = $member;
-                #$galleries_array[] = $gallery->getArrayCopy();
-                #$galleries_array[$col]['photos'] = $photos_array;
-                #$col++;
+            #$galleries_array[$col]['member'] = $member;
+            #$galleries_array[] = $gallery->getArrayCopy();
+            #$galleries_array[$col]['photos'] = $photos_array;
+            #$col++;
             #}
 
             #$this->flashMessenger()->addErrorMessage('asdasdsad');
@@ -71,10 +71,47 @@ class FamilyGalleryController extends AbstractActionController
 
     public function viewAction()
     {
+        $objectManager = $this->getServiceLocator()->get('Doctrine\ORM\EntityManager');
+
         $member_id = (int)$this->params()->fromRoute('member_id');
-        if ($member_id or !empty($member_id)) {
+        $year = (int)$this->params()->fromRoute('year');
+        if (!empty($member_id) and empty($year)) {
+
+            $res_years_months = $objectManager
+                ->createQuery('SELECT distinct f.year, f.month FROM \FamilyGallery\Entity\FamilyGallery f
+                JOIN \FamilyGallery\Entity\FamilyGalleryMember m
+                where f.state = 1 and m.id = ' . $member_id . ' order by f.year desc, f.month desc')
+                ->getArrayResult();
+            $years = [];
+            $months = [];
+            if(sizeof($res_years_months)){
+                foreach ($res_years_months as $row){
+                    $years[] = $row['year'];
+                    $months[$row['year']] = $row['month'];
+                }
+                $years = array_unique($years);
+            }
+
+            $member = $objectManager
+                ->createQuery('SELECT m FROM \FamilyGallery\Entity\FamilyGalleryMember m
+                where m.id = ' . $member_id)
+                ->getArrayResult();
+
             $view = new ViewModel([
                 'member_id' => $member_id,
+                'member' => $member,
+                'years' => $years,
+                'months' => $months
+            ]);
+
+            $view->setTemplate('family-gallery/family-gallery/select-years');
+
+            return $view;
+        }
+        if (!empty($member_id) and !empty($year)) {
+            $view = new ViewModel([
+                'member_id' => $member_id,
+                'year' => $year
             ]);
 
             return $view;

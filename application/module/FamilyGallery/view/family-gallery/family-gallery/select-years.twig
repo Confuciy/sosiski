@@ -1,0 +1,40 @@
+{% extends 'family-gallery/layout/dopetrope.twig' %}
+
+{% block style %}<style>.box { padding: 0.5em !important; }</style>{% endblock style %}
+{% block logo %}
+    <h1><a href="/">Family Gallery</a></h1>
+{% endblock logo %}
+{% block nav %}{% endblock nav %}
+{% block banner %}{% endblock banner %}
+{% block intro %}{% endblock intro %}
+
+{% for year in years %}
+    {% block major %}<header class="major"><h2>{{ years[0] }}</h2></header>{% endblock major %}
+
+    {#
+    {% block portfolio_rows %}
+        {% for member in members %}
+            <div class="4u 12u(mobile)">
+                <section class="box">
+                    <a href="{{ url('family-gallery', {'action': 'view', 'member_id': member.id}) }}" class="image featured">
+                        {% if member.photo %}
+                            <img src="/img/family-gallery-member/{{ member.id }}/{{ member.photo }}" alt="" />
+                        {% else %}
+                            <img src="/img/family-gallery-member/0.jpg" alt="" />
+                        {% endif %}
+                    </a>
+                    <header>
+                        <h3><a href="{{ url('family-gallery', {'action': 'view', 'member_id': member.id}) }}">{{ member.name }}</a></h3>
+                    </header>
+                    <p>{{ member.date|date('d.m.Y') }}</p>
+                </section>
+            </div>
+        {% endfor %}
+    {% endblock portfolio_rows %}
+    #}
+{% endfor %}
+
+{% block blog %}{% endblock blog %}
+
+{% block footer_wrapper %}{% endblock footer_wrapper %}
+
