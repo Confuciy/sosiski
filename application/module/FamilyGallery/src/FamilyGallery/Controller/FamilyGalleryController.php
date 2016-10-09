@@ -11,6 +11,8 @@ class FamilyGalleryController extends AbstractActionController
 
     public function indexAction()
     {
+//        return $this->forward()->dispatch('FamilyGallery\Controller\FamilyGalleryController', array('action' => 'view', 'member_id'   => 1));
+
         $objectManager = $this->getServiceLocator()->get('Doctrine\ORM\EntityManager');
 
         $member_id = (int) $this->params()->fromRoute('member_id');
@@ -46,13 +48,13 @@ class FamilyGalleryController extends AbstractActionController
 
             /*
             $galleries = $objectManager
-                ->createQuery('SELECT f, m FROM \FamilyGallery\Entity\FamilyGallery f 
+                ->createQuery('SELECT f, m FROM \FamilyGallery\Entity\FamilyGallery f
                     JOIN f.member m where f.state = 1 order by f.year desc, f.month desc')
                 ->getArrayResult();
             */
 
             $members = $objectManager
-                ->createQuery('SELECT distinct m FROM \FamilyGallery\Entity\FamilyGalleryMember m  
+                ->createQuery('SELECT distinct m FROM \FamilyGallery\Entity\FamilyGalleryMember m
                     JOIN \FamilyGallery\Entity\FamilyGallery f where m.state = 1 AND f.state = 1')
                 ->getArrayResult();
 
