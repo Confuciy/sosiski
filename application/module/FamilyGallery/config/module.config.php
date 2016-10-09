@@ -14,13 +14,28 @@ return array(
             )
         )
     ),
-
+    /*
+    'service_manager' => array(
+        'factories' => array(
+            'translator' => 'Zend\Mvc\Service\TranslatorServiceFactory',
+        ),
+    ),
+    */
+    'translator' => array(
+        'locale' => 'en_US', //ru_RU
+        'translation_file_patterns' => array(
+            array(
+                'type'     => 'gettext',
+                'base_dir' => __DIR__ . '/../language',
+                'pattern'  => '%s.mo',
+            ),
+        ),
+    ),
     'controllers' => array(
         'invokables' => array(
             'FamilyGallery\Controller\FamilyGalleryController' => 'FamilyGallery\Controller\FamilyGalleryController',
         ),
     ),
-
     'router' => array(
         'routes' => array(
             'family-gallery' => array(
@@ -44,7 +59,6 @@ return array(
             ),
         ),
     ),
-
     'view_manager' => array(
         'template_path_stack' => array(
             __DIR__ . '/../view',
@@ -53,7 +67,6 @@ return array(
             'ZfcTwigViewStrategy',
         ),
     ),
-
     'view_helpers' => array(
         'invokables' => array(
             'showMessages' => 'FamilyGallery\View\Helper\ShowMessages',

@@ -20,6 +20,10 @@ class Module
         $moduleRouteListener = new ModuleRouteListener();
         $moduleRouteListener->attach($eventManager);
 
+        $eventManager->getSharedManager()->attach(__NAMESPACE__, MvcEvent::EVENT_DISPATCH, function($e) {
+            // This is executed on preDispatch
+        }, 100);
+
         #$translator = $e->getApplication()->getServiceManager()->get('translator');
         #$translator->setLocale('ru_RU');
     }
