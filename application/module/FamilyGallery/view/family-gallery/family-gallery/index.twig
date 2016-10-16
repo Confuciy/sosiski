@@ -29,7 +29,7 @@
     {% for member in members %}
         <div class="4u 12u(mobile)">
             <section class="box">
-                <a href="{{ url('family-gallery', {'action': 'view', 'member_id': member.id}) }}" class="image featured">
+                <a href="{{ url('family-gallery', {'action': 'view', 'member_id': member.id, 'member_id': member.id}) }}" class="image featured">
                     {% if member.photo %}
                         <img src="/img/family-gallery-member/{{ member.id }}/{{ member.photo }}" alt="" />
                     {% else %}

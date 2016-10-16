@@ -87,16 +87,19 @@ class FamilyGalleryController extends AbstractActionController
             if(sizeof($res_years_months)){
                 foreach ($res_years_months as $row){
                     $years[] = $row['year'];
-                    $months[$row['year']] = $row['month'];
+                    $months[$row['year']][] = $row['month'];
                 }
+                #echo '<pre>'; print_r($years); echo '</pre>';
                 $years = array_unique($years);
+                #echo '<pre>'; print_r($years); echo '</pre>';
             }
+
+
 
             $member = $objectManager
                 ->createQuery('SELECT m FROM \FamilyGallery\Entity\FamilyGalleryMember m
                 where m.id = ' . $member_id)
-                ->getArrayResult();
-
+                ->getResult();
             $view = new ViewModel([
                 'member_id' => $member_id,
                 'member' => $member,
