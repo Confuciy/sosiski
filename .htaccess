@@ -1,4 +1,0 @@
-RewriteEngine on
-RewriteRule (.*) application/public/$1
-
-php_flag opcache.enable Off
