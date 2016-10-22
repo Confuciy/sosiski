@@ -75,8 +75,16 @@ class FamilyGalleryController extends AbstractActionController
 
         $member_id = (int)$this->params()->fromRoute('member_id');
         $year = (int)$this->params()->fromRoute('year');
-        if (!empty($member_id) and empty($year)) {
+        $month = (int)$this->params()->fromRoute('month');
 
+        if (!empty($member_id)) {
+            $member = $objectManager
+                ->createQuery('SELECT m FROM \FamilyGallery\Entity\FamilyGalleryMember m
+                where m.id = ' . $member_id)
+                ->getResult();
+        }
+
+        if (!empty($member_id) and empty($year) and empty($month)) {
             $res_years_months = $objectManager
                 ->createQuery('SELECT distinct f.year, f.month FROM \FamilyGallery\Entity\FamilyGallery f
                 JOIN \FamilyGallery\Entity\FamilyGalleryMember m
@@ -84,22 +92,14 @@ class FamilyGalleryController extends AbstractActionController
                 ->getArrayResult();
             $years = [];
             $months = [];
-            if(sizeof($res_years_months)){
-                foreach ($res_years_months as $row){
+            if (sizeof($res_years_months)) {
+                foreach ($res_years_months as $row) {
                     $years[] = $row['year'];
                     $months[$row['year']][] = $row['month'];
                 }
-                #echo '<pre>'; print_r($years); echo '</pre>';
                 $years = array_unique($years);
-                #echo '<pre>'; print_r($years); echo '</pre>';
             }
 
-
-
-            $member = $objectManager
-                ->createQuery('SELECT m FROM \FamilyGallery\Entity\FamilyGalleryMember m
-                where m.id = ' . $member_id)
-                ->getResult();
             $view = new ViewModel([
                 'member_id' => $member_id,
                 'member' => $member,
@@ -111,10 +111,30 @@ class FamilyGalleryController extends AbstractActionController
 
             return $view;
         }
-        if (!empty($member_id) and !empty($year)) {
+        if (!empty($member_id) and !empty($year) and !empty($month)) {
+            list($gallery) = $objectManager
+                ->createQuery('SELECT g FROM \FamilyGallery\Entity\FamilyGallery g
+                JOIN \FamilyGallery\Entity\FamilyGalleryMember m
+                where m.id = ' . $member_id.' and g.year = ' . $year . '  and g.month = ' . $month)
+                ->getArrayResult();
+
+            $photos = $objectManager
+                ->createQuery('SELECT p.id, p.name, p.info, p.date, p.state, p.path, p.sortby
+                FROM \FamilyGallery\Entity\FamilyGalleryPhoto p
+                where p.galleryId = ' . $gallery['id'] . ' 
+                and p.state = 1                
+                order by p.sortby ASC')
+                ->getArrayResult();
+            #echo '<pre>'; print_r($photos); echo '</pre>';
+            #die;
+
             $view = new ViewModel([
                 'member_id' => $member_id,
-                'year' => $year
+                'member' => $member,
+                'year' => $year,
+                'month' => $month,
+                'gallery' => $gallery,
+                'photos' => $photos
             ]);
 
             return $view;

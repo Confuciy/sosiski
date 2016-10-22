@@ -1,34 +1,32 @@
 {% extends 'family-gallery/layout/lens.twig' %}
 
+{% block title %}{{ member[0].name }} / {{ date(year ~ '-' ~ month ~ '-01')|date('Y / F') }}{% endblock title %}
 
-{% block header_h1 %}
-    <h1>member_id: {{ member_id }}</h1>
-{% endblock header_h1 %}
-{% block header_text %}
-    <p>asd asd asd</p>
-{% endblock header_text %}
-{% block header_ul %}{% endblock header_ul %}
+{% block header %}
+    <header id="header">
+        {% block header_h1 %}<h1>{{ member[0].name }}</h1>{% endblock header_h1 %}
+        {% block header_text %}<p>{{ date(year ~ '-' ~ month ~ '-01')|date('Y / F') }}<br />
+            <a href="{{ url('family-gallery', {'action': 'view', 'member_id': member[0].id }) }}">&larr; back</a></p>{% endblock header_text %}
+        {% block header_ul %}{% endblock header_ul %}
+    </header>
+{% endblock header %}
 
-{% block thumbnail_article %}
-    <article>
-        <a class="thumbnail" href="{{ t_path }}/images/fulls/01.jpg" data-position="left center"><img src="{{ t_path }}/images/thumbs/01.jpg" alt="" /></a>
-        <h2>Diam tempus accumsan</h2>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-    </article>
-    {#
-    {% for gallery in galleries %}
-        <div class="4u 12u(mobile)">
-            <section class="box">
-                <a href="{{ url('family-gallery', {'action': 'view', 'id': gallery.id}) }}" class="image featured"><img src="{{ t_path }}/images/pic02.jpg" alt="" /></a>
-                <header>
-                    <h3>{{ gallery.title|e }}</h3>
-                </header>
-                <p>{{ gallery.member['name'] }}, {{ gallery.year }}</p>
-                <p>{{ gallery.text|e }}</p>
-            </section>
-        </div>
-    {% endfor %}
-    #}
-{% endblock thumbnail_article %}
+{% block thumbnail %}
+    <section id="thumbnails">
+        {% block thumbnail_article %}
+            {% for photo in photos %}
+                <article>
+                    {% if gallery['month'] < 10 %}
+                        <a class="thumbnail" href="/img/family-gallery-member/{{ member[0].id }}/photos/{{ gallery['year'] }}/0{{ gallery['month'] }}/{{ photo.path }}"><img src="/img/family-gallery-member/{{ member[0].id }}/photos/{{ gallery['year'] }}/0{{ gallery['month'] }}/preview_{{ photo.path }}" alt="" /></a>
+                    {% else %}
+                        <a class="thumbnail" href="/img/family-gallery-member/{{ member[0].id }}/photos/{{ gallery['year'] }}/{{ gallery['month'] }}/{{ photo.path }}"><img src="/img/family-gallery-member/{{ member[0].id }}/photos/{{ gallery['year'] }}/{{ gallery['month'] }}/preview_{{ photo.path }}" alt="" /></a>
+                    {% endif %}
+                    <h2>{{ photo.info }}</h2>
+                    <p>{{ (photo.sortby + 1) }} / {{ photos|length }}</p>
+                </article>
+            {% endfor %}
+        {% endblock thumbnail_article %}
+    </section>
+{% endblock thumbnail %}
 
 {% block footer %}{% endblock footer %}

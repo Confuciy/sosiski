@@ -11,7 +11,7 @@ return array(
         'Application',
         'DoctrineModule',
         'DoctrineORMModule',
-        'ZendDeveloperTools',
+        //'ZendDeveloperTools',
         'FamilyGallery',
         //'ZfcBase',
         //'ZfcUser',

@@ -14,13 +14,12 @@ return array(
             )
         )
     ),
-    /*
     'service_manager' => array(
         'factories' => array(
-            'translator' => 'Zend\Mvc\Service\TranslatorServiceFactory',
+//            'ZfcTwig\Twig\Extension' => 'ZfcTwig\Twig\ExtensionFactory',
+//            'translator' => 'Zend\Mvc\Service\TranslatorServiceFactory',
         ),
     ),
-    */
     'translator' => array(
         'locale' => 'en_US', //ru_RU
         'translation_file_patterns' => array(
@@ -53,7 +52,7 @@ return array(
                         'action'     => 'index',
                         'member_id'  => 0,
                         'year'     	 => 0,
-                        'mounth'     => 0,
+                        'month'     => 0,
                     ),
                 ),
             ),
