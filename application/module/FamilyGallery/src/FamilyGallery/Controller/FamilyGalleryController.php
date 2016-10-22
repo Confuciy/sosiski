@@ -87,8 +87,7 @@ class FamilyGalleryController extends AbstractActionController
         if (!empty($member_id) and empty($year) and empty($month)) {
             $res_years_months = $objectManager
                 ->createQuery('SELECT distinct f.year, f.month FROM \FamilyGallery\Entity\FamilyGallery f
-                JOIN \FamilyGallery\Entity\FamilyGalleryMember m
-                where f.state = 1 and m.id = ' . $member_id . ' order by f.year desc, f.month desc')
+                where f.state = 1 and f.memberId = ' . $member_id . ' order by f.year desc, f.month desc')
                 ->getArrayResult();
             $years = [];
             $months = [];
