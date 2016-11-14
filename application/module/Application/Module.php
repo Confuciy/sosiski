@@ -9,13 +9,13 @@
 
 namespace Application;
 
-use Zend\Mvc\ModuleRouteListener;
-use Zend\Mvc\MvcEvent;
+//use Zend\Mvc\ModuleRouteListener;
+//use Zend\Mvc\MvcEvent;
 
 class Module
 {
-    public function onBootstrap(MvcEvent $e)
-    {
+//    public function onBootstrap(MvcEvent $e)
+//    {
 //        $eventManager = $e->getApplication()->getEventManager();
 //        $moduleRouteListener = new ModuleRouteListener();
 //        $moduleRouteListener->attach($eventManager);
@@ -27,9 +27,9 @@ class Module
 //            return $redirectPlugin->toRoute('family-gallery', array('controller' => 'FamilyGallery', 'action' => 'view', 'member_id' => 1));
 //        }, 100);
 
-        #$translator = $e->getApplication()->getServiceManager()->get('translator');
-        #$translator->setLocale('ru_RU');
-    }
+//        $translator = $e->getApplication()->getServiceManager()->get('translator');
+//        $translator->setLocale('ru_RU');
+//    }
 
     public function getConfig()
     {

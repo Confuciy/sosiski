@@ -26,7 +26,46 @@ return array(
         'template_path_stack' => array(
             'zfcuser' => __DIR__ . '/../view'
         ),
+        'strategies' => array(
+            'ZfcTwigViewStrategy',
+        ),
     ),
+
+//    'controllers' => array(
+//        'invokables' => array(
+//            'user' => 'User/Controller/ZfcUserController',
+//        ),
+//    ),
+//
+//    'router' => array(
+//        'routes' => array(
+//            'zfcuser' => array(
+//                'type' => 'Literal',
+//                'child_routes' => array(
+//                    'login' => array(
+//                        'type' => 'Literal',
+//                        'options' => array(
+//                            'route' => '/login',
+//                            'defaults' => array(
+//                                'controller' => 'user',
+//                                'action'     => 'login',
+//                            ),
+//                        ),
+//                    ),
+//                    'register' => array(
+//                        'type' => 'Literal',
+//                        'options' => array(
+//                            'route' => '/register',
+//                            'defaults' => array(
+//                                'controller' => 'user',
+//                                'action'     => 'register',
+//                            ),
+//                        ),
+//                    ),
+//                ),
+//            ),
+//        ),
+//    ),
 
     'bjyauthorize' => array(
         // Using the authentication identity provider, which basically reads the roles from the auth service's identity

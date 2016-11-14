@@ -14,12 +14,15 @@ $form->setAttribute('method', 'post');
 
     <div style="width: 330px;" class="form-group <?php if ($this->formElementErrors($element)) echo "has-error" ?>">
         <?php
-        if ('submit' != $element->getAttribute('type')) { ?>
+        if ('submit' != $element->getAttribute('type')) {
+            echo '<br />';
+            ?>
             <label class="control-label"><?php echo $element->getLabel() ?></label>
             <?php
             $element->setAttribute('class', 'form-control')
                 ->setAttribute('placeholder', $element->getLabel());
         } else {
+            echo '<br />';
             $element->setAttribute('class', 'btn btn-success');
         }
         echo $this->formElement($element);

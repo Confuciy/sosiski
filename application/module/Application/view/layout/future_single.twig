@@ -1,0 +1,125 @@
+{% set t_path = "/templates/future-imperfect" %}
+{{ docType() }}
+<html>
+<head>
+    <title>{% block title %}Title{% endblock title %}</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    {% block meta %}{% endblock meta %}
+    <!--[if lte IE 8]><script src="{{ t_path }}/assets/js/ie/html5shiv.js"></script><![endif]-->
+    <link rel="stylesheet" href="{{ t_path }}/assets/css/main.css" />
+    <!--[if lte IE 9]><link rel="stylesheet" href="{{ t_path }}/assets/css/ie9.css" /><![endif]-->
+    <!--[if lte IE 8]><link rel="stylesheet" href="{{ t_path }}/assets/css/ie8.css" /><![endif]-->
+    {% block style %}{% endblock style %}
+    {% block script %}{% endblock script %}
+</head>
+<body>
+
+<!-- Wrapper -->
+{% block wrapper %}
+    <div id="wrapper">
+
+        <!-- Header -->
+        {% block header %}
+            <header id="header">
+                <h1><a href="#">Future Imperfect</a></h1>
+                <nav class="links">
+                    <ul>
+                        <li><a href="#">Lorem</a></li>
+                        <li><a href="#">Ipsum</a></li>
+                        <li><a href="#">Feugiat</a></li>
+                        <li><a href="#">Tempus</a></li>
+                        <li><a href="#">Adipiscing</a></li>
+                    </ul>
+                </nav>
+                <nav class="main">
+                    <ul>
+                        <li class="search">
+                            <a class="fa-search" href="#search">Search</a>
+                            <form id="search" method="get" action="#">
+                                <input type="text" name="query" placeholder="Search" />
+                            </form>
+                        </li>
+                        <li class="menu">
+                            <a class="fa-bars" href="#menu">Menu</a>
+                        </li>
+                    </ul>
+                </nav>
+            </header>
+        {% endblock header %}
+
+        <!-- Menu -->
+        {% block menu %}
+            <section id="menu">
+
+                <!-- Search -->
+                {% block search %}
+                    <section>
+                        <form class="search" method="get" action="#">
+                            <input type="text" name="query" placeholder="Search" />
+                        </form>
+                    </section>
+                {% endblock search %}
+
+                <!-- Links -->
+                {% block links %}
+                    <section>
+                        <ul class="links">
+                            <li>
+                                <a href="#">
+                                    <h3>Lorem ipsum</h3>
+                                    <p>Feugiat tempus veroeros dolor</p>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <h3>Dolor sit amet</h3>
+                                    <p>Sed vitae justo condimentum</p>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <h3>Feugiat veroeros</h3>
+                                    <p>Phasellus sed ultricies mi congue</p>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <h3>Etiam sed consequat</h3>
+                                    <p>Porta lectus amet ultricies</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </section>
+                {% endblock links %}
+
+                <!-- Actions -->
+                {% block actions %}
+                    <section>
+                        <ul class="actions vertical">
+                            <li><a href="#" class="button big fit">Log In</a></li>
+                        </ul>
+                    </section>
+                {% endblock actions %}
+
+            </section>
+        {% endblock menu %}
+
+        <!-- Main -->
+        <div id="main">
+            {% block content %}{{ content|raw }}{% endblock content %}
+        </div>
+
+    </div>
+{% endblock wrapper %}
+
+<!-- Scripts -->
+{% block footer_js %}
+    <script src="{{ t_path }}/assets/js/jquery.min.js"></script>
+    <script src="{{ t_path }}/assets/js/skel.min.js"></script>
+    <script src="{{ t_path }}/assets/js/util.js"></script>
+    <!--[if lte IE 8]><script src="{{ t_path }}/assets/js/ie/respond.min.js"></script><![endif]-->
+    <script src="{{ t_path }}/assets/js/main.js"></script>
+{% endblock footer_js %}
+</body>
+</html>

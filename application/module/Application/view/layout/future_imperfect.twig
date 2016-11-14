@@ -2,7 +2,7 @@
 {{ docType() }}
 <html>
 <head>
-    <title>{% block title %}Family Gallery{% endblock title %}</title>
+    <title>{% block title %}Title{% endblock title %}</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     {% block meta %}{% endblock meta %}
@@ -127,11 +127,22 @@
         <!-- Intro -->
         {% block intro %}
         <section id="intro">
-            <a href="#" class="logo"><img src="{{ t_path }}/images/logo.jpg" alt="" /></a>
+            {% block intro_logo %}<a href="#" class="logo"><img src="{{ t_path }}/images/logo.jpg" alt="" /></a>{% endblock intro_logo %}
+            {% block intro_header_block %}
             <header>
                 {% block intro_header %}<h2>Family Gallery</h2>{% endblock intro_header %}
                 {% block intro_text %}<p>Another fine responsive site template by <a href="http://html5up.net">HTML5 UP</a></p>{% endblock intro_text %}
+                {% block intro_icons %}
+                <ul class="icons">
+                    <li><a href="#" class="fa-twitter"><span class="label">Twitter</span></a></li>
+                    <li><a href="#" class="fa-facebook"><span class="label">Facebook</span></a></li>
+                    <li><a href="#" class="fa-instagram"><span class="label">Instagram</span></a></li>
+                    <li><a href="#" class="fa-rss"><span class="label">RSS</span></a></li>
+                    <li><a href="#" class="fa-envelope"><span class="label">Email</span></a></li>
+                </ul>
+                {% endblock intro_icons %}
             </header>
+            {% endblock intro_header_block %}
         </section>
         {% endblock intro %}
 
@@ -249,6 +260,7 @@
         {% endblock about %}
 
         <!-- Footer -->
+        {#
         {% block footer %}
         <section id="footer">
             <ul class="icons">
@@ -261,6 +273,7 @@
             {% block copyright %}<p class="copyright">&copy; Untitled. Design: <a href="http://html5up.net">HTML5 UP</a>. Images: <a href="http://unsplash.com">Unsplash</a>.</p>{% endblock copyright %}
         </section>
         {% endblock footer %}
+        #}
 
     </section>
     {% endblock sidebar %}

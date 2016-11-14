@@ -31,4 +31,8 @@ return array(
 //            'Zend\Db\Adapter\Adapter' => 'Zend\Db\Adapter\AdapterServiceFactory',
 //        ),
 //    ),
+    'module_layouts' => array(
+//        'Admin' => 'layout/admin',
+        'ZfcUser' => 'layout/user',
+    ),
 );

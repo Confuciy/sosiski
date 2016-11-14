@@ -14,10 +14,29 @@ use Zend\View\Model\ViewModel;
 
 class IndexController extends AbstractActionController
 {
+    private $user_auth = 0;
+    private $user_email = '';
+
+    public function init(){
+        $sm = $app->getServiceManager();
+        $auth = $sm->get('zfcuser_auth_service');
+        if ($auth->hasIdentity()) {
+            $this->user_auth = 1;
+            $this->user_email = $auth->getIdentity()->getEmail();
+        }
+    }
+
     public function indexAction()
     {
-        $this->layout('layout/zend_layout');
+        $this->layout('layout/future_imperfect');
 
-        return new ViewModel();
+        $view = new ViewModel([
+            'user_auth' => $this->user_auth,
+            'user_email' => $this->user_email,
+        ]);
+
+        return $view;
+
+        //return new ViewModel();
     }
 }

@@ -1,0 +1,40 @@
+{% extends 'layout/future_imperfect.twig' %}
+
+{% block title %}Our life{% endblock title %}
+
+{% block intro_logo %}{% if user_auth == 1 %}<a href="#" class="logo"><img src="{{ t_path }}/images/logo.jpg" alt="" /></a>{% endif %}{% endblock intro_logo %}
+{% block intro_header %}<h2>{% if user_auth == 1 %}{{ user_name }}{% else %}Our life{% endif %}</h2>{% endblock intro_header %}
+{% block intro_text %}<p>{% if user_auth == 1 %}{{ user_email }}{% else %}The moments of our lives{% endif %}</p>{% endblock intro_text %}
+
+{#
+{% block content %}
+    {% for gallery in galleries %}
+        <article class="post">
+            <header>
+                <div class="title">
+                    <h2><a href="{{ url('family-gallery', {'action': 'view', 'id': gallery.id}) }}">{{ gallery.title|e }}</a></h2>
+                    <p>{{ gallery.text|e }}</p>
+                </div>
+                <div class="meta">
+                    <time class="published" datetime="2015-11-01">November, {{ gallery.year }}</time>
+                    <a href="{{ url('family-gallery', {'action': 'view', 'id': gallery.id}) }}" class="author"><span class="name">{{ gallery.member['name'] }}</span><img src="{{ t_path }}/images/avatar.jpg" alt="" /></a>
+                </div>
+            </header>
+            <a href="#" class="image featured"><img src="{{ t_path }}/images/pic01.jpg" alt="" /></a>
+            <p>{{ gallery.title|e }}</p>
+            <footer>
+                <ul class="actions">
+                    <li><a href="{{ url('family-gallery', {'action': 'view', 'id': gallery.id}) }}" class="button big">View more</a></li>
+                </ul>
+                <ul class="stats" style="display: none;">
+                    <li><a href="#">General</a></li>
+                    <li><a href="#" class="icon fa-heart">28</a></li>
+                    <li><a href="#" class="icon fa-comment">128</a></li>
+                </ul>
+            </footer>
+        </article>
+    {% endfor %}
+{% endblock content %}
+#}
+
+{% block pagination %}{% endblock pagination %}
