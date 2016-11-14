@@ -21,7 +21,7 @@
                     {% else %}
                         <a class="thumbnail" href="/img/family-gallery-member/{{ member[0].id }}/photos/{{ gallery['year'] }}/{{ gallery['month'] }}/{{ photo.path }}"><img src="/img/family-gallery-member/{{ member[0].id }}/photos/{{ gallery['year'] }}/{{ gallery['month'] }}/preview_{{ photo.path }}" alt="" /></a>
                     {% endif %}
-                    <h2>{{ photo.info }}</h2>
+                    <h2></h2>
                     <p>{{ (photo.sortby + 1) }} / {{ photos|length }}</p>
                 </article>
             {% endfor %}

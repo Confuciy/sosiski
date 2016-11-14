@@ -113,8 +113,7 @@ class FamilyGalleryController extends AbstractActionController
         if (!empty($member_id) and !empty($year) and !empty($month)) {
             list($gallery) = $objectManager
                 ->createQuery('SELECT g FROM \FamilyGallery\Entity\FamilyGallery g
-                JOIN \FamilyGallery\Entity\FamilyGalleryMember m
-                where m.id = ' . $member_id.' and g.year = ' . $year . '  and g.month = ' . $month)
+                where g.memberId = ' . $member_id.' and g.year = ' . $year . '  and g.month = ' . $month)
                 ->getArrayResult();
 
             $photos = $objectManager
