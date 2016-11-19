@@ -1,6 +1,13 @@
 php_flag opcache.enable Off
+
 #SetEnv APPLICATION_ENV development
 
+
+
 Options -Indexes
+
 RewriteEngine On
-RewriteRule ^(.*)$ application/public/$1 [L,QSA]
+
+#RewriteRule ^(.*)$ application/public/$1 [L,QSA]
+RewriteRule ^(.*)$ mvc/public/$1 [L,QSA]
+#RewriteRule ^(.*)$ expressive/public/$1 [L,QSA]
