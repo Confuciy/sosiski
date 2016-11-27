@@ -19,22 +19,14 @@ class UserForm extends Form
      */
     private $scenario;
 
-    /**
-     * Entity manager.
-     * @var Doctrine\ORM\EntityManager
-     */
-    private $entityManager = null;
+    private $dbAdapter = null;
 
-    /**
-     * Current user.
-     * @var User\Entity\User
-     */
     private $user = null;
 
     /**
      * Constructor.
      */
-    public function __construct($scenario = 'create', $entityManager = null, $user = null)
+    public function __construct($scenario = 'create', $dbAdapter = null, $user = null)
     {
         // Define form name
         parent::__construct('user-form');
@@ -44,7 +36,7 @@ class UserForm extends Form
 
         // Save parameters for internal use.
         $this->scenario = $scenario;
-        $this->entityManager = $entityManager;
+        $this->dbAdapter = $dbAdapter;
         $this->user = $user;
 
         $this->addElements();
@@ -74,46 +66,46 @@ class UserForm extends Form
             ],
         ]);
 
-        if ($this->scenario == 'create') {
-
-            // Add "password" field
-            $this->add([
-                'type'  => 'password',
-                'name' => 'password',
-                'options' => [
-                    'label' => 'Password',
-                ],
-            ]);
-
-            // Add "confirm_password" field
-            $this->add([
-                'type'  => 'password',
-                'name' => 'confirm_password',
-                'options' => [
-                    'label' => 'Confirm password',
-                ],
-            ]);
-        }
-
-        // Add "status" field
-        $this->add([
-            'type'  => 'select',
-            'name' => 'status',
-            'options' => [
-                'label' => 'Status',
-                'value_options' => [
-                    1 => 'Active',
-                    2 => 'Retired',
-                ]
-            ],
-        ]);
+//        if ($this->scenario == 'create') {
+//
+//            // Add "password" field
+//            $this->add([
+//                'type'  => 'password',
+//                'name' => 'password',
+//                'options' => [
+//                    'label' => 'Password',
+//                ],
+//            ]);
+//
+//            // Add "confirm_password" field
+//            $this->add([
+//                'type'  => 'password',
+//                'name' => 'confirm_password',
+//                'options' => [
+//                    'label' => 'Confirm password',
+//                ],
+//            ]);
+//        }
+//
+//        // Add "status" field
+//        $this->add([
+//            'type'  => 'select',
+//            'name' => 'status',
+//            'options' => [
+//                'label' => 'Status',
+//                'value_options' => [
+//                    1 => 'Active',
+//                    2 => 'Retired',
+//                ]
+//            ],
+//        ]);
 
         // Add the Submit button
         $this->add([
             'type'  => 'submit',
             'name' => 'submit',
             'attributes' => [
-                'value' => 'Create'
+                'value' => 'Register'
             ],
         ]);
     }
@@ -145,14 +137,14 @@ class UserForm extends Form
                 [
                     'name' => 'EmailAddress',
                     'options' => [
-                        'allow' => \Zend\Validator\Hostname::ALLOW_DNS,
+                        'allow' => \Zend\Validator\EmailAddress::INVALID_FORMAT, //\Zend\Validator\Hostname::ALLOW_DNS,
                         'useMxCheck'    => false,
                     ],
                 ],
                 [
                     'name' => UserExistsValidator::class,
                     'options' => [
-                        'entityManager' => $this->entityManager,
+                        'dbAdapter' => $this->dbAdapter,
                         'user' => $this->user
                     ],
                 ],
@@ -177,52 +169,52 @@ class UserForm extends Form
             ],
         ]);
 
-        if ($this->scenario == 'create') {
+//        if ($this->scenario == 'create') {
+//
+//            // Add input for "password" field
+//            $inputFilter->add([
+//                'name'     => 'password',
+//                'required' => true,
+//                'filters'  => [
+//                ],
+//                'validators' => [
+//                    [
+//                        'name'    => 'StringLength',
+//                        'options' => [
+//                            'min' => 6,
+//                            'max' => 64
+//                        ],
+//                    ],
+//                ],
+//            ]);
+//
+//            // Add input for "confirm_password" field
+//            $inputFilter->add([
+//                'name'     => 'confirm_password',
+//                'required' => true,
+//                'filters'  => [
+//                ],
+//                'validators' => [
+//                    [
+//                        'name'    => 'Identical',
+//                        'options' => [
+//                            'token' => 'password',
+//                        ],
+//                    ],
+//                ],
+//            ]);
+//        }
 
-            // Add input for "password" field
-            $inputFilter->add([
-                'name'     => 'password',
-                'required' => true,
-                'filters'  => [
-                ],
-                'validators' => [
-                    [
-                        'name'    => 'StringLength',
-                        'options' => [
-                            'min' => 6,
-                            'max' => 64
-                        ],
-                    ],
-                ],
-            ]);
-
-            // Add input for "confirm_password" field
-            $inputFilter->add([
-                'name'     => 'confirm_password',
-                'required' => true,
-                'filters'  => [
-                ],
-                'validators' => [
-                    [
-                        'name'    => 'Identical',
-                        'options' => [
-                            'token' => 'password',
-                        ],
-                    ],
-                ],
-            ]);
-        }
-
-        // Add input for "status" field
-        $inputFilter->add([
-            'name'     => 'status',
-            'required' => true,
-            'filters'  => [
-                ['name' => 'ToInt'],
-            ],
-            'validators' => [
-                ['name'=>'InArray', 'options'=>['haystack'=>[1, 2]]]
-            ],
-        ]);
+//        // Add input for "status" field
+//        $inputFilter->add([
+//            'name'     => 'status',
+//            'required' => true,
+//            'filters'  => [
+//                ['name' => 'ToInt'],
+//            ],
+//            'validators' => [
+//                ['name'=>'InArray', 'options'=>['haystack'=>[1, 2]]]
+//            ],
+//        ]);
     }
 }

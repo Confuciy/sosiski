@@ -4,7 +4,8 @@ namespace User\Service;
 use Zend\Authentication\Adapter\AdapterInterface;
 use Zend\Authentication\Result;
 use Zend\Crypt\Password\Bcrypt;
-use User\Entity\User;
+use Zend\Db\TableGateway\TableGateway;
+use Zend\Db\Sql\Select;
 
 /**
  * Adapter used for authenticating user. It takes login and password on input
@@ -28,17 +29,17 @@ class AuthAdapter implements AdapterInterface
     private $password;
 
     /**
-     * Entity manager.
-     * @var Doctrine\ORM\EntityManager
+     * @var Zend\Db\Adapter\Adapter
      */
-    private $entityManager;
+    private $dbAdapter;
+
 
     /**
      * Constructor.
      */
-    public function __construct($entityManager)
+    public function __construct($dbAdapter)
     {
-        $this->entityManager = $entityManager;
+        $this->dbAdapter = $dbAdapter;
     }
 
     /**
@@ -63,8 +64,9 @@ class AuthAdapter implements AdapterInterface
     public function authenticate()
     {
         // Check the database if there is a user with such email.
-        $user = $this->entityManager->getRepository(User::class)
-            ->findOneByEmail($this->email);
+        $select = "SELECT `user`.* FROM `user` WHERE LOWER(`email`) = '".trim(mb_strtolower($this->email, 'UTF-8'))."' LIMIT 1";
+        $user = $this->dbAdapter->query($select, $this->dbAdapter::QUERY_MODE_EXECUTE)->current();
+        //echo $sql->getSqlstringForSqlObject($select); die;
 
         // If there is no such user, return 'Identity Not Found' status.
         if ($user == null) {
@@ -76,18 +78,18 @@ class AuthAdapter implements AdapterInterface
 
         // If the user with such email exists, we need to check if it is active or retired.
         // Do not allow retired users to log in.
-        if ($user->getStatus()==User::STATUS_RETIRED) {
+        if ($user['status'] == 0) {
             return new Result(
                 Result::FAILURE,
                 null,
                 ['User is retired.']);
         }
 
+        $bcrypt = new Bcrypt();
+        $passwordHash = $user['password'];
+
         // Now we need to calculate hash based on user-entered password and compare
         // it with the password hash stored in database.
-        $bcrypt = new Bcrypt();
-        $passwordHash = $user->getPassword();
-
         if ($bcrypt->verify($this->password, $passwordHash)) {
             // Great! The password hash matches. Return user identity (email) to be
             // saved in session for later use.
@@ -96,7 +98,6 @@ class AuthAdapter implements AdapterInterface
                 $this->email,
                 ['Authenticated successfully.']);
         }
-
         // If password check didn't pass return 'Invalid Credential' failure status.
         return new Result(
             Result::FAILURE_CREDENTIAL_INVALID,

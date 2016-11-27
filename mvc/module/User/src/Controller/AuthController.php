@@ -7,7 +7,6 @@ use Zend\View\Model\ViewModel;
 use Zend\Authentication\Result;
 use Zend\Uri\Uri;
 use User\Form\LoginForm;
-use User\Entity\User;
 
 /**
  * This controller is responsible for letting the user to log in and log out.
@@ -15,10 +14,9 @@ use User\Entity\User;
 class AuthController extends AbstractActionController
 {
     /**
-     * Entity manager.
-     * @var Doctrine\ORM\EntityManager
+     * @var Zend\Db\Adapter\Adapter
      */
-    private $entityManager;
+    private $dbAdapter;
 
     /**
      * Auth manager.
@@ -41,9 +39,9 @@ class AuthController extends AbstractActionController
     /**
      * Constructor.
      */
-    public function __construct($entityManager, $authManager, $authService, $userManager)
+    public function __construct($dbAdapter, $authManager, $authService, $userManager)
     {
-        $this->entityManager = $entityManager;
+        $this->dbAdapter = $dbAdapter;
         $this->authManager = $authManager;
         $this->authService = $authService;
         $this->userManager = $userManager;
@@ -54,6 +52,20 @@ class AuthController extends AbstractActionController
      */
     public function loginAction()
     {
+        //echo $this->identity();
+
+        // проверка авторизации
+//        if($this->authService->hasIdentity()){
+//            echo '<b>Да!</b>';
+//            echo '<br />';
+//            echo '<b>'.$_SESSION['Zend_Auth']->session.'</b>';
+//        } else {
+//            echo '<b>Нет!</b>';
+//            echo '<pre>';
+//            print_r($_SESSION);
+//            echo '</pre>';
+//        }
+
         // Retrieve the redirect URL (if passed). We will redirect the user to this
         // URL after successfull login.
         $redirectUrl = (string)$this->params()->fromQuery('redirectUrl', '');
@@ -87,8 +99,7 @@ class AuthController extends AbstractActionController
                 $data = $form->getData();
 
                 // Perform login attempt.
-                $result = $this->authManager->login($data['email'],
-                    $data['password'], $data['remember_me']);
+                $result = $this->authManager->login($data['email'], $data['password'], $data['remember_me']);
 
                 // Check result.
                 if ($result->getCode() == Result::SUCCESS) {
@@ -106,11 +117,12 @@ class AuthController extends AbstractActionController
 
                     // If redirect URL is provided, redirect the user to that URL;
                     // otherwise redirect to Home page.
-                    if(empty($redirectUrl)) {
-                        return $this->redirect()->toRoute('home');
-                    } else {
-                        $this->redirect()->toUrl($redirectUrl);
-                    }
+//                    if(empty($redirectUrl)) {
+//                        return $this->redirect()->toRoute('home');
+//                    } else {
+//                        $this->redirect()->toUrl($redirectUrl);
+//                    }
+                    return $this->redirect()->toRoute('home');
                 } else {
                     $isLoginError = true;
                 }
@@ -122,7 +134,8 @@ class AuthController extends AbstractActionController
         return new ViewModel([
             'form' => $form,
             'isLoginError' => $isLoginError,
-            'redirectUrl' => $redirectUrl
+            'redirectUrl' => $redirectUrl,
+            'auth' => ($this->authService->getIdentity()==null)?0:1,
         ]);
     }
 

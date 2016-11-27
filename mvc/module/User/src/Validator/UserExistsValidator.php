@@ -2,7 +2,9 @@
 namespace User\Validator;
 
 use Zend\Validator\AbstractValidator;
-use User\Entity\User;
+#use Zend\Db\TableGateway\TableGateway;
+#use Zend\Db\Sql\Select;
+
 /**
  * This validator class is designed for checking if there is an existing user
  * with such an email.
@@ -14,12 +16,12 @@ class UserExistsValidator extends AbstractValidator
      * @var array
      */
     protected $options = array(
-        'entityManager' => null,
+        'dbAdapter' => null,
         'user' => null
     );
 
     // Validation failure message IDs.
-    const NOT_SCALAR  = 'notScalar';
+    const NOT_SCALAR = 'notScalar';
     const USER_EXISTS = 'userExists';
 
     /**
@@ -27,8 +29,8 @@ class UserExistsValidator extends AbstractValidator
      * @var array
      */
     protected $messageTemplates = array(
-        self::NOT_SCALAR  => "The email must be a scalar value",
-        self::USER_EXISTS  => "Another user with such an email already exists"
+        self::NOT_SCALAR => "The email must be a scalar value",
+        self::USER_EXISTS => "Another user with such an email already exists"
     );
 
     /**
@@ -37,10 +39,10 @@ class UserExistsValidator extends AbstractValidator
     public function __construct($options = null)
     {
         // Set filter options (if provided).
-        if(is_array($options)) {
-            if(isset($options['entityManager']))
-                $this->options['entityManager'] = $options['entityManager'];
-            if(isset($options['user']))
+        if (is_array($options)) {
+            if (isset($options['dbAdapter']))
+                $this->options['dbAdapter'] = $options['dbAdapter'];
+            if (isset($options['user']))
                 $this->options['user'] = $options['user'];
         }
 
@@ -53,28 +55,29 @@ class UserExistsValidator extends AbstractValidator
      */
     public function isValid($value)
     {
-        if(!is_scalar($value)) {
+        if (!is_scalar($value)) {
             $this->error(self::NOT_SCALAR);
-            return $false;
+            return false;
         }
 
-        // Get Doctrine entity manager.
-        $entityManager = $this->options['entityManager'];
+        $res = new TableGateway('WEB_USERS', $this->options['dbAdapter']);
+        $sql = $res->getSql();
+        $select = $sql->select();
+        $select->where(['USERS_EMAIL' => $value]);
+        $select->limit(1);
+        $user = $res->selectWith($select)->current();
 
-        $user = $entityManager->getRepository(User::class)
-            ->findOneByEmail($value);
-
-        if($this->options['user']==null) {
-            $isValid = ($user==null);
+        if ($this->options['user'] == null) {
+            $isValid = ($user == null);
         } else {
-            if($this->options['user']->getEmail()!=$value && $user!=null)
+            if ($user->USERS_EMAIL != $value && $user != null)
                 $isValid = false;
             else
                 $isValid = true;
         }
 
         // If there were an error, set error message.
-        if(!$isValid) {
+        if (!$isValid) {
             $this->error(self::USER_EXISTS);
         }
 

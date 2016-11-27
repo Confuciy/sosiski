@@ -1,8 +1,7 @@
 <?php
 namespace User\Service;
 
-use User\Entity\User;
-use Zend\Crypt\Password\Bcrypt;
+//use Zend\Crypt\Password\Bcrypt;
 use Zend\Math\Rand;
 
 /**
@@ -12,17 +11,16 @@ use Zend\Math\Rand;
 class UserManager
 {
     /**
-     * Doctrine entity manager.
-     * @var Doctrine\ORM\EntityManager
+     * @var Zend\Db\Adapter\Adapter
      */
-    private $entityManager;
+    private $dbAdapter;
 
     /**
      * Constructs the service.
      */
-    public function __construct($entityManager)
+    public function __construct($dbAdapter)
     {
-        $this->entityManager = $entityManager;
+        $this->dbAdapter = $dbAdapter;
     }
 
     /**
@@ -30,6 +28,7 @@ class UserManager
      */
     public function addUser($data)
     {
+        /*
         // Do not allow several users with the same email address.
         if($this->checkUserExists($data['email'])) {
             throw new \Exception("User with email address " . $data['$email'] . " already exists");
@@ -57,6 +56,7 @@ class UserManager
         $this->entityManager->flush();
 
         return $user;
+        */
     }
 
     /**
@@ -64,6 +64,7 @@ class UserManager
      */
     public function updateUser($user, $data)
     {
+        /*
         // Do not allow to change user email if another user with such email already exits.
         if($user->getEmail()!=$data['email'] && $this->checkUserExists($data['email'])) {
             throw new \Exception("Another user with email address " . $data['email'] . " already exists");
@@ -77,6 +78,7 @@ class UserManager
         $this->entityManager->flush();
 
         return true;
+        */
     }
 
     /**
@@ -85,6 +87,7 @@ class UserManager
      */
     public function createAdminUserIfNotExists()
     {
+        /*
         $user = $this->entityManager->getRepository(User::class)->findOneBy([]);
         if ($user==null) {
             $user = new User();
@@ -99,6 +102,7 @@ class UserManager
             $this->entityManager->persist($user);
             $this->entityManager->flush();
         }
+        */
     }
 
     /**
@@ -106,10 +110,12 @@ class UserManager
      */
     public function checkUserExists($email) {
 
+        /*
         $user = $this->entityManager->getRepository(User::class)
             ->findOneByEmail($email);
 
         return $user !== null;
+        */
     }
 
     /**
@@ -117,14 +123,14 @@ class UserManager
      */
     public function validatePassword($user, $password)
     {
-        $bcrypt = new Bcrypt();
-        $passwordHash = $user->getPassword();
-
-        if ($bcrypt->verify($password, $passwordHash)) {
-            return true;
-        }
-
-        return false;
+//        $bcrypt = new Bcrypt();
+//        $passwordHash = $user->getPassword();
+//
+//        if ($bcrypt->verify($password, $passwordHash)) {
+//            return true;
+//        }
+//
+//        return false;
     }
 
     /**
@@ -134,26 +140,26 @@ class UserManager
      */
     public function generatePasswordResetToken($user)
     {
-        // Generate a token.
-        $token = Rand::getString(32, '0123456789abcdefghijklmnopqrstuvwxyz', true);
-        $user->setPasswordResetToken($token);
-
-        $currentDate = date('Y-m-d H:i:s');
-        $user->setPasswordResetTokenCreationDate($currentDate);
-
-        $this->entityManager->flush();
-
-        $subject = 'Password Reset';
-
-        $httpHost = isset($_SERVER['HTTP_HOST'])?$_SERVER['HTTP_HOST']:'localhost';
-        $passwordResetUrl = 'http://' . $httpHost . '/set-password/' . $token;
-
-        $body = 'Please follow the link below to reset your password:\n';
-        $body .= "$passwordResetUrl\n";
-        $body .= "If you haven't asked to reset your password, please ignore this message.\n";
-
-        // Send email to user.
-        mail($user->getEmail(), $subject, $body);
+//        // Generate a token.
+//        $token = Rand::getString(32, '0123456789abcdefghijklmnopqrstuvwxyz', true);
+//        $user->setPasswordResetToken($token);
+//
+//        $currentDate = date('Y-m-d H:i:s');
+//        $user->setPasswordResetTokenCreationDate($currentDate);
+//
+//        $this->entityManager->flush();
+//
+//        $subject = 'Password Reset';
+//
+//        $httpHost = isset($_SERVER['HTTP_HOST'])?$_SERVER['HTTP_HOST']:'localhost';
+//        $passwordResetUrl = 'http://' . $httpHost . '/set-password/' . $token;
+//
+//        $body = 'Please follow the link below to reset your password:\n';
+//        $body .= "$passwordResetUrl\n";
+//        $body .= "If you haven't asked to reset your password, please ignore this message.\n";
+//
+//        // Send email to user.
+//        mail($user->getEmail(), $subject, $body);
     }
 
     /**
@@ -161,23 +167,23 @@ class UserManager
      */
     public function validatePasswordResetToken($passwordResetToken)
     {
-        $user = $this->entityManager->getRepository(User::class)
-            ->findOneByPasswordResetToken($passwordResetToken);
-
-        if($user==null) {
-            return false;
-        }
-
-        $tokenCreationDate = $user->getPasswordResetTokenCreationDate();
-        $tokenCreationDate = strtotime($tokenCreationDate);
-
-        $currentDate = strtotime('now');
-
-        if ($currentDate - $tokenCreationDate > 24*60*60) {
-            return false; // expired
-        }
-
-        return true;
+//        $user = $this->entityManager->getRepository(User::class)
+//            ->findOneByPasswordResetToken($passwordResetToken);
+//
+//        if($user==null) {
+//            return false;
+//        }
+//
+//        $tokenCreationDate = $user->getPasswordResetTokenCreationDate();
+//        $tokenCreationDate = strtotime($tokenCreationDate);
+//
+//        $currentDate = strtotime('now');
+//
+//        if ($currentDate - $tokenCreationDate > 24*60*60) {
+//            return false; // expired
+//        }
+//
+//        return true;
     }
 
     /**
@@ -185,29 +191,29 @@ class UserManager
      */
     public function setNewPasswordByToken($passwordResetToken, $newPassword)
     {
-        if (!$this->validatePasswordResetToken($passwordResetToken)) {
-            return false;
-        }
-
-        $user = $this->entityManager->getRepository(User::class)
-            ->findOneBy(['passwordResetToken'=>$passwordResetToken]);
-
-        if ($user===null) {
-            return false;
-        }
-
-        // Set new password for user
-        $bcrypt = new Bcrypt();
-        $passwordHash = $bcrypt->create($newPassword);
-        $user->setPassword($passwordHash);
-
-        // Remove password reset token
-        $user->setPasswordResetToken(null);
-        $user->setPasswordResetTokenCreationDate(null);
-
-        $this->entityManager->flush();
-
-        return true;
+//        if (!$this->validatePasswordResetToken($passwordResetToken)) {
+//            return false;
+//        }
+//
+//        $user = $this->entityManager->getRepository(User::class)
+//            ->findOneBy(['passwordResetToken'=>$passwordResetToken]);
+//
+//        if ($user===null) {
+//            return false;
+//        }
+//
+//        // Set new password for user
+//        $bcrypt = new Bcrypt();
+//        $passwordHash = $bcrypt->create($newPassword);
+//        $user->setPassword($passwordHash);
+//
+//        // Remove password reset token
+//        $user->setPasswordResetToken(null);
+//        $user->setPasswordResetTokenCreationDate(null);
+//
+//        $this->entityManager->flush();
+//
+//        return true;
     }
 
     /**
@@ -216,28 +222,28 @@ class UserManager
      */
     public function changePassword($user, $data)
     {
-        $oldPassword = $data['old_password'];
-
-        // Check that old password is correct
-        if (!$this->validatePassword($user, $oldPassword)) {
-            return false;
-        }
-
-        $newPassword = $data['new_password'];
-
-        // Check password length
-        if (strlen($newPassword)<6 || strlen($newPassword)>64) {
-            return false;
-        }
-
-        // Set new password for user
-        $bcrypt = new Bcrypt();
-        $passwordHash = $bcrypt->create($newPassword);
-        $user->setPassword($passwordHash);
-
-        // Apply changes
-        $this->entityManager->flush();
-
-        return true;
+//        $oldPassword = $data['old_password'];
+//
+//        // Check that old password is correct
+//        if (!$this->validatePassword($user, $oldPassword)) {
+//            return false;
+//        }
+//
+//        $newPassword = $data['new_password'];
+//
+//        // Check password length
+//        if (strlen($newPassword)<6 || strlen($newPassword)>64) {
+//            return false;
+//        }
+//
+//        // Set new password for user
+//        $bcrypt = new Bcrypt();
+//        $passwordHash = $bcrypt->create($newPassword);
+//        $user->setPassword($passwordHash);
+//
+//        // Apply changes
+//        $this->entityManager->flush();
+//
+//        return true;
     }
 }

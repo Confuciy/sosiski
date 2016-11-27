@@ -25,7 +25,7 @@ return [
         'driver'         => 'Pdo',
         'dsn'            => 'mysql:dbname=confuciy_sosiski;host=db35.valuehost.ru',
         'driver_options' => [
-            PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\''
+            PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\'',
         ],
     ],
     // Session configuration.

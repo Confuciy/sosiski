@@ -6,7 +6,7 @@ use Zend\ServiceManager\Factory\FactoryInterface;
 use Zend\Authentication\AuthenticationService;
 use Zend\Session\SessionManager;
 use User\Service\AuthManager;
-use User\Service\UserManager;
+//use User\Service\UserManager;
 
 /**
  * This is the factory class for AuthManager service. The purpose of the factory

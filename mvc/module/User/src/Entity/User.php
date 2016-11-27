@@ -6,7 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * This class represents a registered user.
  * @ORM\Entity()
- * @ORM\Table(name="user")
+ * @ORM\Table(name="WEB_USERS")
  */
 class User
 {
@@ -16,45 +16,55 @@ class User
 
     /**
      * @ORM\Id
-     * @ORM\Column(name="id")
+     * @ORM\Column(name="USERS_ID")
      * @ORM\GeneratedValue
      */
     protected $id;
 
     /**
-     * @ORM\Column(name="email")
+     * @ORM\Column(name="USERS_EMAIL")
      */
     protected $email;
 
     /**
-     * @ORM\Column(name="full_name")
+     * @ORM\Column(name="USERS_SURNAME")
      */
-    protected $fullName;
+    protected $surname;
 
     /**
-     * @ORM\Column(name="password")
+     * @ORM\Column(name="USERS_NAME")
+     */
+    protected $name;
+
+    /**
+     * @ORM\Column(name="USERS_PATRONYMIC")
+     */
+    protected $patronymic;
+
+    /**
+     * @ORM\Column(name="USERS_PASSWORD")
      */
     protected $password;
 
     /**
-     * @ORM\Column(name="status")
+     * @ORM\Column(name="USERS_ACTIVE")
      */
     protected $status;
 
     /**
-     * @ORM\Column(name="date_created")
+     * @ORM\Column(name="USERS_REGISTER")
      */
     protected $dateCreated;
 
-    /**
-     * @ORM\Column(name="pwd_reset_token")
-     */
-    protected $passwordResetToken;
-
-    /**
-     * @ORM\Column(name="pwd_reset_token_creation_date")
-     */
-    protected $passwordResetTokenCreationDate;
+//    /**
+//     * @ORM\Column(name="pwd_reset_token")
+//     */
+//    protected $passwordResetToken;
+//
+//    /**
+//     * @ORM\Column(name="pwd_reset_token_creation_date")
+//     */
+//    protected $passwordResetTokenCreationDate;
 
     /**
      * Returns user ID.
@@ -93,21 +103,57 @@ class User
     }
 
     /**
-     * Returns full name.
+     * Returns surname.
      * @return string
      */
-    public function getFullName()
+    public function getSurname()
     {
-        return $this->fullName;
+        return $this->surname;
     }
 
     /**
-     * Sets full name.
-     * @param string $fullName
+     * Sets surname.
+     * @param string $surname
      */
-    public function setFullName($fullName)
+    public function setSurname($surname)
     {
-        $this->fullName = $fullName;
+        $this->surname = $surname;
+    }
+
+    /**
+     * Returns name.
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * Sets name.
+     * @param string $name
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
+
+    /**
+     * Returns patronymic.
+     * @return string
+     */
+    public function getPatronymic()
+    {
+        return $this->patronymic;
+    }
+
+    /**
+     * Sets patronymic.
+     * @param string $patronymic
+     */
+    public function setPatronymic($patronymic)
+    {
+        $this->patronymic = $patronymic;
     }
 
     /**
@@ -189,39 +235,39 @@ class User
         $this->dateCreated = $dateCreated;
     }
 
-    /**
-     * Returns password reset token.
-     * @return string
-     */
-    public function getResetPasswordToken()
-    {
-        return $this->passwordResetToken;
-    }
-
-    /**
-     * Sets password reset token.
-     * @param string $token
-     */
-    public function setPasswordResetToken($token)
-    {
-        $this->passwordResetToken = $token;
-    }
-
-    /**
-     * Returns password reset token's creation date.
-     * @return string
-     */
-    public function getPasswordResetTokenCreationDate()
-    {
-        return $this->passwordResetTokenCreationDate;
-    }
-
-    /**
-     * Sets password reset token's creation date.
-     * @param string $date
-     */
-    public function setPasswordResetTokenCreationDate($date)
-    {
-        $this->passwordResetTokenCreationDate = $date;
-    }
+//    /**
+//     * Returns password reset token.
+//     * @return string
+//     */
+//    public function getResetPasswordToken()
+//    {
+//        return $this->passwordResetToken;
+//    }
+//
+//    /**
+//     * Sets password reset token.
+//     * @param string $token
+//     */
+//    public function setPasswordResetToken($token)
+//    {
+//        $this->passwordResetToken = $token;
+//    }
+//
+//    /**
+//     * Returns password reset token's creation date.
+//     * @return string
+//     */
+//    public function getPasswordResetTokenCreationDate()
+//    {
+//        return $this->passwordResetTokenCreationDate;
+//    }
+//
+//    /**
+//     * Sets password reset token's creation date.
+//     * @param string $date
+//     */
+//    public function setPasswordResetTokenCreationDate($date)
+//    {
+//        $this->passwordResetTokenCreationDate = $date;
+//    }
 }

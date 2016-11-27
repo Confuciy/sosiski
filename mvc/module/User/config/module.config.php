@@ -1,17 +1,17 @@
 <?php
 namespace User;
 
-use Zend\Router\Http\Literal;
+//use Zend\Router\Http\Literal;
 use Zend\Router\Http\Segment;
-use Doctrine\ORM\Mapping\Driver\AnnotationDriver;
+use Zend\ServiceManager\Factory\InvokableFactory;
 
 return [
     'router' => [
         'routes' => [
             'login' => [
-                'type' => Literal::class,
+                'type' => Segment::class,
                 'options' => [
-                    'route'    => '/login',
+                    'route'    => '/login[/]',
                     'defaults' => [
                         'controller' => Controller\AuthController::class,
                         'action'     => 'login',
@@ -19,9 +19,9 @@ return [
                 ],
             ],
             'logout' => [
-                'type' => Literal::class,
+                'type' => Segment::class,
                 'options' => [
-                    'route'    => '/logout',
+                    'route'    => '/logout[/]',
                     'defaults' => [
                         'controller' => Controller\AuthController::class,
                         'action'     => 'logout',
@@ -29,9 +29,9 @@ return [
                 ],
             ],
             'reset-password' => [
-                'type' => Literal::class,
+                'type' => Segment::class,
                 'options' => [
-                    'route'    => '/reset-password',
+                    'route'    => '/reset-password[/]',
                     'defaults' => [
                         'controller' => Controller\UserController::class,
                         'action'     => 'resetPassword',
@@ -52,6 +52,20 @@ return [
                     ],
                 ],
             ],
+            'register' => [
+                'type'    => Segment::class,
+                'options' => [
+                    'route'    => '/register[/]',
+                    'constraints' => [
+                        'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                        'id' => '[a-zA-Z0-9_-]*',
+                    ],
+                    'defaults' => [
+                        'controller'    => Controller\UserController::class,
+                        'action'        => 'register',
+                    ],
+                ],
+            ],
         ],
     ],
     'controllers' => [
@@ -67,7 +81,7 @@ return [
             Controller\UserController::class => [
                 // Give access to "resetPassword", "message" and "setPassword" actions
                 // to anyone.
-                ['actions' => ['resetPassword', 'message', 'setPassword'], 'allow' => '*'],
+                ['actions' => ['register', 'resetPassword', 'message', 'setPassword'], 'allow' => '*'],
                 // Give access to "index", "add", "edit", "view", "changePassword" actions to authorized users only.
                 ['actions' => ['index', 'add', 'edit', 'view', 'changePassword'], 'allow' => '@']
             ],
@@ -81,24 +95,20 @@ return [
             Service\UserManager::class => Service\Factory\UserManagerFactory::class,
         ],
     ],
+    'view_helpers' => [
+        'factories' => [
+            View\Helper\Action::class => View\Helper\Factory\ActionFactory::class, //View\Helper\Action::class => InvokableFactory::class,
+            View\Helper\Register::class => View\Helper\Factory\RegisterFactory::class,
+        ],
+        'aliases' => [
+            'action' => View\Helper\Action::class,
+            'register' => View\Helper\Register::class,
+        ],
+    ],
     'view_manager' => [
         'template_path_stack' => [
             __DIR__ . '/../view',
         ],
-    ],
-    'doctrine' => [
-        'driver' => [
-            __NAMESPACE__ . '_driver' => [
-                'class' => AnnotationDriver::class,
-                'cache' => 'array',
-                'paths' => [__DIR__ . '/../src/Entity']
-            ],
-            'orm_default' => [
-                'drivers' => [
-                    __NAMESPACE__ . '\Entity' => __NAMESPACE__ . '_driver'
-                ]
-            ]
-        ]
     ],
 ];
 

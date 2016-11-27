@@ -17,18 +17,24 @@
         "zendframework/zend-mvc": "^3.0.1",
         "zfcampus/zf-development-mode": "^3.0",
         "bjyoungblood/bjy-profiler": "^1.1",
-        "zendframework/zend-developer-tools": "^1.1",
-        "doctrine/doctrine-orm-module": "^1.1"
+        "zf-commons/zfc-twig": "^1.2",
+        "twig/extensions": "^1.4",
+        "zendframework/zend-authentication": "^2.5",
+        "doctrine/doctrine-module": "dev-master as 1.1",
+        "doctrine/doctrine-orm-module": "dev-master"
     },
     "autoload": {
+        "psr-0": {
+            "BjyProfiler": "src/"
+        },
         "psr-4": {
-            "Application\\": "module/Application/src/"
+            "Application\\": "module/Application/src/",
+            "User\\": "module/User/src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "ApplicationTest\\": "module/Application/test/",
-            "User\\": "module/User/src/"
+            "ApplicationTest\\": "module/Application/test/"
         }
     },
     "extra": [],

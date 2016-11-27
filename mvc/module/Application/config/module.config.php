@@ -9,7 +9,7 @@ namespace Application;
 
 use Zend\Router\Http\Literal;
 use Zend\Router\Http\Segment;
-use Zend\ServiceManager\Factory\InvokableFactory;
+//use Zend\ServiceManager\Factory\InvokableFactory;
 
 return [
     'router' => [
@@ -27,7 +27,7 @@ return [
             'application' => [
                 'type'    => Segment::class,
                 'options' => [
-                    'route'    => '/application[/:action]',
+                    'route'    => '/application[/:action][/]',
                     'defaults' => [
                         'controller' => Controller\IndexController::class,
                         'action'     => 'index',
@@ -35,9 +35,9 @@ return [
                 ],
             ],
             'about' => [
-                'type' => Literal::class,
+                'type' => Segment::class,
                 'options' => [
-                    'route'    => '/about',
+                    'route'    => '/about[/]',
                     'defaults' => [
                         'controller' => Controller\IndexController::class,
                         'action'     => 'about',
@@ -48,7 +48,8 @@ return [
     ],
     'controllers' => [
         'factories' => [
-            Controller\IndexController::class => InvokableFactory::class,
+            //Controller\IndexController::class => InvokableFactory::class,
+            Controller\IndexController::class => Controller\Factory\IndexControllerFactory::class,
         ],
     ],
     // The 'access_filter' key is used by the User module to restrict or permit
@@ -84,7 +85,7 @@ return [
         'not_found_template'       => 'error/404',
         'exception_template'       => 'error/index',
         'template_map' => [
-            'layout/layout'           => __DIR__ . '/../view/layout/layout.phtml',
+            'layout/layout'           => __DIR__ . '/../view/layout/future-imperfect.phtml',
             'application/index/index' => __DIR__ . '/../view/application/index/index.phtml',
             'error/404'               => __DIR__ . '/../view/error/404.phtml',
             'error/index'             => __DIR__ . '/../view/error/index.phtml',
