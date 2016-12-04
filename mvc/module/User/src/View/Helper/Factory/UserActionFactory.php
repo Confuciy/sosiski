@@ -3,9 +3,9 @@ namespace User\View\Helper\Factory;
 
 use Interop\Container\ContainerInterface;
 use Zend\ServiceManager\Factory\FactoryInterface;
-use User\View\Helper\Register;
+use User\View\Helper\UserAction;
 
-class RegisterFactory implements FactoryInterface
+class UserActionFactory implements FactoryInterface
 {
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
@@ -14,7 +14,6 @@ class RegisterFactory implements FactoryInterface
 
         $user = new \User\Controller\UserController($dbAdapter, $userManager);
 
-        // Instantiate the helper.
-        return new Register($user);
+        return new UserAction($user);
     }
 }

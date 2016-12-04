@@ -65,7 +65,7 @@ class AuthAdapter implements AdapterInterface
     {
         // Check the database if there is a user with such email.
         $select = "SELECT `user`.* FROM `user` WHERE LOWER(`email`) = '".trim(mb_strtolower($this->email, 'UTF-8'))."' LIMIT 1";
-        $user = $this->dbAdapter->query($select, $this->dbAdapter::QUERY_MODE_EXECUTE)->current();
+        $user = $this->dbAdapter->query($select, 'execute')->current();
         //echo $sql->getSqlstringForSqlObject($select); die;
 
         // If there is no such user, return 'Identity Not Found' status.

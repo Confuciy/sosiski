@@ -1,0 +1,53 @@
+{% extends 'family-gallery/layout/dopetrope.twig' %}
+
+
+{% block logo %}
+    <h1><a href="/">Family Gallery</a></h1>
+{% endblock logo %}
+{% block nav %}{% endblock nav %}
+{% block banner %}{% endblock banner %}
+{% block intro %}{% endblock intro %}
+{% block major %}{% endblock major %}
+
+{% block portfolio_rows %}
+    {#
+    {% for gallery in galleries %}
+        <div class="4u 12u(mobile)">
+            <section class="box">
+                <a href="{{ url('family-gallery', {'action': 'view', 'id': gallery.id}) }}" class="image featured"><img src="{{ t_path }}/images/pic02.jpg" alt="" /></a>
+                <header>
+                    <h3>{{ gallery.title|e }}</h3>
+                </header>
+                <p>{{ gallery.member['name'] }}, {{ gallery.year }}</p>
+                <p>{{ gallery.text|e }}</p>
+            </section>
+        </div>
+    {% endfor %}
+
+    #}
+
+    {% for member in members %}
+        <div class="4u 12u(mobile)">
+            <section class="box">
+                <a href="{{ url('family-gallery', {'action': 'view', 'member_id': member.id, 'member_id': member.id}) }}" class="image featured">
+                    {% if member.photo %}
+                        <img src="/img/family-gallery-member/{{ member.id }}/{{ member.photo }}" alt="" />
+                    {% else %}
+                        <img src="/img/family-gallery-member/0.jpg" alt="" width="380" height="264" />
+                    {% endif %}
+                </a>
+                <header>
+                    <h3><a href="{{ url('family-gallery', {'action': 'view', 'member_id': member.id}) }}">{{ member.name }}</a></h3>
+                </header>
+                <p>{{ member.date|date('d.m.Y') }}</p>
+                {#<p>{{ gallery.text|e }}</p>#}
+            </section>
+        </div>
+    {% endfor %}
+
+{% endblock portfolio_rows %}
+
+{% block blog %}{% endblock blog %}
+
+{% block footer_wrapper %}{% endblock footer_wrapper %}
+

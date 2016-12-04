@@ -1,0 +1,55 @@
+{% extends 'family-gallery/layout/dopetrope.twig' %}
+
+{% block style %}
+    <style>
+        .box {
+            padding: 0.5em !important;
+        }
+        header.major h2 {
+            top: -0.55em !important;
+        }
+        h2 {
+            font-size: 2em !important;
+        }
+        header.major {
+            border-top: none !important;
+        }
+    </style>
+{% endblock style %}
+{% block logo %}<h1><a href="{{ url('family-gallery', {}) }}">Family Gallery</a></h1>{% endblock logo %}
+{% block nav %}{% endblock nav %}
+{% block banner %}{% endblock banner %}
+{% block intro %}{% endblock intro %}
+
+{% block portfolio %}
+    {% for year in years %}
+    <section>
+
+            {% block major %}<header class="major" style="margin-top: -15px;"><h2>{{ year }}</h2></header>{% endblock major %}
+            {% block portfolio_row %}
+                <div class="row">
+                    {% block portfolio_rows %}
+                        {% for month in months[year] %}
+                                <div class="4u 12u(mobile)">
+                                    <section class="box" style="text-align: center; font-size: 1em;">
+                                        {#<a href="#" class="image featured"><img src="{{ t_path }}/images/pic02.jpg" alt="" /></a>#}
+                                        <header>
+                                            <a href="{{ url('family-gallery', {'action': 'view', 'member_id': member_id, 'year': year, 'month': month}) }}"
+                                               style="text-decoration: none;"><h3>{{ date(year ~ '-' ~ month ~ '-01')|date('F') }}<span style="color: darkgray;"> / {{ year }}</span></h3></a>
+                                        </header> {#{{ date(year ~ '-' ~ month ~ '-01')|localizeddate('short', 'none', null, null, 'F') }}#}
+                                    </section>
+                                </div>
+                        {% endfor %}
+                    {% endblock portfolio_rows %}
+                </div>
+                <br />
+            {% endblock portfolio_row %}
+
+    </section>
+    {% endfor %}
+{% endblock portfolio %}
+
+{% block blog %}{% endblock blog %}
+
+{% block footer_wrapper %}{% endblock footer_wrapper %}
+

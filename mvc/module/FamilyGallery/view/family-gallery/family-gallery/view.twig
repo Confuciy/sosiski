@@ -1,0 +1,32 @@
+{% extends 'family-gallery/layout/lens.twig' %}
+
+{% block title %}{{ member[0].name }} / {{ date(year ~ '-' ~ month ~ '-01')|date('Y / F') }}{% endblock title %}
+
+{% block header %}
+    <header id="header">
+        {% block header_h1 %}<h1>{{ member[0].name }}</h1>{% endblock header_h1 %}
+        {% block header_text %}<p>{{ date(year ~ '-' ~ month ~ '-01')|date('Y / F') }}<br />
+            <a href="{{ url('family-gallery', {'action': 'view', 'member_id': member[0].id }) }}">&larr; back</a></p>{% endblock header_text %}
+        {% block header_ul %}{% endblock header_ul %}
+    </header>
+{% endblock header %}
+
+{% block thumbnail %}
+    <section id="thumbnails">
+        {% block thumbnail_article %}
+            {% for photo in photos %}
+                <article>
+                    {% if gallery['month'] < 10 %}
+                        <a class="thumbnail" href="/img/family-gallery-member/{{ member[0].id }}/photos/{{ gallery['year'] }}/0{{ gallery['month'] }}/{{ photo.path }}"><img src="/img/family-gallery-member/{{ member[0].id }}/photos/{{ gallery['year'] }}/0{{ gallery['month'] }}/preview_{{ photo.path }}" alt="" /></a>
+                    {% else %}
+                        <a class="thumbnail" href="/img/family-gallery-member/{{ member[0].id }}/photos/{{ gallery['year'] }}/{{ gallery['month'] }}/{{ photo.path }}"><img src="/img/family-gallery-member/{{ member[0].id }}/photos/{{ gallery['year'] }}/{{ gallery['month'] }}/preview_{{ photo.path }}" alt="" /></a>
+                    {% endif %}
+                    <h2></h2>
+                    <p>{{ (photo.sortby + 1) }} / {{ photos|length }}</p>
+                </article>
+            {% endfor %}
+        {% endblock thumbnail_article %}
+    </section>
+{% endblock thumbnail %}
+
+{% block footer %}{% endblock footer %}

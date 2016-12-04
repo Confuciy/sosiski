@@ -11,8 +11,8 @@
  * This should be an array of module namespaces used in the application.
  */
 return [
-//    'DoctrineModule',
-//    'DoctrineORMModule',
+    'DoctrineModule',
+    'DoctrineORMModule',
     'Zend\Cache',
     'Zend\Db',
     'Zend\Log',
@@ -36,7 +36,9 @@ return [
     'Zend\Router',
     'Zend\Validator',
     'BjyProfiler',
+//    'ZfcTwig',
 //    'ZendDeveloperTools',
     'Application',
-    'User'
+    'User',
+    'FamilyGallery'
 ];

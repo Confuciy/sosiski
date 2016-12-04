@@ -22,37 +22,46 @@ $form->get('password')->setAttributes([
         'class' => 'sr-only'
     ]);
 ?>
-
-<div class="row">
-    <div class="col-md-offset-4 col-md-3">
-        <?php if ($this->auth == 0){ ?>
-        <form class="form-signin" method="post">
-            <h2 class="form-signin-heading">Please sign in</h2>
-            <?php if ($isLoginError): ?>
-                <div class="alert alert-warning" role="alert">
-                    Incorrect login and/or password.
-                    <a href="<?= $this->url('reset-password') ?>">Forgot password?</a>
-                </div>
-            <?php endif; ?>
-            <?= $this->formLabel($form->get('email')); ?>
-            <?= $this->formElement($form->get('email')); ?>
-            <?= $this->formLabel($form->get('password')); ?>
-            <?= $this->formElement($form->get('password')); ?>
-            <div class="checkbox">
-                <label>
-                    <?= $this->formElement($form->get('remember_me')); ?> Remember me
-                </label>
-            </div>
-            <?= $this->formElement($form->get('redirect_url')); ?>
-            <?= $this->formElement($form->get('csrf')) ?>
-            <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-        </form>
-        <?php } else { ?>
-            <div class="alert alert-warning" role="alert">
-                The user is logged in!
+<?php if ($this->auth == null and preg_match('/^\/login\//', rtrim($_SERVER['REQUEST_URI'], '/')).'/'){ ?>
+    <div class="row">
+        <div class="col-md-offset-4 col-md-3">
+            <form class="form-signin" method="post">
+                <h2 class="form-signin-heading">Please sign in</h2>
+                <?php if ($isLoginError): ?>
+                    <div class="alert alert-warning" role="alert">
+                        Incorrect login and/or password.
+                        <a href="<?= $this->url('reset-password') ?>">Forgot password?</a>
+                    </div>
+                <?php endif; ?>
+                <?= $this->formLabel($form->get('email')); ?>
+                <?= $this->formElement($form->get('email')); ?>
                 <br />
-                <a href="<?= $this->url('users') ?>">Users</a>
-            </div>
-        <?php } ?>
+                <?= $this->formLabel($form->get('password')); ?>
+                <?= $this->formElement($form->get('password')); ?>
+                <div class="checkbox">
+                    <label>
+                        <?= $this->formElement($form->get('remember_me')); ?>
+                    </label>
+                </div>
+                <?= $this->formElement($form->get('redirect_url')); ?>
+                <?//= $this->formElement($form->get('csrf')) ?>
+                <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+            </form>
+        </div>
     </div>
-</div>
+<?php } else { ?>
+    <?php if ($this->auth == null){ ?>
+        <section>
+            <ul class="actions vertical">
+                <li><a href="/login/" class="button big fit">Log In</a></li>
+            </ul>
+        </section>
+    <?php } else { ?>
+        <section>
+            <ul class="actions vertical">
+                <li><b><?= $this->auth; ?></b></li>
+                <li><a href="/logout/" class="button big fit">Log Out</a></li>
+            </ul>
+        </section>
+    <?php } ?>
+<?php } ?>

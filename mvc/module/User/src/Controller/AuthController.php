@@ -66,6 +66,9 @@ class AuthController extends AbstractActionController
 //            echo '</pre>';
 //        }
 
+        // проверка авторизации
+        $auth = $this->authService->getIdentity();
+
         // Retrieve the redirect URL (if passed). We will redirect the user to this
         // URL after successfull login.
         $redirectUrl = (string)$this->params()->fromQuery('redirectUrl', '');
@@ -131,12 +134,16 @@ class AuthController extends AbstractActionController
             }
         }
 
-        return new ViewModel([
+        $this->layout('layout/future-imperfect-simple');
+        $view = new ViewModel([
             'form' => $form,
             'isLoginError' => $isLoginError,
             'redirectUrl' => $redirectUrl,
-            'auth' => ($this->authService->getIdentity()==null)?0:1,
+            'auth' => $auth,
         ]);
+        $view->setTemplate('user/auth/login');
+
+        return $view;
     }
 
     /**

@@ -10,7 +10,10 @@ namespace User;
 use Zend\Mvc\MvcEvent;
 use Zend\Mvc\Controller\AbstractActionController;
 use User\Controller\AuthController;
+use Zend\Session\SessionManager;
+use User\Service\AuthAdapter;
 use User\Service\AuthManager;
+use User\Service\UserManager;
 
 class Module
 {
@@ -58,7 +61,7 @@ class Module
 
         // Execute the access filter on every controller except AuthController
         // (to avoid infinite redirect).
-        if ($controllerName!=AuthController::class &&
+        if ($controllerName != AuthController::class &&
             !$authManager->filterAccess($controllerName, $actionName)) {
 
             // Remember the URL of the page the user tried to access. We will
@@ -73,8 +76,65 @@ class Module
             $redirectUrl = $uri->toString();
 
             // Redirect the user to the "Login" page.
-            return $controller->redirect()->toRoute('login', [],
-                ['query'=>['redirectUrl'=>$redirectUrl]]);
+            return $controller->redirect()->toRoute('login', [], ['query'=>['redirectUrl'=>$redirectUrl]]);
         }
+    }
+
+    public function getControllerConfig()
+    {
+        return [
+            'factories' => [
+                Controller\AuthController::class => function($container) {
+                    $dbAdapter = $container->get('Zend\Db\Adapter\Adapter');
+                    $authManager = $container->get(AuthManager::class);
+                    $authService = $container->get(\Zend\Authentication\AuthenticationService::class);
+                    $userManager = $container->get(UserManager::class);
+                    return new Controller\AuthController($dbAdapter, $authManager, $authService, $userManager);
+                },
+                Controller\UserController::class => function($container) {
+                    $dbAdapter = $container->get('Zend\Db\Adapter\Adapter');
+                    $userManager = $container->get(UserManager::class);
+                    return new Controller\UserController($dbAdapter, $userManager);
+                },
+            ]
+        ];
+    }
+
+    public function getServiceConfig()
+    {
+        return [
+            'factories' => [
+                \Zend\Authentication\AuthenticationService::class => function($container) {
+                    $sessionManager = $container->get(SessionManager::class);
+                    $authStorage = new \Zend\Authentication\Storage\Session('Zend_Auth', 'session', $sessionManager);
+                    $authAdapter = $container->get(AuthAdapter::class);
+                    return new \Zend\Authentication\AuthenticationService($authStorage, $authAdapter);
+                },
+                Service\AuthAdapter::class => function($container) {
+                    $dbAdapter = $container->get('Zend\Db\Adapter\Adapter');
+                    return new Service\AuthAdapter($dbAdapter);
+                },
+                Service\AuthManager::class => function($container) {
+                    $authenticationService = $container->get(\Zend\Authentication\AuthenticationService::class);
+                    $sessionManager = $container->get(SessionManager::class);
+
+                    #echo '<pre>'; print_r($sessionManager); echo '</pre>';
+
+                    // Get contents of 'access_filter' config key (the AuthManager service
+                    // will use this data to determine whether to allow currently logged in user
+                    // to execute the controller action or not.
+                    $config = $container->get('Config');
+                    if (isset($config['access_filter']))
+                        $config = $config['access_filter'];
+                    else
+                        $config = [];
+                    return new Service\AuthManager($authenticationService, $sessionManager, $config);
+                },
+                Service\UserManager::class => function($container) {
+                    $dbAdapter = $container->get('Zend\Db\Adapter\Adapter');
+                    return new Service\UserManager($dbAdapter);
+                },
+            ]
+        ];
     }
 }

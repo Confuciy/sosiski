@@ -3,7 +3,7 @@ namespace User;
 
 //use Zend\Router\Http\Literal;
 use Zend\Router\Http\Segment;
-use Zend\ServiceManager\Factory\InvokableFactory;
+//use Zend\ServiceManager\Factory\InvokableFactory;
 
 return [
     'router' => [
@@ -68,12 +68,12 @@ return [
             ],
         ],
     ],
-    'controllers' => [
-        'factories' => [
-            Controller\AuthController::class => Controller\Factory\AuthControllerFactory::class,
-            Controller\UserController::class => Controller\Factory\UserControllerFactory::class,
-        ],
-    ],
+//    'controllers' => [
+//        'factories' => [
+//            Controller\AuthController::class => Controller\Factory\AuthControllerFactory::class,
+//            Controller\UserController::class => Controller\Factory\UserControllerFactory::class,
+//        ],
+//    ],
     // The 'access_filter' key is used by the User module to restrict or permit
     // access to certain controller actions for unauthorized visitors.
     'access_filter' => [
@@ -87,22 +87,25 @@ return [
             ],
         ]
     ],
-    'service_manager' => [
-        'factories' => [
-            \Zend\Authentication\AuthenticationService::class => Service\Factory\AuthenticationServiceFactory::class,
-            Service\AuthAdapter::class => Service\Factory\AuthAdapterFactory::class,
-            Service\AuthManager::class => Service\Factory\AuthManagerFactory::class,
-            Service\UserManager::class => Service\Factory\UserManagerFactory::class,
-        ],
-    ],
+//    'service_manager' => [
+//        'factories' => [
+//            \Zend\Authentication\AuthenticationService::class => Service\Factory\AuthenticationServiceFactory::class,
+//            Service\AuthAdapter::class => Service\Factory\AuthAdapterFactory::class,
+//            Service\AuthManager::class => Service\Factory\AuthManagerFactory::class,
+//            Service\UserManager::class => Service\Factory\UserManagerFactory::class,
+//        ],
+//    ],
     'view_helpers' => [
         'factories' => [
-            View\Helper\Action::class => View\Helper\Factory\ActionFactory::class, //View\Helper\Action::class => InvokableFactory::class,
+            View\Helper\UserAction::class => View\Helper\Factory\UserActionFactory::class,
+            View\Helper\AuthAction::class => View\Helper\Factory\AuthActionFactory::class,
+            #View\Helper\Action::class => InvokableFactory::class,
             View\Helper\Register::class => View\Helper\Factory\RegisterFactory::class,
         ],
         'aliases' => [
-            'action' => View\Helper\Action::class,
-            'register' => View\Helper\Register::class,
+            'userViewHelper' => View\Helper\UserAction::class,
+            'authViewHelper' => View\Helper\AuthAction::class,
+            'userViewHelperRegister' => View\Helper\Register::class,
         ],
     ],
     'view_manager' => [

@@ -52,6 +52,9 @@ class LoginForm extends Form
         $this->add([
             'type'  => 'checkbox',
             'name' => 'remember_me',
+            'attributes'    =>  array(
+                'checked'   => true,
+            ),
             'options' => [
                 'label' => 'Remember me',
             ],
@@ -64,15 +67,15 @@ class LoginForm extends Form
         ]);
 
         // Add the CSRF field
-        $this->add([
-            'type' => 'csrf',
-            'name' => 'csrf',
-            'options' => [
-                'csrf_options' => [
-                    'timeout' => 600
-                ]
-            ],
-        ]);
+//        $this->add([
+//            'type' => 'csrf',
+//            'name' => 'csrf',
+//            'options' => [
+//                'csrf_options' => [
+//                    'timeout' => 600
+//                ]
+//            ],
+//        ]);
 
         // Add the Submit button
         $this->add([
