@@ -3,29 +3,59 @@ $this->headTitle('Family Gallery');
 
 if(isset($this->members) and sizeof($this->members) > 0){
     echo '
-    <section>
-        <div class="row">';
-            foreach($this->members as $member){
-                echo '
-                <div class="4u 12u(mobile)">
-                    <section class="box">';
-                        echo '<a href="'.$this->url('family-gallery', ['action' => 'view', 'member_id' => $member['id']]).'" class="image featured">';
-                            if(isset($member['photo']) and $member['photo'] != '') {
-                                echo '<img src = "/img/family-gallery-member/'.$member['id'].'/'.$member['photo'].'" alt = "" />';
-                            } else {
-                                echo '<img src="/img/family-gallery-member/0.jpg" alt="" width="380" height="264" />';
-                            }
-                        echo '</a>';
+    <article class="post">
+        <section>
+            <h1>Family Gallery</h1>
+            <div class="box alt">
+                <div class="row uniform">';
+                foreach($this->members as $member){
+                    if(isset($member['photo']) and $member['photo'] != ''){
                         echo '
-                        <header>
-                            <h3><a href="'.$this->url('family-gallery', ['action' => 'view', 'member_id' => $member['id']]).'">'.$member['name'].'</a></h3>
-                        </header>';
-                        echo '<p>'.date('d.m.Y', $member['date']->getTimestamp()).'</p>';
-                    echo '
-                    </section>
-                </div>';
-            }
-        echo'
-        </div>
-    </section>';
+                        <div class="6u"><span class="image fit"> 
+                            <section class="box">';
+                                echo '<a href="'.$this->url('family-gallery', ['action' => 'view', 'member_id' => $member['id']]).'" class="image featured">';
+                                    echo '<img src = "/img/family-gallery-member/'.$member['id'].'/'.$member['photo'].'" alt = "" />';
+                                echo '</a>';
+                                echo '
+                                <header>
+                                    <h3><a href="'.$this->url('family-gallery', ['action' => 'view', 'member_id' => $member['id']]).'">'.$member['name'].'</a></h3>
+                                </header>';
+                                echo '<p>'.date('F d, Y', $member['date']->getTimestamp()).'</p>';
+                            echo '
+                            </section>
+                        </span></div>';
+                    }
+                }
+                echo'
+                </div>
+            </div>
+        </section>
+     </article>';
+
+//    echo '
+//    <section>
+//        <div class="row">';
+//            foreach($this->members as $member){
+//                echo '
+//                <div class="4u 12u(mobile)">
+//                    <section class="box">';
+//                        echo '<a href="'.$this->url('family-gallery', ['action' => 'view', 'member_id' => $member['id']]).'" class="image featured">';
+//                            if(isset($member['photo']) and $member['photo'] != '') {
+//                                echo '<img src = "/img/family-gallery-member/'.$member['id'].'/'.$member['photo'].'" alt = "" />';
+//                            } else {
+//                                echo '<img src="/img/family-gallery-member/0.jpg" alt="" width="380" height="264" />';
+//                            }
+//                        echo '</a>';
+//                        echo '
+//                        <header>
+//                            <h3><a href="'.$this->url('family-gallery', ['action' => 'view', 'member_id' => $member['id']]).'">'.$member['name'].'</a></h3>
+//                        </header>';
+//                        echo '<p>'.date('d.m.Y', $member['date']->getTimestamp()).'</p>';
+//                    echo '
+//                    </section>
+//                </div>';
+//            }
+//        echo'
+//        </div>
+//    </section>';
 }

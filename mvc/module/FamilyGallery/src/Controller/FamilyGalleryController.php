@@ -27,7 +27,8 @@ class FamilyGalleryController extends AbstractActionController
                 ->getArrayResult();
         }
 
-        $this->layout('layout/dopetrope-family-gallery');
+        //$this->layout('layout/dopetrope-family-gallery');
+        $this->layout('layout/future-imperfect-simple');
         $view = new ViewModel([
             'members' => $members,
         ]);
@@ -63,7 +64,8 @@ class FamilyGalleryController extends AbstractActionController
                 $years = array_unique($years);
             }
 
-            $this->layout('layout/dopetrope-family-gallery');
+            //$this->layout('layout/family-gallery-dopetrope');
+            $this->layout('layout/future-imperfect-simple');
             $view = new ViewModel([
                 'member_id' => $member_id,
                 'member' => $member,
@@ -89,7 +91,8 @@ class FamilyGalleryController extends AbstractActionController
                 order by p.sortby ASC')
                 ->getArrayResult();
 
-            $this->layout('layout/lens-family-gallery');
+            //$this->layout('layout/family-gallery-lens');
+            $this->layout('layout/family-gallery-multiverse');
             $view = new ViewModel([
                 'member_id' => $member_id,
                 'member' => $member,
@@ -99,6 +102,15 @@ class FamilyGalleryController extends AbstractActionController
                 'photos' => $photos
             ]);
             $view->setTemplate('family-gallery/family-gallery/view');
+
+            $header = new ViewModel([
+                'member_id' => $member_id,
+                'member' => $member,
+                'year' => $year,
+                'month' => $month
+            ]);
+            $header->setTemplate('family-gallery/family-gallery/view-header');
+            $view->addChild($header, 'header');
 
             return $view;
         }

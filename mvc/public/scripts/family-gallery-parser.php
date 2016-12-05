@@ -61,50 +61,69 @@ function generate_preview($dir, $name = '', $size, $quality){
     */
 
     $isrc = $icfunc($dir.'/'.$name);
-    /*
+
+//    v. 1
     if($size[1] > $size[0]){
-        $ratio = $size[1] / $size[0];
-        $n_w = 160 * $ratio;
-        $n_h = 100;
+        $ratio = 288 / $size[1];
+        $n_w = $size[0] * $ratio;
+        $n_h = 288;
     } elseif($size[0] > $size[1]){
-        $ratio = $size[0] / $size[1];
-        $n_w = 160;
-        $n_h = 100 * $ratio;
+        $ratio = 462 / $size[0];
+        $n_w = 462;
+        $n_h = $size[1] * $ratio;
     } else {
-        $n_w = 160;
-        $n_h = 100;
+        $n_w = 462;
+        $n_h = 288;
     }
-    */
 
-    #$small_width = 200;
-    #$small_height = 200;
+//    v. 2
+//    $small_width = 308;
+//    $small_height = 192;
+//
+//    if ($size[0] > $size[1]){$width = $small_width; $height = $small_height;}
+//    if ($size[0] < $size[1]){$width = $small_height; $height = $small_width;}
+//    if ($size[0] == $size[1]){$width = $small_width; $height = $small_width;}
 
-    #if ($size[0] > $size[1]){$width = $small_width; $height = $small_height;}
-    #if ($size[0] < $size[1]){$width = $small_height; $height = $small_width;}
-    #if ($size[0] == $size[1]){$width = $small_width; $height = $small_width;}
+//    v. 3
+//    $width = 160;
+//    $height = 100;
+//    $width = 308;
+//    $height = 192;
+//
+//    $x_ratio = $width / $size[0];
+//    $y_ratio = $height / $size[1];
+//    $ratio = max($x_ratio, $y_ratio);
+//    $use_x_ratio = ($x_ratio == $ratio);
+//    $n_w   = $use_x_ratio  ? $width  : floor($size[0] * $ratio);
+//    $n_h  = !$use_x_ratio ? $height : floor($size[1] * $ratio);
 
-    $width = 160;
-    $height = 100;
+    echo $n_w.' * '.$n_h.' / ';
 
-    $x_ratio = $width / $size[0];
-    $y_ratio = $height / $size[1];
-    $ratio = max($x_ratio, $y_ratio);
-    $use_x_ratio = ($x_ratio == $ratio);
-    $n_w   = $use_x_ratio  ? $width  : floor($size[0] * $ratio);
-    $n_h  = !$use_x_ratio ? $height : floor($size[1] * $ratio);
+//    v. 1
+//    $idest = imagecreatetruecolor($n_w, $n_h);
+//    imagecopyresized($idest, $isrc, 0, 0, 0, 0, $n_w, $n_h, $size[0], $size[1]);
 
-    $idest = imagecreatetruecolor($n_w, $n_h);
-    imagecopyresized($idest, $isrc, 0, 0, 0, 0, $n_w, $n_h, $size[0], $size[1]);
-
-//    $idest = imagecreatetruecolor(200, 200);
+//    v. 2
+//    $idest = imagecreatetruecolor(308, 192);
 //    if($n_w == $n_h){
-//        imagecopy($idest, $idest_tmp, 0, 0, 0, 0, 200, 200);
+//        imagecopy($idest, $isrc, 0, 0, 0, 0, $size[0], $size[1]);
 //    } elseif($n_w > $n_h){
-//        imagecopy($idest, $idest_tmp, 0, 0, (($n_w - 200) / 2), 0, 200, 200);
+//        imagecopy($idest, $isrc, 0, 0, (($n_w - 308) / 2), 0, $size[0], $size[1]);
 //    } else {
-//        imagecopy($idest, $idest_tmp, 0, 0, 0, (($n_h - 200) / 2), 200, 200);
+//        imagecopy($idest, $isrc, 0, 0, 0, (($n_h - 192) / 2), $size[0], $size[1]);
 //    }
 
+//    v. 2
+    $idest = imagecreatetruecolor(462, 288);
+    if($n_w == $n_h){
+        imagecopyresized($idest, $isrc, 0, 0, 0, 0, $n_w, $n_h, $size[0], $size[1]);
+    } elseif($n_w > $n_h){
+        imagecopyresized($idest, $isrc, 0, 0, (($n_w - 462) / 2), 0, $n_w, $n_h, $size[0], $size[1]);
+    } else {
+        imagecopyresized($idest, $isrc, 0, 0, ((462 - $n_h) / 2), 0, $n_w, $n_h, $size[0], $size[1]);
+    }
+
+    unlink($dir.'/preview_'.$name);
     imagejpeg($idest, $dir.'/preview_'.$name, $quality);
     imagedestroy($isrc);
     imagedestroy($idest);
@@ -144,7 +163,7 @@ function generate_preview_dirs_resize($dir = ''){
 //                        }
 
                         if(preg_match('|^preview\_|smi', $file)){
-                            unlink($dir.'/'.$file);
+//                            unlink($dir.'/'.$file);
                         }
                         if(!preg_match('|^preview\_|smi', $file)) {
                             $size = getimagesize($dir . '/' . $file);
@@ -208,9 +227,9 @@ foreach ($rowset as $row) {
 
     $years = getFolderAsArray("../img/family-gallery-member/" . $row->id . '/photos');
     if(sizeof($years)){
-        echo '<pre>'; print_r($years); echo '</pre>';
+        //echo '<pre>'; print_r($years); echo '</pre>';
         foreach ($years as $year) {
-            echo '<b>Год</b>: '.$year.'<br />';
+            echo '<b>Год</b>: '.$year.'<br />'."\n";
             $months = getFolderAsArray("../img/family-gallery-member/" . $row->id . '/photos/' . $year);
             if(sizeof($months)){
                 echo '<pre>'; print_r($months); echo '</pre>';
@@ -238,12 +257,13 @@ foreach ($rowset as $row) {
                         $id = $galleryTable->getLastInsertValue();
                     }
 
-                    echo '<b>Месяц</b>: '.$month.'<br />';
+                    echo '<b>Месяц</b>: '.$month.'<br />'."\n";
                     $photos = getFolderAsArray("../img/family-gallery-member/" . $row->id . '/photos/' . $year . '/' . $month);
                     if(sizeof($photos)){
-                        generate_preview_dirs_resize('/pub/home/confuciy/htdocs_sosiski/application/public/img/family-gallery-member/' . $row->id . '/photos/' . $year . '/' . $month);
-
-                        echo '<pre>'; print_r($photos); echo '</pre>';
+                        #if($year == 2014 and (int)$month == 4){
+                            generate_preview_dirs_resize('/pub/home/confuciy/htdocs_sosiski/mvc/public/img/family-gallery-member/' . $row->id . '/photos/' . $year . '/' . $month);
+                        #}
+//                        echo '<pre>'; print_r($photos); echo '</pre>';
                         $data = array(
                             'state' => 1
                         );

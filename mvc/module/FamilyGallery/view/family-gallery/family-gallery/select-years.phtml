@@ -1,3 +1,7 @@
+<?php
+$this->headTitle($this->member[0]['name']);
+
+echo '
 <style>
     .box {
         padding: 0.5em !important;
@@ -11,30 +15,38 @@
     header.major {
         border-top: none !important;
     }
-</style>
-
-<?php
-$this->headTitle($this->member[0]['name']);
+</style>';
 
 if(isset($this->years) and sizeof($this->years) > 0) {
     foreach ($this->years as $year) {
         echo '
         <section>
-            <header class="major" style="margin-top: -15px;"><h2>'.$year.'</h2></header>
-            <div class="row">';
-            foreach($this->months[$year] as $month){
-                echo '
-                <div class="4u 12u(mobile)">
-                    <section class="box" style="text-align: center; font-size: 1em;">
-                        <header>
-                            <a href="'.$this->url('family-gallery', ['action' => 'view', 'member_id' => $this->member_id, 'year' => $year, 'month' => $month]).'"
-                               style="text-decoration: none;"><h3>'.date('F', strtotime($year.'-'.$month.'-01')).'<span style="color: darkgray;"> / '.$year.'</span></h3></a>
-                        </header>
-                    </section>
-                </div>';
-            }
+            <h2>'.$year.'</h2>';
+
+            echo '
+            <ul class="actions">';
+                foreach($this->months[$year] as $month){
+                    echo '<li><a class="button fit" href="'.$this->url('family-gallery', ['action' => 'view', 'member_id' => $this->member_id, 'year' => $year, 'month' => $month]).'" class="button small">'.date('F', strtotime($year.'-'.$month.'-01')).'<span style="color: darkgray;"> / '.$year.'</a></li>';
+                }
             echo'
-            </div>
+            </ul>';
+
+//            echo '
+//            <div class="row">';
+//            foreach($this->months[$year] as $month){
+//                echo '
+//                <div class="4u 12u(mobile)">
+//                    <section class="box" style="text-align: center; font-size: 1em;">
+//                        <header>
+//                            <a href="'.$this->url('family-gallery', ['action' => 'view', 'member_id' => $this->member_id, 'year' => $year, 'month' => $month]).'"
+//                               style="text-decoration: none;"><h3>'.date('F', strtotime($year.'-'.$month.'-01')).'<span style="color: darkgray;"> / '.$year.'</span></h3></a>
+//                        </header>
+//                    </section>
+//                </div>';
+//            }
+//            echo'
+//            </div>';
+        echo '
         </section>';
     }
 }

@@ -1,0 +1,15 @@
+<?php
+echo '
+<header id="header">
+    <h1><a href="'.$this->url('family-gallery', ['action' => 'view', 'member_id' => $this->member_id]).'">&larr; back <strong></strong></a></h1>
+    <nav>
+        <ul>
+            <li><a href="'.$this->url('family-gallery', ['action' => 'view', 'member_id' => $this->member_id]).'">'.$this->member[0]['name'].' / '.$this->year.' / '.date('F', strtotime($this->year.'-'.$this->month.'-01')).'</a></li>
+        </ul>
+    </nav>
+</header>';
+//echo '<header id="header">
+//    <h1>'.$this->member[0]['name'].'</h1>
+//    <p>'.$this->year.' / '.date('F', strtotime($this->year.'-'.$this->month.'-01')).'<br />
+//    <a href="'.$this->url('family-gallery', ['action' => 'view', 'member_id' => $this->member_id]).'">&larr; back</a></p>
+//</header>';
