@@ -118,9 +118,9 @@ function generate_preview($dir, $name = '', $size, $quality){
     if($n_w == $n_h){
         imagecopyresized($idest, $isrc, 0, 0, 0, 0, $n_w, $n_h, $size[0], $size[1]);
     } elseif($n_w > $n_h){
-        imagecopyresized($idest, $isrc, 0, 0, (($n_w - 462) / 2), 0, $n_w, $n_h, $size[0], $size[1]);
+        imagecopyresized($idest, $isrc, (($n_w - 462) / 2), 0, 0, 0, $n_w, $n_h, $size[0], $size[1]);
     } else {
-        imagecopyresized($idest, $isrc, 0, 0, ((462 - $n_h) / 2), 0, $n_w, $n_h, $size[0], $size[1]);
+        imagecopyresized($idest, $isrc, ((462 - $n_h) / 2), 0, 0, 0, $n_w, $n_h, $size[0], $size[1]);
     }
 
     unlink($dir.'/preview_'.$name);

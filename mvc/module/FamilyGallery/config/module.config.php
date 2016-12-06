@@ -32,6 +32,14 @@ return array(
             Controller\FamilyGalleryController::class => Controller\Factory\FamilyGalleryControllerFactory::class,
         ),
     ),
+    'access_filter' => [
+        'controllers' => [
+            Controller\FamilyGalleryController::class => [
+                ['actions' => ['index'], 'allow' => '*'],
+                ['actions' => ['view'], 'allow' => '@']
+            ],
+        ]
+    ],
     'view_manager' => array(
         'template_path_stack' => array(
             __DIR__ . '/../view',

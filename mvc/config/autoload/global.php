@@ -35,9 +35,11 @@ return [
         // Session data will be stored on server maximum for 30 days.
         'gc_maxlifetime'     => 60*60*24*30,
         'rememberMeSeconds' => 60*60*24*30,
-        'remember_me_seconds' => 2419200,
+        'remember_me_seconds' => 60*60*24*30,
         'use_cookies' => true,
         'cookie_httponly' => true,
+        'cookie_lifetime' => 60*60*24*30,
+
     ],
     // Session manager configuration.
     'session_manager' => [

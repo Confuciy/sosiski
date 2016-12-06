@@ -55,6 +55,9 @@ class AuthManager
 
         $authAdapter->setEmail($email);
         $authAdapter->setPassword($password);
+        //$this->authService->setStorage(new \Zend\Authentication\Storage\Session(null, null, $this->sessionManager));
+        $authNamespace = new \Zend\Session\Container(\Zend\Authentication\Storage\Session::NAMESPACE_DEFAULT);
+        $authNamespace->getManager()->rememberMe(60*60*24*30);
         $result = $this->authService->authenticate();
 
         // If user wants to "remember him", we will make session to expire in
@@ -62,7 +65,9 @@ class AuthManager
         // config/global.php file).
         if ($result->getCode()==Result::SUCCESS && $rememberMe) {
             // Session cookie will expire in 1 month (30 days).
-            $this->sessionManager->rememberMe(60*60*24*30);
+            //$this->sessionManager->rememberMe(60*60*24*30);
+
+            $this->sessionManager->regenerateId();
         }
 
         return $result;
