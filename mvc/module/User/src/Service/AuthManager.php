@@ -62,8 +62,9 @@ class AuthManager
         // config/global.php file).
         if ($result->getCode()==Result::SUCCESS && $rememberMe) {
             // Session cookie will expire in 1 month (30 days).
-            //$this->sessionManager->rememberMe(60*60*24*30);
+            $this->sessionManager->rememberMe(60*60*24*30);
 
+            // Set cookie with email
             setcookie('email', $email, time() + 2592000, '/', $_SERVER['HTTP_HOST']);
         }
 
@@ -83,6 +84,7 @@ class AuthManager
         // Remove identity from session.
         $this->authService->clearIdentity();
 
+        // Remove cookie with email
         setcookie('email', '', time() - 2592000, '/', $_SERVER['HTTP_HOST']);
     }
 
