@@ -29,6 +29,12 @@ class AuthAdapter implements AdapterInterface
     private $password;
 
     /**
+     * Password verify type
+     * @var int
+     */
+    private $password_verify_type = 0;
+
+    /**
      * @var Zend\Db\Adapter\Adapter
      */
     private $dbAdapter;
@@ -59,14 +65,32 @@ class AuthAdapter implements AdapterInterface
     }
 
     /**
+     * Sets password.
+     */
+    public function setPasswordVerifyType($type)
+    {
+        $this->password_verify_type = (int)$type;
+    }
+
+    /**
+     * Get password.
+     */
+    public function getUser()
+    {
+        $select = "SELECT `user`.password, `user`.status FROM `user` WHERE LOWER(`email`) = '".trim(mb_strtolower($this->email, 'UTF-8'))."' LIMIT 1";
+        $user = $this->dbAdapter->query($select, 'execute')->current();
+        //echo $sql->getSqlstringForSqlObject($select); die;
+
+        return $user;
+    }
+
+    /**
      * Performs an authentication attempt.
      */
     public function authenticate()
     {
         // Check the database if there is a user with such email.
-        $select = "SELECT `user`.* FROM `user` WHERE LOWER(`email`) = '".trim(mb_strtolower($this->email, 'UTF-8'))."' LIMIT 1";
-        $user = $this->dbAdapter->query($select, 'execute')->current();
-        //echo $sql->getSqlstringForSqlObject($select); die;
+        $user = $this->getUser();
 
         // If there is no such user, return 'Identity Not Found' status.
         if ($user == null) {
@@ -90,13 +114,25 @@ class AuthAdapter implements AdapterInterface
 
         // Now we need to calculate hash based on user-entered password and compare
         // it with the password hash stored in database.
-        if ($bcrypt->verify($this->password, $passwordHash)) {
-            // Great! The password hash matches. Return user identity (email) to be
-            // saved in session for later use.
-            return new Result(
-                Result::SUCCESS,
-                $this->email,
-                ['Authenticated successfully.']);
+        if(empty($this->password_verify_type)){
+            if ($bcrypt->verify($this->password, $passwordHash)) {
+                // Great! The password hash matches. Return user identity (email) to be
+                // saved in session for later use.
+                return new Result(
+                    Result::SUCCESS,
+                    $this->email,
+                    ['Authenticated successfully.']);
+            }
+        }
+        if(!empty($this->password_verify_type)){
+            if ($this->password == $passwordHash) {
+                // Great! The password hash matches. Return user identity (email) to be
+                // saved in session for later use.
+                return new Result(
+                    Result::SUCCESS,
+                    $this->email,
+                    ['Authenticated successfully.']);
+            }
         }
         // If password check didn't pass return 'Invalid Credential' failure status.
         return new Result(

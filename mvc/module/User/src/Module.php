@@ -118,6 +118,16 @@ class Module
                     $authenticationService = $container->get(\Zend\Authentication\AuthenticationService::class);
                     $sessionManager = $container->get(SessionManager::class);
 
+                    if(!$authenticationService->hasIdentity() and isset($_COOKIE['email']) and $_COOKIE['email'] != ''){
+                        $authAdapter = $container->get(AuthAdapter::class);
+                        $authAdapter->setEmail($_COOKIE['email']);
+                        $user = $authAdapter->getUser();
+                        if(isset($user['password']) and $user['password'] != '' and isset($user['status']) and $user['status'] == 1){
+                            $authAdapter->setPassword($user['password']);
+                            $authAdapter->setPasswordVerifyType(1);
+                            $result = $authenticationService->authenticate();
+                        }
+                    }
                     #echo '<pre>'; print_r($sessionManager); echo '</pre>';
 
                     // Get contents of 'access_filter' config key (the AuthManager service
