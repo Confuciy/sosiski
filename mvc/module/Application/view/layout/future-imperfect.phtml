@@ -49,22 +49,10 @@
 					</section>
 
 					<!-- Links -->
-					<section>
-						<ul class="links">
-							<li>
-								<a href="/family-gallery/">
-									<h3>Family Gallery</h3>
-									<p>A small gallery of our family members</p>
-								</a>
-							</li>
-							<li>
-								<a href="/travels/">
-									<h3>Travels</h3>
-									<p>Photos and stories about our travels</p>
-								</a>
-							</li>
-						</ul>
-					</section>
+					<?php
+					// Render the navbar
+					echo $this->mainLinks()->render();
+					?>
 
 					<!-- Actions -->
 					<?= $this->authViewHelper()->action('login'); ?>
@@ -77,9 +65,10 @@
 				<?= $this->content ?>
 
 				<?php
-				if(isset($_SESSION['Zend_Auth']->session)){
+				if(isset($_SESSION['Zend_Auth']->session) and $_SERVER['REQUEST_URI'] == '/'){
 					echo $_SESSION['Zend_Auth']->session.'<br />';
 				}
+
 				#echo '<pre>'; print_r($_COOKIE); echo '</pre>';
 				#echo '<pre>'; print_r($_SESSION); echo '</pre>';
 				?>
@@ -568,14 +557,8 @@ print 'It took ' + i + ' iterations to sort the deck.';</code></pre>
 			<!-- Sidebar -->
 			<section id="sidebar">
 
-				<!-- Intro -->
-				<section id="intro">
-					<a href="#" class="logo"><img src="/templates/future-imperfect/images/logo.jpg" alt="" /></a>
-					<header>
-						<h2>Our life</h2>
-						<p>Our life, our family, our travels and etc.</a></p>
-					</header>
-				</section>
+				<!-- Intro  -->
+				<?= $this->authViewHelper()->action('intro'); ?>
 
 				<!-- Mini Posts -->
 				<section>

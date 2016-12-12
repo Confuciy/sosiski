@@ -83,7 +83,7 @@ class UserController extends AbstractActionController
                 //$user = $this->userManager->addUser($data);
 
                 // Redirect to "view" page
-                // return $this->redirect()->toRoute('users', ['action'=>'view', 'id'=>$user->getId()]);
+                // return $this->redirect()->toRoute('users', ['action'=>'view', 'id' => $user->getId()]);
             }
         }
 
@@ -145,24 +145,29 @@ class UserController extends AbstractActionController
      */
     public function viewAction()
     {
-//        $id = (int)$this->params()->fromRoute('id', -1);
-//        if ($id<1) {
-//            $this->getResponse()->setStatusCode(404);
-//            return;
-//        }
-//
-//        // Find a user with such ID.
-//        $user = $this->entityManager->getRepository(User::class)
-//            ->find($id);
-//
-//        if ($user == null) {
-//            $this->getResponse()->setStatusCode(404);
-//            return;
-//        }
-//
-//        return new ViewModel([
-//            'user' => $user
-//        ]);
+        $id = (int)$this->params()->fromRoute('id', -1);
+        if ($id<1) {
+            $this->getResponse()->setStatusCode(404);
+            return;
+        }
+
+        // Find a user with such ID.
+        $res = new TableGateway('user', $this->dbAdapter);
+        $sql = $res->getSql();
+        $select = $sql->select();
+        $select->where(['id' => $id]);
+        $select->limit(1);
+        $user = $res->selectWith($select)->current();
+
+        if ($user == null) {
+            $this->getResponse()->setStatusCode(404);
+            return;
+        }
+
+        $this->layout('layout/future-imperfect-simple');
+        return new ViewModel([
+            'user' => $user
+        ]);
     }
 
     /**
@@ -170,56 +175,68 @@ class UserController extends AbstractActionController
      */
     public function editAction()
     {
-//        $id = (int)$this->params()->fromRoute('id', -1);
-//        if ($id<1) {
-//            $this->getResponse()->setStatusCode(404);
-//            return;
-//        }
-//
-//        $user = $this->entityManager->getRepository(User::class)
-//            ->find($id);
-//
-//        if ($user == null) {
-//            $this->getResponse()->setStatusCode(404);
-//            return;
-//        }
-//
-//        // Create user form
-//        $form = new UserForm('update', $this->entityManager, $user);
-//
-//        // Check if user has submitted the form
-//        if ($this->getRequest()->isPost()) {
-//
-//            // Fill in the form with POST data
-//            $data = $this->params()->fromPost();
-//
-//            $form->setData($data);
-//
-//            // Validate form
-//            if($form->isValid()) {
-//
-//                // Get filtered and validated data
-//                $data = $form->getData();
-//
-//                // Update the user.
-//                $this->userManager->updateUser($user, $data);
-//
-//                // Redirect to "view" page
-//                return $this->redirect()->toRoute('users',
-//                    ['action'=>'view', 'id'=>$user->getId()]);
-//            }
-//        } else {
-//            $form->setData(array(
-//                'full_name'=>$user->getFullName(),
-//                'email'=>$user->getEmail(),
-//                'status'=>$user->getStatus(),
-//            ));
-//        }
-//
-//        return new ViewModel(array(
-//            'user' => $user,
-//            'form' => $form
-//        ));
+        $id = (int)$this->params()->fromRoute('id', -1);
+        if ($id < 1) {
+            $this->getResponse()->setStatusCode(404);
+            return;
+        }
+
+        // Find a user with such ID.
+        $res = new TableGateway('user', $this->dbAdapter);
+        $sql = $res->getSql();
+        $select = $sql->select();
+        $select->where(['id' => $id]);
+        $select->limit(1);
+        $user = $res->selectWith($select)->current();
+
+        if ($user == null) {
+            $this->getResponse()->setStatusCode(404);
+            return;
+        }
+
+        // Create user form
+        $form = new UserForm('update', $this->dbAdapter, $user);
+        $form->setAttribute('action', '/users/edit/'.$id);
+
+        // Check if user has submitted the form
+        if ($this->getRequest()->isPost()) {
+
+            // Fill in the form with POST data and FILES data
+            $data = array_merge_recursive((array)$this->params()->fromPost(), (array)$this->params()->fromFiles());
+
+            //echo '<pre>'; print_r($data); echo '</pre>';
+            //echo '<pre>'; print_r($_FILES); echo '</pre>';
+            //die;
+
+            $form->setData($data);
+
+            // Validate form
+            if($form->isValid()) {
+
+//                $files = (array)$this->params()->fromFiles();
+//                echo '<pre>'; print_r($files); echo '</pre>';
+//                die;
+
+                // Get filtered and validated data
+                $data = $form->getData();
+
+                // Update the user.
+                $this->userManager->updateUser($user, $data);
+
+                // Redirect to "view" page
+                return $this->redirect()->toRoute('users', ['action' => 'view', 'id' => $id]);
+            }
+        } else {
+            $form->setData(array(
+                'user' => $user,
+            ));
+        }
+
+        $this->layout('layout/future-imperfect-simple');
+        return new ViewModel(array(
+            'user' => $user,
+            'form' => $form
+        ));
     }
 
     /**
@@ -352,10 +369,8 @@ class UserController extends AbstractActionController
             throw new \Exception('Invalid token type or length');
         }
 
-        if($token===null ||
-            !$this->userManager->validatePasswordResetToken($token)) {
-            return $this->redirect()->toRoute('user',
-                ['action'=>'message', 'id'=>'failed']);
+        if($token === null || !$this->userManager->validatePasswordResetToken($token)) {
+            return $this->redirect()->toRoute('user', ['action' => 'message', 'id' => 'failed']);
         }
 
         // Create form
@@ -378,12 +393,10 @@ class UserController extends AbstractActionController
                 if ($this->userManager->setPasswordByToken($token, $data['password'])) {
 
                     // Redirect to "message" page
-                    return $this->redirect()->toRoute('user',
-                        ['action'=>'message', 'id'=>'set']);
+                    return $this->redirect()->toRoute('user', ['action' => 'message', 'id' => 'set']);
                 } else {
                     // Redirect to "message" page
-                    return $this->redirect()->toRoute('user',
-                        ['action'=>'message', 'id'=>'failed']);
+                    return $this->redirect()->toRoute('user', ['action' => 'message', 'id' => 'failed']);
                 }
             }
         }

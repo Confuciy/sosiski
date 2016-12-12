@@ -4,6 +4,7 @@ namespace User\Service;
 use Zend\Authentication\Adapter\AdapterInterface;
 use Zend\Authentication\Result;
 use Zend\Crypt\Password\Bcrypt;
+use Zend\Crypt\PublicKey\Rsa;
 use Zend\Db\TableGateway\TableGateway;
 use Zend\Db\Sql\Select;
 
@@ -16,6 +17,9 @@ use Zend\Db\Sql\Select;
  */
 class AuthAdapter implements AdapterInterface
 {
+    private $public_key = '/mvc/keys/public_key.pub';
+    private $private_key = '/mvc/keys/private_key.pem';
+    private $pass_phrase = '@#$@Rgdfbfgh56548())8VVBn!@!##@$%+__)((7""S~!23//';
     /**
      * User email.
      * @var string
@@ -65,11 +69,41 @@ class AuthAdapter implements AdapterInterface
     }
 
     /**
-     * Sets password.
+     * Return RSA encode
+     * @param $text
+     * @return mixed
      */
-    public function setPasswordVerifyType($type)
+    public function setRSAencode($text)
     {
-        $this->password_verify_type = (int)$type;
+        $rsa = Rsa::factory(array(
+            'public_key' => $_SERVER['DOCUMENT_ROOT'] . $this->public_key,
+            'private_key' => $_SERVER['DOCUMENT_ROOT'] . $this->private_key,
+            'pass_phrase' => $this->pass_phrase,
+            'binary_output' => false
+        ));
+
+        $text = base64_encode($text);
+        $text = mb_substr($text, (mb_strlen($text, 'UTF-8') - 11), mb_strlen($text, 'UTF-8'), 'UTF-8') . mb_substr($text, 0, (mb_strlen($text, 'UTF-8') - 11), 'UTF-8');
+
+        return $rsa->encrypt($text);
+    }
+
+    /**
+     * Return RSA decode
+     * @return array
+     */
+    public function getRSAdecode()
+    {
+        $rsa = Rsa::factory(array(
+            'public_key' => $_SERVER['DOCUMENT_ROOT'] . $this->public_key,
+            'private_key' => $_SERVER['DOCUMENT_ROOT'] . $this->private_key,
+            'pass_phrase' => $this->pass_phrase,
+            'binary_output' => false
+        ));
+
+        $decrypt = $rsa->decrypt($_COOKIE['user_hash']);
+
+        return array_combine(['email', 'password'], explode('|', base64_decode(mb_substr($decrypt, 11, mb_strlen($decrypt, 'UTF-8'), 'UTF-8') . mb_substr($decrypt, 0, 11, 'UTF-8'))));
     }
 
     /**
@@ -114,26 +148,15 @@ class AuthAdapter implements AdapterInterface
 
         // Now we need to calculate hash based on user-entered password and compare
         // it with the password hash stored in database.
-        if(empty($this->password_verify_type)){
-            if ($bcrypt->verify($this->password, $passwordHash)) {
-                // Great! The password hash matches. Return user identity (email) to be
-                // saved in session for later use.
-                return new Result(
-                    Result::SUCCESS,
-                    $this->email,
-                    ['Authenticated successfully.']);
-            }
+        if ($bcrypt->verify($this->password, $passwordHash)) {
+            // Great! The password hash matches. Return user identity (email) to be
+            // saved in session for later use.
+            return new Result(
+                Result::SUCCESS,
+                $this->email,
+                ['Authenticated successfully.']);
         }
-        if(!empty($this->password_verify_type)){
-            if ($this->password == $passwordHash) {
-                // Great! The password hash matches. Return user identity (email) to be
-                // saved in session for later use.
-                return new Result(
-                    Result::SUCCESS,
-                    $this->email,
-                    ['Authenticated successfully.']);
-            }
-        }
+
         // If password check didn't pass return 'Invalid Credential' failure status.
         return new Result(
             Result::FAILURE_CREDENTIAL_INVALID,

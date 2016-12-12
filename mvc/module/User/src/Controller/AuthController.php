@@ -155,5 +155,25 @@ class AuthController extends AbstractActionController
 
         return $this->redirect()->toRoute('login');
     }
+
+    /**
+     * The site page Intro.
+     */
+    public function introAction()
+    {
+        $user = [];
+
+        // проверка авторизации
+        if($this->authService->hasIdentity()){
+            $user = $this->userManager->getUserByEmail($_SESSION['Zend_Auth']->session);
+        }
+
+        $view = new ViewModel([
+            'user' => $user,
+        ]);
+        $view->setTemplate('user/auth/intro');
+
+        return $view;
+    }
 }
 

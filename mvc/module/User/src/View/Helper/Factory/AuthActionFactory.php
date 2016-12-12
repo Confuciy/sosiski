@@ -14,8 +14,8 @@ class AuthActionFactory implements FactoryInterface
         $authService = $container->get(\Zend\Authentication\AuthenticationService::class);
         $userManager = $container->get(\User\Service\UserManager::class);
 
-        $user = new \User\Controller\AuthController($dbAdapter, $authManager, $authService, $userManager);
+        $authController = new \User\Controller\AuthController($dbAdapter, $authManager, $authService, $userManager);
 
-        return new AuthAction($user);
+        return new AuthAction($authController);
     }
 }

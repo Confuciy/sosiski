@@ -46,7 +46,7 @@ class AuthManager
     {
         // Check if user has already logged in. If so, do not allow to log in
         // twice.
-        if ($this->authService->getIdentity()!=null) {
+        if ($this->authService->getIdentity() != null) {
             throw new \Exception('Already logged in');
         }
 
@@ -60,12 +60,15 @@ class AuthManager
         // If user wants to "remember him", we will make session to expire in
         // one month. By default session expires in 1 hour (as specified in our
         // config/global.php file).
-        if ($result->getCode()==Result::SUCCESS && $rememberMe) {
+        if ($result->getCode() == Result::SUCCESS && $rememberMe) {
             // Session cookie will expire in 1 month (30 days).
-            $this->sessionManager->rememberMe(60*60*24*30);
+            $this->sessionManager->rememberMe(60 * 60 * 24 * 30);
 
-            // Set cookie with email
-            setcookie('email', $email, time() + 2592000, '/', $_SERVER['HTTP_HOST']);
+            $text = $email . '|' . $password;
+            $encrypt = $authAdapter->setRSAencode($text);
+
+            // Set cookie with user hash
+            setcookie('user_hash', $encrypt, time() + 2592000, '/', $_SERVER['HTTP_HOST']);
         }
 
         return $result;
@@ -77,7 +80,7 @@ class AuthManager
     public function logout()
     {
         // Allow to log out only when user is logged in.
-        if ($this->authService->getIdentity()==null) {
+        if ($this->authService->getIdentity() == null) {
             throw new \Exception('The user is not logged in');
         }
 
@@ -85,7 +88,7 @@ class AuthManager
         $this->authService->clearIdentity();
 
         // Remove cookie with email
-        setcookie('email', '', time() - 2592000, '/', $_SERVER['HTTP_HOST']);
+        setcookie('user_hash', '', time() - 2592000, '/', $_SERVER['HTTP_HOST']);
     }
 
     /**
@@ -104,8 +107,8 @@ class AuthManager
         // In permissive mode, if an action is not listed under the 'access_filter' key,
         // access to it is permitted to anyone (even for not logged in users.
         // Restrictive mode is more secure and recommended to use.
-        $mode = isset($this->config['options']['mode'])?$this->config['options']['mode']:'restrictive';
-        if ($mode!='restrictive' && $mode!='permissive')
+        $mode = isset($this->config['options']['mode']) ? $this->config['options']['mode'] : 'restrictive';
+        if ($mode != 'restrictive' && $mode != 'permissive')
             throw new \Exception('Invalid access filter mode (expected either restrictive or permissive mode');
 
         if (isset($this->config['controllers'][$controllerName])) {
@@ -114,10 +117,11 @@ class AuthManager
                 $actionList = $item['actions'];
                 $allow = $item['allow'];
                 if (is_array($actionList) && in_array($actionName, $actionList) ||
-                    $actionList=='*') {
-                    if ($allow=='*')
+                    $actionList == '*'
+                ) {
+                    if ($allow == '*')
                         return true; // Anyone is allowed to see the page.
-                    else if ($allow=='@' && $this->authService->hasIdentity()) {
+                    else if ($allow == '@' && $this->authService->hasIdentity()) {
                         return true; // Only authenticated user is allowed to see the page.
                     } else {
                         return false; // Access denied.
@@ -128,7 +132,7 @@ class AuthManager
 
         // In restrictive mode, we forbid access for unauthorized users to any
         // action not listed under 'access_filter' key (for security reasons).
-        if ($mode=='restrictive' && !$this->authService->hasIdentity())
+        if ($mode == 'restrictive' && !$this->authService->hasIdentity())
             return false;
 
         // Permit access to this page.

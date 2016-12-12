@@ -91,8 +91,8 @@ class FamilyGalleryController extends AbstractActionController
                 order by p.sortby ASC')
                 ->getArrayResult();
 
-            //$this->layout('layout/family-gallery-lens');
-            $this->layout('layout/family-gallery-multiverse');
+            $this->layout('layout/family-gallery-lens');
+            //$this->layout('layout/family-gallery-multiverse');
             $view = new ViewModel([
                 'member_id' => $member_id,
                 'member' => $member,

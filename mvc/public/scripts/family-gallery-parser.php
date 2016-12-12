@@ -115,12 +115,14 @@ function generate_preview($dir, $name = '', $size, $quality){
 
 //    v. 2
     $idest = imagecreatetruecolor(462, 288);
+    $color = imagecolorallocate($idest, 255, 255, 255);
+    imagefill($idest, 0, 0, $color);
     if($n_w == $n_h){
         imagecopyresized($idest, $isrc, 0, 0, 0, 0, $n_w, $n_h, $size[0], $size[1]);
     } elseif($n_w > $n_h){
         imagecopyresized($idest, $isrc, (($n_w - 462) / 2), 0, 0, 0, $n_w, $n_h, $size[0], $size[1]);
     } else {
-        imagecopyresized($idest, $isrc, ((462 - $n_h) / 2), 0, 0, 0, $n_w, $n_h, $size[0], $size[1]);
+        imagecopyresized($idest, $isrc, ((462 - $n_w) / 2), 0, 0, 0, $n_w, $n_h, $size[0], $size[1]);
     }
 
     unlink($dir.'/preview_'.$name);
@@ -260,7 +262,7 @@ foreach ($rowset as $row) {
                     echo '<b>Месяц</b>: '.$month.'<br />'."\n";
                     $photos = getFolderAsArray("../img/family-gallery-member/" . $row->id . '/photos/' . $year . '/' . $month);
                     if(sizeof($photos)){
-                        #if($year == 2014 and (int)$month == 4){
+                        #if($year == 2016 and (int)$month == 1){
                             generate_preview_dirs_resize('/pub/home/confuciy/htdocs_sosiski/mvc/public/img/family-gallery-member/' . $row->id . '/photos/' . $year . '/' . $month);
                         #}
 //                        echo '<pre>'; print_r($photos); echo '</pre>';

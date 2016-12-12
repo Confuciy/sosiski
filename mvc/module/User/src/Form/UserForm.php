@@ -1,10 +1,13 @@
 <?php
 namespace User\Form;
 
+//use User\Validators\File\UserPhotoValidator;
 use Zend\Form\Form;
-use Zend\Form\Fieldset;
+//use Zend\Form\Fieldset;
+use Zend\Form\Element;
 use Zend\InputFilter\InputFilter;
 use User\Validator\UserExistsValidator;
+use User\Validator\UserPhotoValidator;
 
 /**
  * This form is used to collect user's email, full name, password and status. The form
@@ -66,39 +69,44 @@ class UserForm extends Form
             ],
         ]);
 
-//        if ($this->scenario == 'create') {
-//
-//            // Add "password" field
-//            $this->add([
-//                'type'  => 'password',
-//                'name' => 'password',
-//                'options' => [
-//                    'label' => 'Password',
-//                ],
-//            ]);
-//
-//            // Add "confirm_password" field
-//            $this->add([
-//                'type'  => 'password',
-//                'name' => 'confirm_password',
-//                'options' => [
-//                    'label' => 'Confirm password',
-//                ],
-//            ]);
-//        }
-//
-//        // Add "status" field
-//        $this->add([
-//            'type'  => 'select',
-//            'name' => 'status',
-//            'options' => [
-//                'label' => 'Status',
-//                'value_options' => [
-//                    1 => 'Active',
-//                    2 => 'Retired',
-//                ]
-//            ],
-//        ]);
+        if ($this->scenario == 'create') {
+
+            // Add "password" field
+            $this->add([
+                'type'  => 'password',
+                'name' => 'password',
+                'options' => [
+                    'label' => 'Password',
+                ],
+            ]);
+
+            // Add "confirm_password" field
+            $this->add([
+                'type'  => 'password',
+                'name' => 'confirm_password',
+                'options' => [
+                    'label' => 'Confirm password',
+                ],
+            ]);
+        }
+
+        // Add "photo" field
+        $file = new Element\File('image-file');
+        $file->setLabel('Photo')->setAttribute('name', 'photo')->setAttribute('type', 'file');
+        $this->add($file);
+
+        // Add "status" field
+        $this->add([
+            'type'  => 'select',
+            'name' => 'status',
+            'options' => [
+                'label' => 'Status',
+                'value_options' => [
+                    1 => 'Active',
+                    2 => 'Retired',
+                ]
+            ],
+        ]);
 
         // Add the Submit button
         $this->add([
@@ -136,8 +144,8 @@ class UserForm extends Form
                 ],
                 [
                     'name' => 'EmailAddress',
-                    'options' => [
-                        'allow' => \Zend\Validator\EmailAddress::INVALID_FORMAT, //\Zend\Validator\Hostname::ALLOW_DNS,
+                    'options' => [ //\Zend\Validator\EmailAddress::INVALID, //
+                        'allow' => \Zend\Validator\Hostname::ALLOW_DNS,
                         'useMxCheck'    => false,
                     ],
                 ],
@@ -169,52 +177,71 @@ class UserForm extends Form
             ],
         ]);
 
-//        if ($this->scenario == 'create') {
-//
-//            // Add input for "password" field
-//            $inputFilter->add([
-//                'name'     => 'password',
-//                'required' => true,
-//                'filters'  => [
-//                ],
-//                'validators' => [
-//                    [
-//                        'name'    => 'StringLength',
-//                        'options' => [
-//                            'min' => 6,
-//                            'max' => 64
-//                        ],
-//                    ],
-//                ],
-//            ]);
-//
-//            // Add input for "confirm_password" field
-//            $inputFilter->add([
-//                'name'     => 'confirm_password',
-//                'required' => true,
-//                'filters'  => [
-//                ],
-//                'validators' => [
-//                    [
-//                        'name'    => 'Identical',
-//                        'options' => [
-//                            'token' => 'password',
-//                        ],
-//                    ],
-//                ],
-//            ]);
-//        }
+        if ($this->scenario == 'create') {
 
-//        // Add input for "status" field
-//        $inputFilter->add([
-//            'name'     => 'status',
-//            'required' => true,
-//            'filters'  => [
-//                ['name' => 'ToInt'],
-//            ],
-//            'validators' => [
-//                ['name'=>'InArray', 'options'=>['haystack'=>[1, 2]]]
-//            ],
-//        ]);
+            // Add input for "password" field
+            $inputFilter->add([
+                'name'     => 'password',
+                'required' => true,
+                'filters'  => [
+                ],
+                'validators' => [
+                    [
+                        'name'    => 'StringLength',
+                        'options' => [
+                            'min' => 6,
+                            'max' => 64
+                        ],
+                    ],
+                ],
+            ]);
+
+            // Add input for "confirm_password" field
+            $inputFilter->add([
+                'name'     => 'confirm_password',
+                'required' => true,
+                'filters'  => [
+                ],
+                'validators' => [
+                    [
+                        'name'    => 'Identical',
+                        'options' => [
+                            'token' => 'password',
+                        ],
+                    ],
+                ],
+            ]);
+        }
+
+        // Add input for "photo" field
+        $inputFilter->add([
+            'name' => 'photo',
+            'required' => false,
+            'validators' => [
+                [
+                    'name' => UserPhotoValidator::class,
+                    'options' => [
+                        'minSize' => '520',
+                        'maxSize' => '1024',
+                        'newFileName' => 'photo_'.time(),
+                        'uploadPath' => $_SERVER['DOCUMENT_ROOT'].'/mvc/public/img/users/'.$this->user['id'].'/',
+                        'id' => $this->user['id'],
+                        'dbAdapter' => $this->dbAdapter,
+                    ],
+                ],
+            ],
+        ]);
+
+        // Add input for "status" field
+        $inputFilter->add([
+            'name'     => 'status',
+            'required' => true,
+            'filters'  => [
+                ['name' => 'ToInt'],
+            ],
+            'validators' => [
+                ['name'=>'InArray', 'options'=>['haystack'=>[1, 2]]]
+            ],
+        ]);
     }
 }

@@ -9,8 +9,10 @@ namespace User;
 
 use Zend\Mvc\MvcEvent;
 use Zend\Mvc\Controller\AbstractActionController;
-use User\Controller\AuthController;
+use Zend\Authentication\AuthenticationService;
+use Zend\Authentication\Storage\Session;
 use Zend\Session\SessionManager;
+use User\Controller\AuthController;
 use User\Service\AuthAdapter;
 use User\Service\AuthManager;
 use User\Service\UserManager;
@@ -35,8 +37,7 @@ class Module
         $eventManager = $event->getApplication()->getEventManager();
         $sharedEventManager = $eventManager->getSharedManager();
         // Register the event listener method.
-        $sharedEventManager->attach(AbstractActionController::class,
-            MvcEvent::EVENT_DISPATCH, [$this, 'onDispatch'], 100);
+        $sharedEventManager->attach(AbstractActionController::class, MvcEvent::EVENT_DISPATCH, [$this, 'onDispatch'], 100);
     }
 
     /**
@@ -61,8 +62,7 @@ class Module
 
         // Execute the access filter on every controller except AuthController
         // (to avoid infinite redirect).
-        if ($controllerName != AuthController::class &&
-            !$authManager->filterAccess($controllerName, $actionName)) {
+        if ($controllerName != AuthController::class && !$authManager->filterAccess($controllerName, $actionName)) {
 
             // Remember the URL of the page the user tried to access. We will
             // redirect the user to that URL after successful login.
@@ -76,7 +76,7 @@ class Module
             $redirectUrl = $uri->toString();
 
             // Redirect the user to the "Login" page.
-            return $controller->redirect()->toRoute('login', [], ['query'=>['redirectUrl'=>$redirectUrl]]);
+            return $controller->redirect()->toRoute('login', [], ['query' => ['redirectUrl' => $redirectUrl]]);
         }
     }
 
@@ -84,14 +84,14 @@ class Module
     {
         return [
             'factories' => [
-                Controller\AuthController::class => function($container) {
+                Controller\AuthController::class => function ($container) {
                     $dbAdapter = $container->get('Zend\Db\Adapter\Adapter');
                     $authManager = $container->get(AuthManager::class);
-                    $authService = $container->get(\Zend\Authentication\AuthenticationService::class);
+                    $authService = $container->get(AuthenticationService::class);
                     $userManager = $container->get(UserManager::class);
                     return new Controller\AuthController($dbAdapter, $authManager, $authService, $userManager);
                 },
-                Controller\UserController::class => function($container) {
+                Controller\UserController::class => function ($container) {
                     $dbAdapter = $container->get('Zend\Db\Adapter\Adapter');
                     $userManager = $container->get(UserManager::class);
                     return new Controller\UserController($dbAdapter, $userManager);
@@ -104,31 +104,33 @@ class Module
     {
         return [
             'factories' => [
-                \Zend\Authentication\AuthenticationService::class => function($container) {
+                AuthenticationService::class => function ($container) {
                     $sessionManager = $container->get(SessionManager::class);
-                    $authStorage = new \Zend\Authentication\Storage\Session('Zend_Auth', 'session', $sessionManager);
+                    $authStorage = new Session('Zend_Auth', 'session', $sessionManager);
                     $authAdapter = $container->get(AuthAdapter::class);
-                    return new \Zend\Authentication\AuthenticationService($authStorage, $authAdapter);
+                    return new AuthenticationService($authStorage, $authAdapter);
                 },
-                Service\AuthAdapter::class => function($container) {
+                Service\AuthAdapter::class => function ($container) {
                     $dbAdapter = $container->get('Zend\Db\Adapter\Adapter');
                     return new Service\AuthAdapter($dbAdapter);
                 },
-                Service\AuthManager::class => function($container) {
-                    $authenticationService = $container->get(\Zend\Authentication\AuthenticationService::class);
+                Service\AuthManager::class => function ($container) {
+                    $authenticationService = $container->get(AuthenticationService::class);
                     $sessionManager = $container->get(SessionManager::class);
 
-                    if(!$authenticationService->hasIdentity() and isset($_COOKIE['email']) and $_COOKIE['email'] != ''){
+                    // Authenticate user if he has a cookie with authentication info
+                    if (!$authenticationService->hasIdentity() and isset($_COOKIE['user_hash']) and $_COOKIE['user_hash'] != ''
+                            and !isset($_POST['email']) and !isset($_POST['password']) and !isset($_POST['remember_me'])) {
+
                         $authAdapter = $container->get(AuthAdapter::class);
-                        $authAdapter->setEmail($_COOKIE['email']);
-                        $user = $authAdapter->getUser();
-                        if(isset($user['password']) and $user['password'] != '' and isset($user['status']) and $user['status'] == 1){
-                            $authAdapter->setPassword($user['password']);
-                            $authAdapter->setPasswordVerifyType(1);
-                            $result = $authenticationService->authenticate();
-                        }
+
+                        $decrypt = $authAdapter->getRSAdecode();
+
+                        $authAdapter->setEmail($decrypt['email']);
+                        $authAdapter->setPassword($decrypt['password']);
+
+                        $authenticationService->authenticate();
                     }
-                    #echo '<pre>'; print_r($sessionManager); echo '</pre>';
 
                     // Get contents of 'access_filter' config key (the AuthManager service
                     // will use this data to determine whether to allow currently logged in user
@@ -140,7 +142,7 @@ class Module
                         $config = [];
                     return new Service\AuthManager($authenticationService, $sessionManager, $config);
                 },
-                Service\UserManager::class => function($container) {
+                Service\UserManager::class => function ($container) {
                     $dbAdapter = $container->get('Zend\Db\Adapter\Adapter');
                     return new Service\UserManager($dbAdapter);
                 },

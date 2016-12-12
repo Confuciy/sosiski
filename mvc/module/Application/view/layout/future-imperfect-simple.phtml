@@ -49,22 +49,10 @@
         </section>
 
         <!-- Links -->
-        <section>
-            <ul class="links">
-                <li>
-                    <a href="/family-gallery/">
-                        <h3>Family Gallery</h3>
-                        <p>A small gallery of our family members</p>
-                    </a>
-                </li>
-                <li>
-                    <a href="/travels/">
-                        <h3>Travels</h3>
-                        <p>Photos and stories about our travels</p>
-                    </a>
-                </li>
-            </ul>
-        </section>
+        <?php
+        // Render the navbar
+        echo $this->mainLinks()->render();
+        ?>
 
         <!-- Actions -->
         <?= $this->authViewHelper()->action('login'); ?>

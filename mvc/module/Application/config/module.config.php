@@ -9,7 +9,7 @@ namespace Application;
 
 use Zend\Router\Http\Literal;
 use Zend\Router\Http\Segment;
-//use Zend\ServiceManager\Factory\InvokableFactory;
+use Zend\ServiceManager\Factory\InvokableFactory;
 
 return [
     'router' => [
@@ -48,7 +48,6 @@ return [
     ],
     'controllers' => [
         'factories' => [
-            //Controller\IndexController::class => InvokableFactory::class,
             Controller\IndexController::class => Controller\Factory\IndexControllerFactory::class,
         ],
     ],
@@ -98,10 +97,12 @@ return [
         'factories' => [
             View\Helper\Menu::class => View\Helper\Factory\MenuFactory::class,
             View\Helper\Breadcrumbs::class => InvokableFactory::class,
+            View\Helper\Links::class => InvokableFactory::class,
         ],
         'aliases' => [
             'mainMenu' => View\Helper\Menu::class,
             'pageBreadcrumbs' => View\Helper\Breadcrumbs::class,
+            'mainLinks' => View\Helper\Links::class,
         ],
     ],
     'view_helper_config' => [

@@ -5,11 +5,11 @@ use Zend\View\Helper\AbstractHelper;
 
 class AuthAction extends AbstractHelper
 {
-    protected $auth;
+    protected $authController;
 
-    public function __construct($auth)
+    public function __construct($authController)
     {
-        $this->auth = $auth;
+        $this->authController = $authController;
     }
 
     public function action($action, $params = [])
@@ -20,6 +20,6 @@ class AuthAction extends AbstractHelper
         }
 
         $action = $action.'Action';
-        return $this->getView()->render($this->auth->{$action}());
+        return $this->getView()->render($this->authController->{$action}());
     }
 }

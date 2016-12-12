@@ -41,7 +41,7 @@ return [
             'users' => [
                 'type'    => Segment::class,
                 'options' => [
-                    'route'    => '/users[/:action[/:id]]',
+                    'route'    => '/users[/:action[/:id]][/]',
                     'constraints' => [
                         'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
                         'id' => '[a-zA-Z0-9_-]*',

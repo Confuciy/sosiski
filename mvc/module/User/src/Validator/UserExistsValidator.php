@@ -2,7 +2,7 @@
 namespace User\Validator;
 
 use Zend\Validator\AbstractValidator;
-#use Zend\Db\TableGateway\TableGateway;
+use Zend\Db\TableGateway\TableGateway;
 #use Zend\Db\Sql\Select;
 
 /**
@@ -60,17 +60,17 @@ class UserExistsValidator extends AbstractValidator
             return false;
         }
 
-        $res = new TableGateway('WEB_USERS', $this->options['dbAdapter']);
+        $res = new TableGateway('user', $this->options['dbAdapter']);
         $sql = $res->getSql();
         $select = $sql->select();
-        $select->where(['USERS_EMAIL' => $value]);
+        $select->where(['email' => $value]);
         $select->limit(1);
         $user = $res->selectWith($select)->current();
 
         if ($this->options['user'] == null) {
             $isValid = ($user == null);
         } else {
-            if ($user->USERS_EMAIL != $value && $user != null)
+            if ($user['email'] != $value && $user != null)
                 $isValid = false;
             else
                 $isValid = true;

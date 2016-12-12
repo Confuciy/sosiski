@@ -31,6 +31,15 @@ class Module
         // The following line instantiates the SessionManager and automatically
         // makes the SessionManager the 'default' one to avoid passing the
         // session manager as a dependency to other models.
-        $sessionManager = $serviceManager->get(SessionManager::class);
+
+        #echo '<pre>'; print_r($_SESSION); echo '</pre>';
+        #echo '<pre>'; print_r($_COOKIE); echo '</pre>';
+        #die;
+
+        try {
+            $sessionManager = $serviceManager->get(SessionManager::class);
+        } catch (Exception $e){
+            setcookie('PHPSESSID', '', time() - 2592000, '/', $_SERVER['HTTP_HOST']);
+        }
     }
 }

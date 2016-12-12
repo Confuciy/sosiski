@@ -3,6 +3,7 @@ namespace User\Service;
 
 //use Zend\Crypt\Password\Bcrypt;
 use Zend\Math\Rand;
+use Zend\Db\TableGateway\TableGateway;
 
 /**
  * This service is responsible for adding/editing users
@@ -64,21 +65,30 @@ class UserManager
      */
     public function updateUser($user, $data)
     {
-        /*
         // Do not allow to change user email if another user with such email already exits.
-        if($user->getEmail()!=$data['email'] && $this->checkUserExists($data['email'])) {
+        if($user['email'] != $data['email'] && $this->checkUserExists($data['email'])) {
             throw new \Exception("Another user with email address " . $data['email'] . " already exists");
         }
 
-        $user->setEmail($data['email']);
-        $user->setFullName($data['full_name']);
-        $user->setStatus($data['status']);
+        $update_data = [
+            'email' => $data['email'],
+            'full_name' => $data['full_name'],
+            'status' => $data['status'],
+        ];
+//        if(isset($data['photo']) and $data['photo'] != ''){
+//            $update_data = array_merge($update_data, ['photo' => 'photo.jpg']);
+//        }
 
-        // Apply changes to database.
-        $this->entityManager->flush();
+        $res = new TableGateway('user', $this->dbAdapter);
+        $sql = $res->getSql();
+        $update = $sql->update();
+        $update->table('user');
+        $update->set($update_data);
+        $update->where(array('id' => $user['id']));
+        $statement = $sql->prepareStatementForSqlObject($update);
+        $statement->execute($sql);
 
         return true;
-        */
     }
 
     /**
@@ -87,35 +97,30 @@ class UserManager
      */
     public function createAdminUserIfNotExists()
     {
-        /*
-        $user = $this->entityManager->getRepository(User::class)->findOneBy([]);
-        if ($user==null) {
-            $user = new User();
-            $user->setEmail('admin@example.com');
-            $user->setFullName('Admin');
-            $bcrypt = new Bcrypt();
-            $passwordHash = $bcrypt->create('Secur1ty');
-            $user->setPassword($passwordHash);
-            $user->setStatus(User::STATUS_ACTIVE);
-            $user->setDateCreated(date('Y-m-d H:i:s'));
-
-            $this->entityManager->persist($user);
-            $this->entityManager->flush();
-        }
-        */
+//        $user = $this->entityManager->getRepository(User::class)->findOneBy([]);
+//        if ($user==null) {
+//            $user = new User();
+//            $user->setEmail('admin@example.com');
+//            $user->setFullName('Admin');
+//            $bcrypt = new Bcrypt();
+//            $passwordHash = $bcrypt->create('Secur1ty');
+//            $user->setPassword($passwordHash);
+//            $user->setStatus(User::STATUS_ACTIVE);
+//            $user->setDateCreated(date('Y-m-d H:i:s'));
+//
+//            $this->entityManager->persist($user);
+//            $this->entityManager->flush();
+//        }
     }
 
     /**
      * Checks whether an active user with given email address already exists in the database.
      */
     public function checkUserExists($email) {
-
-        /*
-        $user = $this->entityManager->getRepository(User::class)
-            ->findOneByEmail($email);
-
-        return $user !== null;
-        */
+//        $user = $this->entityManager->getRepository(User::class)
+//            ->findOneByEmail($email);
+//
+//        return $user !== null;
     }
 
     /**
@@ -245,5 +250,13 @@ class UserManager
 //        $this->entityManager->flush();
 //
 //        return true;
+    }
+
+    public function getUserByEmail($email)
+    {
+        $select = "SELECT `user`.* FROM `user` WHERE LOWER(`email`) = '".trim(mb_strtolower($email, 'UTF-8'))."' LIMIT 1";
+        $user = $this->dbAdapter->query($select, 'execute')->current();
+
+        return $user;
     }
 }
