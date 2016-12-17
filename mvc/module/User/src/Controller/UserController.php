@@ -43,13 +43,10 @@ class UserController extends AbstractActionController
      */
     public function indexAction()
     {
-        $res = new TableGateway('user', $this->dbAdapter);
-        $sql = $res->getSql();
-        $select = $sql->select();
-        $select->where(['status' => 1]);
-        $select->limit(10);
-        $users = $res->selectWith($select);
+        // Get users list
+        $users = $this->userManager->getUserList();
 
+        $this->layout('layout/future-imperfect-simple');
         return new ViewModel([
             'users' => $users
         ]);
@@ -94,6 +91,7 @@ class UserController extends AbstractActionController
 //        //$layout->__invoke()->addChild($message, 'message');
 //        $this->layout('layout/future-imperfect')->__invoke()->addChild($message, 'message');
 
+        $this->layout('layout/future-imperfect-simple');
         return new ViewModel([
             'form' => $form
         ]);
@@ -130,8 +128,7 @@ class UserController extends AbstractActionController
 //                $user = $this->userManager->addUser($data);
 //
 //                // Redirect to "view" page
-//                return $this->redirect()->toRoute('users',
-//                    ['action'=>'view', 'id'=>$user->getId()]);
+//                return $this->redirect()->toRoute('users', ['action'=>'view', 'id'=>$user->getId()]);
 //            }
 //        }
 //
@@ -152,12 +149,7 @@ class UserController extends AbstractActionController
         }
 
         // Find a user with such ID.
-        $res = new TableGateway('user', $this->dbAdapter);
-        $sql = $res->getSql();
-        $select = $sql->select();
-        $select->where(['id' => $id]);
-        $select->limit(1);
-        $user = $res->selectWith($select)->current();
+        $user = $this->userManager->getUserById($id);
 
         if ($user == null) {
             $this->getResponse()->setStatusCode(404);
@@ -182,12 +174,7 @@ class UserController extends AbstractActionController
         }
 
         // Find a user with such ID.
-        $res = new TableGateway('user', $this->dbAdapter);
-        $sql = $res->getSql();
-        $select = $sql->select();
-        $select->where(['id' => $id]);
-        $select->limit(1);
-        $user = $res->selectWith($select)->current();
+        $user = $this->userManager->getUserById($id);
 
         if ($user == null) {
             $this->getResponse()->setStatusCode(404);
@@ -204,18 +191,10 @@ class UserController extends AbstractActionController
             // Fill in the form with POST data and FILES data
             $data = array_merge_recursive((array)$this->params()->fromPost(), (array)$this->params()->fromFiles());
 
-            //echo '<pre>'; print_r($data); echo '</pre>';
-            //echo '<pre>'; print_r($_FILES); echo '</pre>';
-            //die;
-
             $form->setData($data);
 
             // Validate form
             if($form->isValid()) {
-
-//                $files = (array)$this->params()->fromFiles();
-//                echo '<pre>'; print_r($files); echo '</pre>';
-//                die;
 
                 // Get filtered and validated data
                 $data = $form->getData();
@@ -244,56 +223,53 @@ class UserController extends AbstractActionController
      */
     public function changePasswordAction()
     {
-//        $id = (int)$this->params()->fromRoute('id', -1);
-//        if ($id<1) {
-//            $this->getResponse()->setStatusCode(404);
-//            return;
-//        }
-//
-//        $user = $this->entityManager->getRepository(User::class)
-//            ->find($id);
-//
-//        if ($user == null) {
-//            $this->getResponse()->setStatusCode(404);
-//            return;
-//        }
-//
-//        // Create "change password" form
-//        $form = new PasswordChangeForm('change');
-//
-//        // Check if user has submitted the form
-//        if ($this->getRequest()->isPost()) {
-//
-//            // Fill in the form with POST data
-//            $data = $this->params()->fromPost();
-//
-//            $form->setData($data);
-//
-//            // Validate form
-//            if($form->isValid()) {
-//
-//                // Get filtered and validated data
-//                $data = $form->getData();
-//
-//                // Try to change password.
-//                if (!$this->userManager->changePassword($user, $data)) {
-//                    $this->flashMessenger()->addErrorMessage(
-//                        'Sorry, the old password is incorrect. Could not set the new password.');
-//                } else {
-//                    $this->flashMessenger()->addSuccessMessage(
-//                        'Changed the password successfully.');
-//                }
-//
-//                // Redirect to "view" page
-//                return $this->redirect()->toRoute('users',
-//                    ['action'=>'view', 'id'=>$user->getId()]);
-//            }
-//        }
-//
-//        return new ViewModel([
-//            'user' => $user,
-//            'form' => $form
-//        ]);
+        $id = (int)$this->params()->fromRoute('id', -1);
+        if ($id < 1) {
+            $this->getResponse()->setStatusCode(404);
+            return;
+        }
+
+        $user = $this->userManager->getUserById($id);
+
+        if ($user == null) {
+            $this->getResponse()->setStatusCode(404);
+            return;
+        }
+
+        // Create "change password" form
+        $form = new PasswordChangeForm('change');
+
+        // Check if user has submitted the form
+        if ($this->getRequest()->isPost()) {
+
+            // Fill in the form with POST data
+            $data = $this->params()->fromPost();
+
+            $form->setData($data);
+
+            // Validate form
+            if($form->isValid()) {
+
+                // Get filtered and validated data
+                $data = $form->getData();
+
+                // Try to change password.
+                if (!$this->userManager->changePassword($user, $data)) {
+                    $this->flashMessenger()->addErrorMessage('Sorry, the old password is incorrect. Could not set the new password.');
+                } else {
+                    $this->flashMessenger()->addSuccessMessage('Changed the password successfully.');
+                }
+
+                // Redirect to "view" page
+                return $this->redirect()->toRoute('users', ['action'=>'view', 'id'=>$user['id']]);
+            }
+        }
+
+        $this->layout('layout/future-imperfect-simple');
+        return new ViewModel([
+            'user' => $user,
+            'form' => $form
+        ]);
     }
 
     /**

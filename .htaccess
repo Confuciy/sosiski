@@ -9,5 +9,18 @@ Options -Indexes
 RewriteEngine On
 
 #RewriteRule ^(.*)$ application/public/$1 [L,QSA]
+RewriteRule ^trips/?$ /mvc/public/scripts/trips.php [L]
+RewriteRule ^trips/([0-9]+)/?$ /mvc/public/scripts/trips.php?year=$1 [L]
+RewriteRule ^trips/([0-9]+)/([0-9A-zА-я_]+)/p([0-9]+)/?$ /mvc/public/scripts/trips.php?year=$1&trip=$2&page=$3 [L]
+RewriteRule ^trips/([0-9]+)/([0-9A-zА-я_]+)/([0-9A-zА-я_]+)/p([0-9]+)/?$ /mvc/public/scripts/trips.php?year=$1&trip=$2&under_trip=$3&page=$4 [L]
+RewriteRule ^trips/([0-9]+)/([0-9A-zА-я_]+)/?$ /mvc/public/scripts/trips.php?year=$1&trip=$2 [L]
+RewriteRule ^trips/([0-9]+)/([0-9A-zА-я_]+)/([0-9A-zА-я_]+)/?$ /mvc/public/scripts/trips.php?year=$1&trip=$2&under_trip=$3 [L]
 RewriteRule ^(.*)$ mvc/public/$1 [L,QSA]
 #RewriteRule ^(.*)$ expressive/public/$1 [L,QSA]
+
+#RewriteRule ^trips/?$ /mvc/public/scripts/trips.php [L]
+#RewriteRule ^trips/([0-9]+)/?$ /mvc/public/scripts/trips.php?year=$1 [L]
+#RewriteRule ^trips/([0-9]+)/([0-9A-zА-я_]+)/p([0-9]+)/?$ /mvc/public/scripts/trips.php?year=$1&trip=$2&page=$3 [L]
+#RewriteRule ^trips/([0-9]+)/([0-9A-zА-я_]+)/([0-9A-zА-я_]+)/p([0-9]+)/?$ /mvc/public/scripts/trips.php?year=$1&trip=$2&under_trip=$3&page=$4 [L]
+#RewriteRule ^trips/([0-9]+)/([0-9A-zА-я_]+)/?$ /mvc/public/scripts/trips.php?year=$1&trip=$2 [L]
+#RewriteRule ^trips/([0-9]+)/([0-9A-zА-я_]+)/([0-9A-zА-я_]+)/?$ /mvc/public/scripts/trips.php?year=$1&trip=$2&under_trip=$3 [L]

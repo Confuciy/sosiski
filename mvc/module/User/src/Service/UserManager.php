@@ -1,7 +1,7 @@
 <?php
 namespace User\Service;
 
-//use Zend\Crypt\Password\Bcrypt;
+use Zend\Crypt\Password\Bcrypt;
 use Zend\Math\Rand;
 use Zend\Db\TableGateway\TableGateway;
 
@@ -117,10 +117,10 @@ class UserManager
      * Checks whether an active user with given email address already exists in the database.
      */
     public function checkUserExists($email) {
-//        $user = $this->entityManager->getRepository(User::class)
-//            ->findOneByEmail($email);
-//
-//        return $user !== null;
+
+        $user = $this->getUserByEmail($email);
+
+        return $user !== null;
     }
 
     /**
@@ -128,14 +128,14 @@ class UserManager
      */
     public function validatePassword($user, $password)
     {
-//        $bcrypt = new Bcrypt();
-//        $passwordHash = $user->getPassword();
-//
-//        if ($bcrypt->verify($password, $passwordHash)) {
-//            return true;
-//        }
-//
-//        return false;
+        $bcrypt = new Bcrypt();
+        $passwordHash = $this->getUserPasswordByUserId($user['id']);
+
+        if ($bcrypt->verify($password, $passwordHash)) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -227,35 +227,81 @@ class UserManager
      */
     public function changePassword($user, $data)
     {
-//        $oldPassword = $data['old_password'];
-//
-//        // Check that old password is correct
-//        if (!$this->validatePassword($user, $oldPassword)) {
-//            return false;
-//        }
-//
-//        $newPassword = $data['new_password'];
-//
-//        // Check password length
-//        if (strlen($newPassword)<6 || strlen($newPassword)>64) {
-//            return false;
-//        }
-//
-//        // Set new password for user
-//        $bcrypt = new Bcrypt();
-//        $passwordHash = $bcrypt->create($newPassword);
-//        $user->setPassword($passwordHash);
-//
-//        // Apply changes
-//        $this->entityManager->flush();
-//
-//        return true;
+        $oldPassword = $data['old_password'];
+
+        // Check that old password is correct
+        if (!$this->validatePassword($user, $oldPassword)) {
+            return false;
+        }
+
+        $newPassword = $data['new_password'];
+
+        // Check password length
+        if (strlen($newPassword)<6 || strlen($newPassword)>64) {
+            return false;
+        }
+
+        // Set new password for user
+        $bcrypt = new Bcrypt();
+        $passwordHash = $bcrypt->create($newPassword);
+        $this->setUserPassword($user, $passwordHash);
+
+        return true;
+    }
+
+    public function setUserPassword($user, $password)
+    {
+        $update_data = [
+            'password' => $password,
+        ];
+
+        $res = new TableGateway('user', $this->dbAdapter);
+        $sql = $res->getSql();
+        $update = $sql->update();
+        $update->table('user');
+        $update->set($update_data);
+        $update->where(array('id' => $user['id']));
+        $statement = $sql->prepareStatementForSqlObject($update);
+        $statement->execute($sql);
+
+        return true;
+    }
+
+    public function getUserPasswordByUserId($id){
+        $select = "SELECT `password` FROM `user` WHERE `id` = ".$id;
+        $user = $this->dbAdapter->query($select, 'execute')->current();
+
+        return $user['password'];
+    }
+
+    public function getUserList()
+    {
+        $res = new TableGateway('user', $this->dbAdapter);
+        $sql = $res->getSql();
+        $select = $sql->select();
+        $select->where(['status' => 1]);
+        $select->limit(10);
+        $users = $res->selectWith($select);
+
+        return $users;
     }
 
     public function getUserByEmail($email)
     {
         $select = "SELECT `user`.* FROM `user` WHERE LOWER(`email`) = '".trim(mb_strtolower($email, 'UTF-8'))."' LIMIT 1";
         $user = $this->dbAdapter->query($select, 'execute')->current();
+
+        return $user;
+    }
+
+    public function getUserById($id)
+    {
+        $res = new TableGateway('user', $this->dbAdapter);
+        $sql = $res->getSql();
+        $select = $sql->select();
+        $select->where(['id' => $id]);
+        $select->limit(1);
+        $user = $res->selectWith($select)->current();
 
         return $user;
     }

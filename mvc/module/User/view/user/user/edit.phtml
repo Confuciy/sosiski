@@ -39,7 +39,9 @@ $form->prepare();
 ?>
 
 <h1>Edit User</h1>
-<a href="<?= $this->url('users', ['action' => 'view', 'id' => $user['id']]) ?>">View</a><br /><br />
+<a href="<?= $this->url('users', ['action' => 'view', 'id' => $user['id']]) ?>">View</a> |
+<a href="<?= $this->url('users', ['action' => 'change-password', 'id' => $user['id']]) ?>">Change Password</a>
+<br /><br />
 
 <div class="row">
     <div class="col-md-6">
@@ -50,20 +52,20 @@ $form->prepare();
             <?= $this->formElement($form->get('email')); ?>
             <?= $this->formElementErrors($form->get('email')); ?>
         </div>
-
+        <br />
         <div class="form-group">
             <?= $this->formLabel($form->get('full_name')); ?>
             <?= $this->formElement($form->get('full_name')); ?>
             <?= $this->formElementErrors($form->get('full_name')); ?>
         </div>
-
+        <br />
         <div class="form-group">
             <?= $this->formLabel($form->get('photo')); ?>
             <?= $this->formElement($form->get('photo')); ?>
             <?= $this->formElementErrors($form->get('photo')); ?>
             <?= ($user['photo'] != ''?'<br /><img src="/img/users/'.$this->user['id'].'/'.$user['photo'].'">':'') ?>
         </div>
-
+        <br />
         <div class="form-group">
             <?= $this->formLabel($form->get('status')); ?>
             <?= $this->formElement($form->get('status')); ?>

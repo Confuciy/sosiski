@@ -11,7 +11,7 @@ if(isset($this->members) and sizeof($this->members) > 0){
                 foreach($this->members as $member){
                     if(isset($member['photo']) and $member['photo'] != ''){
                         echo '
-                        <div class="4u"><span class="image fit"> 
+                        <div class="6u"><span class="image fit"> 
                             <section class="box">';
                                 echo '<a href="'.$this->url('family-gallery', ['action' => 'view', 'member_id' => $member['id']]).'" class="image featured">';
                                     echo '<img src = "/img/family-gallery-member/'.$member['id'].'/'.$member['photo'].'" alt = "" />';

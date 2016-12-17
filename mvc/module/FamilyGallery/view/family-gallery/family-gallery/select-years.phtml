@@ -17,6 +17,10 @@ echo '
     }
 </style>';
 
+echo '<h2>'.$this->member[0]['name'].'</h2>';
+echo '<a href="'.$this->url('family-gallery', ['action' => 'index']).'">&larr; back</a>';
+echo '<br /><br />';
+
 if(isset($this->years) and sizeof($this->years) > 0) {
     foreach ($this->years as $year) {
         echo '
