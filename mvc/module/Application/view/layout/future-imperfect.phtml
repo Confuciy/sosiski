@@ -64,10 +64,13 @@
 
 				<?= $this->content ?>
 
+				<!-- Actions -->
+				<?= $this->travelViewHelper()->action('index'); ?>
+
 				<?php
-				if(isset($_SESSION['Zend_Auth']->session) and $_SERVER['REQUEST_URI'] == '/'){
-					echo $_SESSION['Zend_Auth']->session.'<br />';
-				}
+//				if(isset($_SESSION['Zend_Auth']->session) and $_SERVER['REQUEST_URI'] == '/'){
+//					echo $_SESSION['Zend_Auth']->session.'<br />';
+//				}
 
 				#echo '<pre>'; print_r($_COOKIE); echo '</pre>';
 				#echo '<pre>'; print_r($_SESSION); echo '</pre>';

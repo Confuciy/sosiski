@@ -40,5 +40,6 @@ return [
 //    'ZendDeveloperTools',
     'Application',
     'User',
-    'FamilyGallery'
+    'FamilyGallery',
+    'Travel'
 ];
