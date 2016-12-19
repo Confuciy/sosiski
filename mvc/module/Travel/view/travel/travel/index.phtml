@@ -19,15 +19,18 @@ if(sizeof($travels) > 0){
             </header>
             <span class="image featured"><img src="/img/travels/'.$travel['travel_id'].'/'.$travel['image'].'" alt="'.$travel['title'].'" /></span>
             '.$travel['announce'].'
-            <!--
             <footer>
+                <ul class="actions">
+                    <li><a href="'.$this->url('travels_view', ['action' => 'view', 'url' => $travel['url']]).'" class="button big">Continue Reading</a></li>
+                </ul>
+                <!--
                 <ul class="stats">
                     <li><a href="#">General</a></li>
                     <li><a href="#" class="icon fa-heart">28</a></li>
                     <li><a href="#" class="icon fa-comment">128</a></li>
                 </ul>
+                -->
             </footer>
-            -->
         </article>';
     }
 }

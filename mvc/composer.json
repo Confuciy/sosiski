@@ -30,7 +30,8 @@
         "psr-4": {
             "Application\\": "module/Application/src/",
             "User\\": "module/User/src/",
-            "FamilyGallery\\": "module/FamilyGallery/src/"
+            "FamilyGallery\\": "module/FamilyGallery/src/",
+            "Travel\\": "module/Travel/src/"
         }
     },
     "autoload-dev": {

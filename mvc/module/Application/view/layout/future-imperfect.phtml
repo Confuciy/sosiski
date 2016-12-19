@@ -65,7 +65,7 @@
 				<?= $this->content ?>
 
 				<!-- Actions -->
-				<?= $this->travelViewHelper()->action('index'); ?>
+				<?= $this->travelViewHelper()->action('index', ['page' => 1]); ?>
 
 				<?php
 //				if(isset($_SESSION['Zend_Auth']->session) and $_SERVER['REQUEST_URI'] == '/'){

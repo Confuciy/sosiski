@@ -15,6 +15,6 @@ class TravelAction extends AbstractHelper
     public function action($action, $params = [])
     {
         $action = $action.'Action';
-        return $this->getView()->render($this->travelController->{$action}());
+        return $this->getView()->render($this->travelController->{$action}((sizeof($params)> 0?$params:null)));
     }
 }

@@ -105,6 +105,25 @@ class TravelManager
         return $travels;
     }
 
+    /**
+     * Get travel by URL
+     * @param string $url
+     * @return null|\Zend\Db\ResultSet\ResultSetInterface
+     */
+    public function getTravelByUrl($url = '')
+    {
+        $res = new TableGateway('travels', $this->dbAdapter);
+        $sql = $res->getSql();
+        $select = $sql->select();
+        $select->join('user', 'user.id = travels.user_id', ['full_name', 'photo']);
+        $select->where(['travels.url' => $url]);
+        $select->where(['travels.status' => 1]);
+        $select->limit(1);
+        $travel= $res->selectWith($select)->current();
+
+        return $travel;
+    }
+
 //    public function getUserByEmail($email)
 //    {
 //        $select = "SELECT `user`.* FROM `user` WHERE LOWER(`email`) = '".trim(mb_strtolower($email, 'UTF-8'))."' LIMIT 1";

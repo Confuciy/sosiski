@@ -2,6 +2,7 @@
 namespace Travel\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
+use Zend\Router\RoutePluginManager;
 use Zend\View\Model\ViewModel;
 
 /**
@@ -34,14 +35,16 @@ class TravelController extends AbstractActionController
 
     /**
      * This is the default "index" action of the controller. It displays the
-     * list of users.
+     * list of travels.
      */
-    public function indexAction()
+    public function indexAction($p = [])
     {
-        //die('TravelController -> indexAction');
-
         // Current page
-        //$page = $this->params('page');
+        if(!sizeof($p)){
+            $page = $this->params()->fromRoute('page');
+        } else {
+            $page = 1;
+        }
 
         // Get travels list
         $travels = $this->travelManager->getTravelsList($page);
@@ -52,6 +55,23 @@ class TravelController extends AbstractActionController
             'pages' => $this->travelManager->getTravelsPages(),
         ]);
         $view->setTemplate('travel/travel/index');
+
+        return $view;
+    }
+
+    public function viewAction()
+    {
+        // Current url
+        $url = $this->params('url');
+
+        // Get travel by URL
+        $travel = $this->travelManager->getTravelByUrl($url);
+
+        $this->layout('layout/future-imperfect-simple');
+        $view = new ViewModel([
+            'travel' => $travel,
+        ]);
+        $view->setTemplate('travel/travel/view');
 
         return $view;
     }

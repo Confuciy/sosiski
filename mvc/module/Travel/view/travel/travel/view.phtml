@@ -1,0 +1,18 @@
+<?php
+if(sizeof($travel) > 0){
+    $date = strtotime($travel['date']);
+    echo '
+    <article class="post">
+        <header>
+            <div class="title">
+                <h2><a href="'.$this->url('travels_view', ['action' => 'view', 'url' => $travel['url']]).'">'.$travel['title'].'</a></h2>
+                <p>'.$travel['subtitle'].'</p>
+            </div>
+            <div class="meta">
+                <time class="published" datetime="'.date('Y-m-d', $date).'">'.date('F d, Y', $date).'</time>
+                <a href="'.$this->url('users', ['action' => 'view', 'id' => $travel['user_id']]).'" class="author"><span class="name">'.$travel['full_name'].'</span><img src="/img/users/'.$travel['user_id'].'/'.$travel['photo'].'" alt="'.$travel['full_name'].'" /></a>
+            </div>
+        </header>
+        <section>'.$travel['text'].'<br /><br /></section>
+    </article>';
+}
