@@ -1,13 +1,13 @@
 <?php
-$this->headTitle('User Register');
+$this->headTitle($this->translate('User Register'));
 
-//$this->mainMenu()->setActiveItemId('users');
-//
-//$this->pageBreadcrumbs()->setItems([
-//    'Home'=>$this->url('home'),
-//    'Manage Users'=>$this->url('users'),
-//    'Add User'=>$this->url('users', ['action'=>'add'])
-//]);
+$this->mainMenu()->setActiveItemId('users');
+
+$this->pageBreadcrumbs()->setItems([
+    $this->translate('Home')=>$this->url('home'),
+    $this->translate('Manage Users')=>$this->url('users'),
+    $this->translate('Add User')=>$this->url('users', ['action'=>'add'])
+]);
 
 $form->get('email')->setAttributes(['class'=>'form-control', 'placeholder'=>'name@example.com']);
 $form->get('full_name')->setAttributes(['class'=>'form-control', 'placeholder'=>'John Doe']);
@@ -18,11 +18,9 @@ $form->get('submit')->setAttributes(['class'=>'btn btn-primary']);
 $form->prepare();
 ?>
 
-<h1>User Register</h1>
+<h1><?= $this->translate('User Register'); ?></h1>
 
-<p>
-    Please fill out the following form and click the <i>Register</i> button.
-</p>
+<p><?= $this->translate('Please fill out the following form and click the <i>Register</i> button.'); ?></p>
 
 <div class="row">
     <div class="col-md-6">

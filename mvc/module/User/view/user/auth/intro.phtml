@@ -1,12 +1,11 @@
 <section id="intro">
     <?php
     if(isset($user) and sizeof($user) > 0){
-        echo '<a href="/users/view/'.$user['id'].'/" class="logo"><img src="/img/users/'.$user['id'].'/'.$user['photo'].'" alt="" /></a>';
-        //<a href="/users/view/1/" class="logo"><img src="/templates/future-imperfect/images/logo.jpg" alt="" /></a>
+        echo '<a href="'.$this->url('users', ['action' => 'view', 'id' => $user['id']]).'" class="logo"><img src="/img/users/'.$user['id'].'/'.$user['photo'].'" alt="" /></a>';
     }
     ?>
     <header>
-        <h2>Our life</h2>
-        <p>Our life, our family, our travels and etc.</a></p>
+        <h2><?= $this->translate('Our life'); ?></h2>
+        <p><?= $this->translate('Our life, our family, our travels and etc.'); ?></a></p>
     </header>
 </section>

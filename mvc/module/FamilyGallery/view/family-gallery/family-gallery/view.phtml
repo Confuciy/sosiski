@@ -16,7 +16,7 @@ $this->headTitle($this->member[0]['name'].' / '.$this->year.' / '.date('F', strt
 echo '<header id="header">
     <h1>'.$this->member[0]['name'].'</h1>
     <p>'.$this->year.' / '.date('F', strtotime($this->year.'-'.$this->month.'-01')).'<br />
-    <a href="'.$this->url('family-gallery', ['action' => 'view', 'member_id' => $this->member_id]).'">&larr; back</a></p>
+    <a href="'.$this->url('family-gallery', ['action' => 'view', 'member_id' => $this->member_id]).'">&larr; '.$this->translate('back').'</a></p>
 </header>';
 
 if(isset($this->photos) and sizeof($this->photos) > 0) {

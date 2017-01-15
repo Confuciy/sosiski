@@ -29,6 +29,9 @@ class Module
 
 //        $translator = $e->getApplication()->getServiceManager()->get('translator');
 //        $translator->setLocale('ru_RU');
+
+//            $translator = $e->getApplication()->getServiceManager()->get('translator');
+//            $translator->setLocale( ( isset( $_COOKIE['locale'] ) ? $_COOKIE['locale'] : 'en_US' ) )->setFallbackLocale( 'en_US' );
 //    }
 
     public function getConfig()

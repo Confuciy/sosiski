@@ -1,5 +1,7 @@
 <?php
 if(sizeof($travel) > 0){
+    $this->headTitle($travel['title']);
+
     $date = strtotime($travel['date']);
     echo '
     <article class="post">
@@ -10,7 +12,7 @@ if(sizeof($travel) > 0){
             </div>
             <div class="meta">
                 <time class="published" datetime="'.date('Y-m-d', $date).'">'.date('F d, Y', $date).'</time>
-                <a href="'.$this->url('users', ['action' => 'view', 'id' => $travel['user_id']]).'" class="author"><span class="name">'.$travel['full_name'].'</span><img src="/img/users/'.$travel['user_id'].'/'.$travel['photo'].'" alt="'.$travel['full_name'].'" /></a>
+                <a href="'.$this->url('users', ['action' => 'view', 'id' => $travel['user_id']]).'" class="author"><span class="name" style="font-size: 0.8em;">'.$travel['full_name'].'</span><img src="/img/users/'.$travel['user_id'].'/'.$travel['photo'].'" alt="'.$travel['full_name'].'" /></a>
             </div>
         </header>
         <section>'.$travel['text'].'<br /><br /></section>

@@ -1,7 +1,4 @@
 <?php
-
-//echo '<pre>'; print_r($travels); echo '</pre>';
-
 if(sizeof($travels) > 0){
     foreach($travels as $travel) {
         $date = strtotime($travel['date']);
@@ -14,14 +11,14 @@ if(sizeof($travels) > 0){
                 </div>
                 <div class="meta">
                     <time class="published" datetime="'.date('Y-m-d', $date).'">'.date('F d, Y', $date).'</time>
-                    <a href="'.$this->url('users', ['action' => 'view', 'id' => $travel['user_id']]).'" class="author"><span class="name">'.$travel['full_name'].'</span><img src="/img/users/'.$travel['user_id'].'/'.$travel['photo'].'" alt="'.$travel['full_name'].'" /></a>
+                    <a href="'.$this->url('users', ['action' => 'view', 'id' => $travel['user_id']]).'" class="author"><span class="name" style="font-size: 0.8em;">'.$travel['full_name'].'</span><img src="/img/users/'.$travel['user_id'].'/small_'.$travel['photo'].'" alt="'.$travel['full_name'].'" /></a>
                 </div>
             </header>
-            <span class="image featured"><img src="/img/travels/'.$travel['travel_id'].'/'.$travel['image'].'" alt="'.$travel['title'].'" /></span>
-            '.$travel['announce'].'
+            <a href="'.$this->url('travels_view', ['action' => 'view', 'url' => $travel['url']]).'" class="image featured"><img src="/img/travels/'.$travel['travel_id'].'/'.$travel['image'].'" alt="'.$travel['title'].'" /></a>
+            '.$travel['announce'].'<br /><br />
             <footer>
                 <ul class="actions">
-                    <li><a href="'.$this->url('travels_view', ['action' => 'view', 'url' => $travel['url']]).'" class="button big">Continue Reading</a></li>
+                    <li><a href="'.$this->url('travels_view', ['action' => 'view', 'url' => $travel['url']]).'" class="button big">'.$this->translate('Continue Reading').'</a></li>
                 </ul>
                 <!--
                 <ul class="stats">

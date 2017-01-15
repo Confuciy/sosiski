@@ -1,11 +1,11 @@
 <?php
-$this->headTitle('Family Gallery');
+$this->headTitle($this->translate('Family Gallery'));
 
 if(isset($this->members) and sizeof($this->members) > 0){
     echo '
     <article class="post">
         <section>
-            <h1>Family Gallery</h1>
+            <h1>'.$this->translate('Family Gallery').'</h1>
             <div class="box alt">
                 <div class="row uniform">';
                 foreach($this->members as $member){

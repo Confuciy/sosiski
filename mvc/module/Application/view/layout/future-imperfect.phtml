@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html>
 	<head>
-		<?= $this->headTitle('Our life')->setSeparator(' - ')->setAutoEscape(false) ?>
+		<?= $this->headTitle($this->translate('Our life'))->setSeparator(' - ')->setAutoEscape(false) ?>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<!--[if lte IE 8]><script src="/templates/future-imperfect/assets/js/ie/html5shiv.js"></script><![endif]-->
@@ -16,23 +16,23 @@
 
 			<!-- Header -->
 			<header id="header">
-				<h1><a href="/">Our life</a></h1>
+				<h1><a href="/"><?= $this->translate('Our life'); ?></a></h1>
 				<nav class="links">
 					<ul>
-						<li><a href="/family-gallery/">Family Gallery</a></li>
-						<li><a href="/travels/">Travels</a></li>
+						<li><a href="/family-gallery/"><?= $this->translate('Family Gallery'); ?></a></li>
+						<li><a href="/travels/"><?= $this->translate('Travels'); ?></a></li>
 					</ul>
 				</nav>
 				<nav class="main">
 					<ul>
 						<li class="search">
-							<a class="fa-search" href="#search">Search</a>
+							<a class="fa-search" href="#search"><?= $this->translate('Search'); ?></a>
 							<form id="search" method="get" action="#">
-								<input type="text" name="query" placeholder="Search" />
+								<input type="text" name="query" placeholder="<?= $this->translate('Search'); ?>" />
 							</form>
 						</li>
 						<li class="menu">
-							<a class="fa-bars" href="#menu">Menu</a>
+							<a class="fa-bars" href="#menu"><?= $this->translate('Menu'); ?></a>
 						</li>
 					</ul>
 				</nav>
@@ -44,7 +44,7 @@
 					<!-- Search -->
 					<section>
 						<form class="search" method="get" action="/search/">
-							<input type="text" name="query" placeholder="Search" />
+							<input type="text" name="query" placeholder="<?= $this->translate('Search'); ?>" />
 						</form>
 					</section>
 

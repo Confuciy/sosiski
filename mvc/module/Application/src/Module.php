@@ -9,6 +9,8 @@ namespace Application;
 
 use Zend\Mvc\MvcEvent;
 use Zend\Session\SessionManager;
+use Zend\Session\AbstractManager;
+//use Zend\Authentication\AuthenticationService;
 
 class Module
 {
@@ -32,14 +34,30 @@ class Module
         // makes the SessionManager the 'default' one to avoid passing the
         // session manager as a dependency to other models.
 
-        #echo '<pre>'; print_r($_SESSION); echo '</pre>';
-        #echo '<pre>'; print_r($_COOKIE); echo '</pre>';
-        #die;
+//        $save_path = ini_get('session.save_path');
+//        if(isset($_COOKIE['PHPSESSID']) and file_exists($save_path.'/'.$_COOKIE['PHPSESSID'])) {
+//            echo $save_path . '<br />';
+//        } else {
+//            setcookie('PHPSESSID', '', time() - 2592000, '/', $_SERVER['HTTP_HOST']);
+//            setcookie('user_hash', '', time() - 2592000, '/', $_SERVER['HTTP_HOST']);
+//
+//        }
+//        echo '<pre>_SESSION<br />'; print_r($_SESSION); echo '</pre>';
+//        echo '<pre>_COOKIE<br />'; print_r($_COOKIE); echo '</pre>';
+//        die;
 
+        $sessionManager = $serviceManager->get(SessionManager::class);
+        $this->forgetInvalidSession($sessionManager);
+    }
+
+    protected function forgetInvalidSession(AbstractManager $sessionManager) {
         try {
-            $sessionManager = $serviceManager->get(SessionManager::class);
-        } catch (Exception $e){
-            setcookie('PHPSESSID', '', time() - 2592000, '/', $_SERVER['HTTP_HOST']);
+            $sessionManager->start();
+            return;
+        } catch (\Exception $e) {
+
         }
+
+        session_unset();
     }
 }

@@ -1,11 +1,11 @@
 <?php
-$this->headTitle('Sign in');
+$this->headTitle($this->translate('Sign in'));
 
 $this->mainMenu()->setActiveItemId('login');
 
 $form->get('email')->setAttributes([
     'class'=>'form-control',
-    'placeholder'=>'Email address',
+    'placeholder'=>$this->translate('Email address'),
     'required' => true,
     'autofocus' => true
 ])
@@ -15,7 +15,7 @@ $form->get('email')->setAttributes([
 
 $form->get('password')->setAttributes([
     'class'=>'form-control',
-    'placeholder'=>'Password',
+    'placeholder'=>$this->translate('Password'),
     'required' => true,
 ])
     ->setLabelAttributes([
@@ -26,11 +26,11 @@ $form->get('password')->setAttributes([
     <div class="row">
         <div class="col-md-offset-4 col-md-3">
             <form class="form-signin" action="<?= $this->url('login');?>" method="post">
-                <h2 class="form-signin-heading">Please sign in</h2>
+                <h2 class="form-signin-heading"><?= $this->translate('Please sign in') ?></h2>
                 <?php if ($isLoginError): ?>
                     <div class="alert alert-warning" role="alert">
-                        Incorrect login and/or password.
-                        <a href="<?= $this->url('reset-password') ?>">Forgot password?</a>
+                        <?= $this->translate('Incorrect login and/or password.') ?>
+                        <a href="<?= $this->url('reset-password') ?>"><?= $this->translate('Forgot password?') ?></a>
                     </div>
                 <?php endif; ?>
                 <?= $this->formLabel($form->get('email')); ?>
@@ -45,7 +45,7 @@ $form->get('password')->setAttributes([
                 </div>
                 <?= $this->formElement($form->get('redirect_url')); ?>
                 <?//= $this->formElement($form->get('csrf')) ?>
-                <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+                <button class="btn btn-lg btn-primary btn-block" type="submit"><?= $this->translate('Sign in') ?></button>
             </form>
         </div>
     </div>
@@ -53,14 +53,14 @@ $form->get('password')->setAttributes([
     <?php if ($this->auth == null){ ?>
         <section>
             <ul class="actions vertical">
-                <li><a href="/login/" class="button big fit">Log In</a></li>
+                <li><a href="/login/" class="button big fit"><?= $this->translate('Log In') ?></a></li>
             </ul>
         </section>
     <?php } else { ?>
         <section>
             <ul class="actions vertical">
                 <li><b><?= $this->auth; ?></b></li>
-                <li><a href="/logout/" class="button big fit">Log Out</a></li>
+                <li><a href="/logout/" class="button big fit"><?= $this->translate('Log Out') ?></a></li>
             </ul>
         </section>
     <?php } ?>

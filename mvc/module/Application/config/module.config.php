@@ -75,6 +75,10 @@ return [
     'service_manager' => [
         'factories' => [
             Service\NavManager::class => Service\Factory\NavManagerFactory::class,
+            \Zend\Mvc\Service\TranslatorServiceFactory::class,
+        ],
+        'aliases' => [
+            'translator' => \Zend\Mvc\Service\TranslatorServiceFactory::class,
         ],
     ],
     'view_manager' => [
@@ -111,5 +115,15 @@ return [
             'message_close_string'     => '</li></ul></div>',
             'message_separator_string' => '</li><li>'
         ]
+    ],
+    'translator' => [
+        'locale' => 'en_US', //ru_RU
+        'translation_file_patterns' => [
+            [
+                'type' => 'gettext',
+                'base_dir' => __DIR__ . '/../language',
+                'pattern' => '%s.mo',
+            ],
+        ],
     ],
 ];

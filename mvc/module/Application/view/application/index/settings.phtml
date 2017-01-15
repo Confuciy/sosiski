@@ -1,15 +1,15 @@
 <?php
-$this->headTitle('Settings');
+$this->headTitle($this->translate('Settings'));
 
 $this->mainMenu()->setActiveItemId('settings');
 
 $this->pageBreadcrumbs()->setItems([
-    'Home'=>$this->url('home'),
-    'Settings'=>$this->url('application', ['action'=>'settings']),
+    $this->translate('Home')=>$this->url('home'),
+    $this->translate('Settings')=>$this->url('application', ['action'=>'settings']),
 ]);
 ?>
 
-<h2>Settings</h2>
+<h2><?= $this->translate('Settings'); ?></h2>
 
 <div class="row">
     <div class="col-md-6">
@@ -23,11 +23,11 @@ $this->pageBreadcrumbs()->setItems([
                 <td><?= $this->escapeHtml($user->getEmail()) ?></th>
             </tr>
             <tr>
-                <th>Full Name:</th>
+                <th><?= $this->translate('Full Name'); ?>:</th>
                 <td><?= $this->escapeHtml($user->getFullName()) ?></th>
             </tr>
             <tr>
-                <th>Date Created:</th>
+                <th><?= $this->translate('Date Created'); ?>:</th>
                 <td><?= $this->escapeHtml($user->getDateCreated()) ?></th>
             </tr>
         </table>

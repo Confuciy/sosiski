@@ -1,13 +1,13 @@
 <?php
-$this->headTitle('Edit User');
+$this->headTitle($this->translate('Edit User'));
 
 $this->mainMenu()->setActiveItemId('users');
 
-//$this->pageBreadcrumbs()->setItems([
-//    'Home'=>$this->url('home'),
-//    'Manage Users'=>$this->url('users'),
-//    'Edit User'=>$this->url('users', ['action'=>'edit', 'id'=>$user->getId()])
-//]);
+$this->pageBreadcrumbs()->setItems([
+    $this->translate('Home')=>$this->url('home'),
+    $this->translate('Manage Users')=>$this->url('users'),
+    $this->translate('Edit User')=>$this->url('users', ['action'=>'edit', 'id'=>$user['id']])
+]);
 
 $form->get('email')->setAttributes([
     'class'=>'form-control',
@@ -18,7 +18,7 @@ $form->get('email')->setAttributes([
 
 $form->get('full_name')->setAttributes([
     'class'=>'form-control',
-    'placeholder'=>'John Doe',
+    'placeholder'=>$this->translate('Full Name'),
     'value' => $user['full_name'],
     'size'  => 80,
 ]);
@@ -38,9 +38,9 @@ $form->get('submit')
 $form->prepare();
 ?>
 
-<h1>Edit User</h1>
-<a href="<?= $this->url('users', ['action' => 'view', 'id' => $user['id']]) ?>">View</a> |
-<a href="<?= $this->url('users', ['action' => 'change-password', 'id' => $user['id']]) ?>">Change Password</a>
+<h1><?= $this->translate('Edit User'); ?></h1>
+<a href="<?= $this->url('users', ['action' => 'view', 'id' => $user['id']]) ?>"><?= $this->translate('View'); ?></a> |
+<a href="<?= $this->url('users', ['action' => 'change-password', 'id' => $user['id']]) ?>"><?= $this->translate('Change Password'); ?></a>
 <br /><br />
 
 <div class="row">

@@ -12,6 +12,9 @@ use Zend\Filter\File\RenameUpload;
 use Zend\Validator\File\FilesSize;
 //use Zend\Filter\File\Rename;
 //use Zend\Validator\File\MimeType;
+use RecursiveDirectoryIterator;
+use FilesystemIterator;
+use RecursiveIteratorIterator;
 
 class UserPhotoValidator extends AbstractValidator
 {
@@ -188,7 +191,23 @@ class UserPhotoValidator extends AbstractValidator
             if(!file_exists($options['uploadPath'])){
                 mkdir($options['uploadPath'], 0755);
             }
+
+            // remove old photos
+            $di = new RecursiveDirectoryIterator($options['uploadPath'], FilesystemIterator::SKIP_DOTS);
+            $ri = new RecursiveIteratorIterator($di, RecursiveIteratorIterator::CHILD_FIRST);
+            foreach ( $ri as $file ) {
+                $file->isDir() ?  rmdir($file) : unlink($file);
+            }
+
             if(move_uploaded_file($fileInput['tmp_name'], $uploadPath.$destination)){
+                $size = getimagesize($uploadPath.$destination);
+                $isrc = imagecreatefromjpeg($uploadPath.$destination);
+                $idest = imagecreatetruecolor(36, 36);
+                imagecopyresized($idest, $isrc, 0, 0, 0, 0, 36, 36, $size[0], $size[1]);
+                imagejpeg($idest, $uploadPath.'small_'.$destination);
+                imagedestroy($isrc);
+                imagedestroy($idest);
+
                 $res = new \Zend\Db\TableGateway\TableGateway('user', $options['dbAdapter']);
                 $sql = $res->getSql();
                 $update = $sql->update();

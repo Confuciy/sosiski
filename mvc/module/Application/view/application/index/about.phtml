@@ -1,20 +1,14 @@
 <?php
-$this->headTitle('About');
+$this->headTitle($this->translate('About'));
 
 $this->mainMenu()->setActiveItemId('about');
 
 $this->pageBreadcrumbs()->setItems([
-    'Home'=>$this->url('home'),
-    'About'=>$this->url('about'),
+    $this->translate('Home')=>$this->url('home'),
+    $this->translate('About')=>$this->url('about'),
 ]);
 ?>
 
-<h1>About</h1>
-
-<p>
-    Application name: <?= $this->escapeHtml($appName) ?>
-</p>
-
-<p>
-    Application description: <?= $this->escapeHtml($appDescription) ?>
-</p>
+<h1><?= $this->translate('About'); ?></h1>
+<p><?= $this->translate('Application name'); ?>: <?= $this->escapeHtml($appName) ?></p>
+<p><?= $this->translate('Application description'); ?>: <?= $this->escapeHtml($appDescription) ?></p>

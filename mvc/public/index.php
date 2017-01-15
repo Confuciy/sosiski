@@ -1,7 +1,7 @@
 <?php
 error_reporting(E_ERROR);
 ini_set("display_errors", 1);
-ini_set('session.gc_maxlifetime', 2592000);
+//ini_set('session.gc_maxlifetime', 2592000);
 
 use Zend\Mvc\Application;
 use Zend\Stdlib\ArrayUtils;

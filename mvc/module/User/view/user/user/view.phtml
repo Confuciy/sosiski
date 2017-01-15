@@ -1,21 +1,25 @@
 <?php
-$this->headTitle('View User');
+$this->headTitle($this->translate('View User'));
 
 $this->mainMenu()->setActiveItemId('users');
 
-//$this->pageBreadcrumbs()->setItems([
-//    'Home'=>$this->url('home'),
-//    'Manage Users'=>$this->url('users'),
-//    'View User'=>$this->url('users', ['action'=>'view', 'id'=>$user['id']])
-//]);
+$this->pageBreadcrumbs()->setItems([
+    $this->translate('Home')=>$this->url('home'),
+    $this->translate('Manage Users')=>$this->url('users'),
+    $this->translate('View User')=>$this->url('users', ['action'=>'view', 'id'=>$user['id']])
+]);
 ?>
 
 <?= $this->flashMessenger()->render('error', ['alert', 'alert-warning']); ?>
 <?= $this->flashMessenger()->render('success', ['alert', 'alert-success']); ?>
 <?= $this->flashMessenger()->render('info', ['alert', 'alert-info']); ?>
 
-<h1>View User</h1>
-<a href="<?= $this->url('users', ['action' => 'edit', 'id' => $user['id']]) ?>">Edit</a><br /><br />
+<h1><?= $this->translate('View User'); ?></h1>
+<?php
+if ($this->identity() == $this->escapeHtml($user['email'])) {
+    echo '<a href="'.$this->url('users', ['action' => 'edit', 'id' => $user['id']]).'">'.$this->translate('Edit').'</a><br /><br />';
+}
+?>
 
 <div class="row">
     <div class="col-md-6">
@@ -29,19 +33,19 @@ $this->mainMenu()->setActiveItemId('users');
                 <td><?= $this->escapeHtml($user['email']) ?></th>
             </tr>
             <tr>
-                <th>Full Name:</th>
+                <th><?= $this->translate('Full Name'); ?>:</th>
                 <td><?= $this->escapeHtml($user['full_name']) ?></th>
             </tr>
             <tr>
-                <th>Date Created:</th>
+                <th><?= $this->translate('Date Created'); ?>:</th>
                 <td><?= $this->escapeHtml($user['date_created']) ?></th>
             </tr>
             <tr>
-                <th>Photo:</th>
+                <th><?= $this->translate('Photo'); ?>:</th>
                 <td><?= ($user['photo'] != ''?'<img src="/img/users/'.$this->user['id'].'/'.$user['photo'].'">':'') ?></th>
             </tr>
             <tr>
-                <th>Status:</th>
+                <th><?= $this->translate('Status'); ?>:</th>
                 <td><?= $this->escapeHtml($user['status']) ?></th>
             </tr>
         </table>
