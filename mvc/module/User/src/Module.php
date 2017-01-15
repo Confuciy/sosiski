@@ -8,6 +8,7 @@
 namespace User;
 
 use Zend\Mvc\MvcEvent;
+use Zend\Db\Adapter\Adapter;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\Authentication\AuthenticationService;
 use Zend\Authentication\Storage\Session;
@@ -85,14 +86,14 @@ class Module
         return [
             'factories' => [
                 Controller\AuthController::class => function ($container) {
-                    $dbAdapter = $container->get('Zend\Db\Adapter\Adapter');
+                    $dbAdapter = $container->get(Adapter::class);
                     $authManager = $container->get(AuthManager::class);
                     $authService = $container->get(AuthenticationService::class);
                     $userManager = $container->get(UserManager::class);
                     return new Controller\AuthController($dbAdapter, $authManager, $authService, $userManager);
                 },
                 Controller\UserController::class => function ($container) {
-                    $dbAdapter = $container->get('Zend\Db\Adapter\Adapter');
+                    $dbAdapter = $container->get(Adapter::class);
                     $userManager = $container->get(UserManager::class);
                     return new Controller\UserController($dbAdapter, $userManager);
                 },
@@ -111,7 +112,7 @@ class Module
                     return new AuthenticationService($authStorage, $authAdapter);
                 },
                 Service\AuthAdapter::class => function ($container) {
-                    $dbAdapter = $container->get('Zend\Db\Adapter\Adapter');
+                    $dbAdapter = $container->get(Adapter::class);
                     return new Service\AuthAdapter($dbAdapter);
                 },
                 Service\AuthManager::class => function ($container) {
@@ -143,7 +144,7 @@ class Module
                     return new Service\AuthManager($authenticationService, $sessionManager, $config);
                 },
                 Service\UserManager::class => function ($container) {
-                    $dbAdapter = $container->get('Zend\Db\Adapter\Adapter');
+                    $dbAdapter = $container->get(Adapter::class);
                     return new Service\UserManager($dbAdapter);
                 },
             ]

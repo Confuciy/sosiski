@@ -10,6 +10,7 @@ namespace Application;
 use Zend\Mvc\MvcEvent;
 use Zend\Session\SessionManager;
 use Zend\Session\AbstractManager;
+use \Zend\Mvc\I18n\Translator;
 //use Zend\Authentication\AuthenticationService;
 
 class Module
@@ -46,6 +47,18 @@ class Module
 //        echo '<pre>_COOKIE<br />'; print_r($_COOKIE); echo '</pre>';
 //        die;
 
+        // Set translate locale
+        try {
+            $locale = $event->getApplication()->getServiceManager()->get('Config')['translator']['locale'];
+            if(isset($locale) and isset($_COOKIE['locale']) and $_COOKIE['locale'] != '' and $_COOKIE['locale'] != $locale) {
+                $translator = $event->getApplication()->getServiceManager()->get(Translator::class);
+                $translator->setLocale($_COOKIE['locale'])->setFallbackLocale('en_US');
+            }
+        } catch (\Exception $e) {
+            echo $e->getMessage();
+        }
+
+        // Forget bad session
         $sessionManager = $serviceManager->get(SessionManager::class);
         $this->forgetInvalidSession($sessionManager);
     }

@@ -44,6 +44,16 @@ return [
                     ],
                 ],
             ],
+            'change-language' => [
+                'type' => Segment::class,
+                'options' => [
+                    'route'    => '/change-language[/:locale][/]',
+                    'defaults' => [
+                        'controller' => Controller\IndexController::class,
+                        'action'     => 'changeLanguage',
+                    ],
+                ],
+            ],
         ],
     ],
     'controllers' => [
@@ -75,10 +85,11 @@ return [
     'service_manager' => [
         'factories' => [
             Service\NavManager::class => Service\Factory\NavManagerFactory::class,
-            \Zend\Mvc\Service\TranslatorServiceFactory::class,
+            \Zend\Mvc\I18n\Translator::class => \Zend\Mvc\I18n\TranslatorFactory::class,
         ],
         'aliases' => [
-            'translator' => \Zend\Mvc\Service\TranslatorServiceFactory::class,
+            //'translator' => \Zend\Mvc\Service\TranslatorServiceFactory::class,
+            'translator' => \Zend\Mvc\I18n\TranslatorFactory::class,
         ],
     ],
     'view_manager' => [

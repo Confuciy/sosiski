@@ -70,4 +70,16 @@ class IndexController extends AbstractActionController
 //            'user' => $user
 //        ]);
     }
+
+    public function changeLanguageAction(){
+        // Get locale param from route
+        $locale = (string)$this->params()->fromRoute('locale', '');
+        if ($locale != '') {
+            // Set cookie with locale
+            setcookie('locale', $locale, time() + 2592000, '/', $_SERVER['HTTP_HOST']);
+        }
+
+        // Go to prefer page
+        return $this->redirect()->toUrl((isset($_SERVER['HTTP_REFERER']) and $_SERVER['HTTP_REFERER'] != '')?$_SERVER['HTTP_REFERER']:'/');
+    }
 }
