@@ -25,6 +25,20 @@
         </nav>
         <nav class="main">
             <ul>
+                <li>
+                    <?php
+                    if(isset($_COOKIE['locale']) and $_COOKIE['locale'] != ''){
+                        if($_COOKIE['locale'] == 'ru_RU'){
+                            echo '<a class="icon" style="overflow: none !important; text-indent: 0em; left: -20px; top: 2px;" href="'.$this->url('change-language', ['locale'=>'en_US']).'" title="'.$this->translate('English').'"><img src="/img/flags/en.png"></a>';
+                        }
+                        if($_COOKIE['locale'] == 'en_US'){
+                            echo '<a class="icon" style="overflow: none !important; text-indent: 0em; left: -20px; top: 2px;" href="'.$this->url('change-language', ['locale'=>'ru_RU']).'" title="'.$this->translate('Русский').'"><img src="/img/flags/ru.png"></a>';
+                        }
+                    } else {
+                        echo '<a class="icon" style="overflow: none !important; text-indent: 0em; left: -20px; top: 2px;" href="'.$this->url('change-language', ['locale'=>'ru_RU']).'" title="'.$this->translate('Русский').'"><img src="/img/flags/ru.png"></a>';
+                    }
+                    ?>
+                </li>
                 <li class="search">
                     <a class="fa-search" href="#search"><?= $this->translate('Search'); ?></a>
                     <form id="search" method="get" action="#">

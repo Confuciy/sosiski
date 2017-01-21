@@ -43,15 +43,15 @@ class Links extends AbstractHelper
         <section>
             <ul class="links">
                 <li>
-                    <a href="/family-gallery/">
-                        <h3>Family Gallery</h3>
-                        <p>A small gallery of our family members</p>
+                    <a href="'.$this->view->url('family-gallery').'">
+                        <h3>'.$this->view->translate('Family Gallery').'</h3>
+                        <p>'.$this->view->translate('A small gallery of our family members').'</p>
                     </a>
                 </li>
                 <li>
-                    <a href="/travels/">
-                        <h3>Travels</h3>
-                        <p>Photos and stories about our travels</p>
+                    <a href="'.$this->view->url('travels').'">
+                        <h3>'.$this->view->translate('Travels').'</h3>
+                        <p>'.$this->view->translate('Photos and stories about our travels').'</p>
                     </a>
                 </li>
             </ul>

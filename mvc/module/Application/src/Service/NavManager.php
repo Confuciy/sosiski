@@ -59,7 +59,6 @@ class NavManager
                 'float' => 'right'
             ];
         } else {
-
             $items[] = [
                 'id' => 'admin',
                 'label' => 'Admin',

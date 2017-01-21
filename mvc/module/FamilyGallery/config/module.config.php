@@ -53,7 +53,7 @@ return array(
             'familygallery_entity' => array(
                 'class' =>'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
                 'cache' => 'array',
-                'paths' => array(__DIR__ . '/../src/FamilyGallery/Entity')
+                'paths' => array(__DIR__ . '/../src/Entity')
             ),
             'orm_default' => array(
                 'drivers' => array(

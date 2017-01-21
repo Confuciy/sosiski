@@ -88,7 +88,6 @@ return [
             \Zend\Mvc\I18n\Translator::class => \Zend\Mvc\I18n\TranslatorFactory::class,
         ],
         'aliases' => [
-            //'translator' => \Zend\Mvc\Service\TranslatorServiceFactory::class,
             'translator' => \Zend\Mvc\I18n\TranslatorFactory::class,
         ],
     ],

@@ -60,7 +60,7 @@ class Menu extends AbstractHelper
         $result .= '<div class="navbar-header">';
         $result .= '<button type="button" class="navbar-toggle" data-toggle="collapse"';
         $result .= 'data-target=".navbar-ex1-collapse">';
-        $result .= '<span class="sr-only">Toggle navigation</span>';
+        $result .= '<span class="sr-only">'.$this->view->translate('Toggle navigation').'</span>';
         $result .= '<span class="icon-bar"></span>';
         $result .= '<span class="icon-bar"></span>';
         $result .= '<span class="icon-bar"></span>';

@@ -1,6 +1,7 @@
 <?php
 namespace Travel\Service;
 
+use Travel\Entity\Travel;
 use Zend\Db\TableGateway\TableGateway;
 
 /**
@@ -20,12 +21,15 @@ class TravelManager
      */
     private $dbAdapter;
 
+    private  $translator;
+
     /**
      * Constructs the service.
      */
-    public function __construct($dbAdapter)
+    public function __construct($dbAdapter, $translator)
     {
         $this->dbAdapter = $dbAdapter;
+        $this->translator = $translator;
     }
 
     /**
@@ -97,8 +101,11 @@ class TravelManager
         $res = new TableGateway('travels', $this->dbAdapter);
         $sql = $res->getSql();
         $select = $sql->select();
+        $select->join('travels_txt', 'travels_txt.travel_id = travels.travel_id', ['lang_id', 'title', 'subtitle', 'announce', 'text']);
         $select->join('user', 'user.id = travels.user_id', ['full_name', 'photo']);
+        $select->join('lang', 'lang.lang_id = travels_txt.lang_id', []);
         $select->where(['travels.status' => 1]);
+        $select->where(['lang.locale' => $_SESSION['locale']]);
         $select->limit($this->page_limit, $page);
         $travels = $res->selectWith($select);
 
@@ -115,9 +122,12 @@ class TravelManager
         $res = new TableGateway('travels', $this->dbAdapter);
         $sql = $res->getSql();
         $select = $sql->select();
+        $select->join('travels_txt', 'travels_txt.travel_id = travels.travel_id', ['lang_id', 'title', 'subtitle', 'announce', 'text']);
         $select->join('user', 'user.id = travels.user_id', ['full_name', 'photo']);
+        $select->join('lang', 'lang.lang_id = travels_txt.lang_id', []);
         $select->where(['travels.url' => $url]);
         $select->where(['travels.status' => 1]);
+        $select->where(['lang.locale' => $_SESSION['locale']]);
         $select->limit(1);
         $travel= $res->selectWith($select)->current();
 

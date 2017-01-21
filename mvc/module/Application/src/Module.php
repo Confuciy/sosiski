@@ -52,7 +52,14 @@ class Module
             $locale = $event->getApplication()->getServiceManager()->get('Config')['translator']['locale'];
             if(isset($locale) and isset($_COOKIE['locale']) and $_COOKIE['locale'] != '' and $_COOKIE['locale'] != $locale) {
                 $translator = $event->getApplication()->getServiceManager()->get(Translator::class);
-                $translator->setLocale($_COOKIE['locale'])->setFallbackLocale('en_US');
+                $translator->setLocale($_COOKIE['locale'])->setFallbackLocale($locale);
+            }
+            if(!isset($_SESSION['locale']) or $_SESSION['locale'] == ''){
+                if(isset($_COOKIE['locale']) and $_COOKIE['locale'] != '') {
+                    $_SESSION['locale'] = $_COOKIE['locale'];
+                } else {
+                    $_SESSION['locale'] = $locale;
+                }
             }
         } catch (\Exception $e) {
             echo $e->getMessage();
