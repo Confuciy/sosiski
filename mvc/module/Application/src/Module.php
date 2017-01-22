@@ -57,10 +57,12 @@ class Module
             if(!isset($_SESSION['locale']) or $_SESSION['locale'] == ''){
                 if(isset($_COOKIE['locale']) and $_COOKIE['locale'] != '') {
                     $_SESSION['locale'] = $_COOKIE['locale'];
+                    $locale = $_COOKIE['locale'];
                 } else {
                     $_SESSION['locale'] = $locale;
                 }
             }
+            setlocale(LC_ALL, $locale.".UTF-8");
         } catch (\Exception $e) {
             echo $e->getMessage();
         }

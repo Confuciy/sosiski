@@ -5,10 +5,6 @@ use Zend\Mvc\Controller\AbstractActionController;
 use Zend\Router\RoutePluginManager;
 use Zend\View\Model\ViewModel;
 
-/**
- * This controller is responsible for user management (adding, editing,
- * viewing users and changing user's password).
- */
 class TravelController extends AbstractActionController
 {
 
@@ -20,7 +16,7 @@ class TravelController extends AbstractActionController
 
     /**
      * Travel manager.
-     * @var User\Service\TravelManager
+     * @var Travel\Service\TravelManager
      */
     private $travelManager;
 
@@ -37,19 +33,17 @@ class TravelController extends AbstractActionController
      * This is the default "index" action of the controller. It displays the
      * list of travels.
      */
-    public function indexAction($p = [])
+    public function indexAction($page = 1)
     {
         // Current page
-        if(!sizeof($p)){
+        if(!sizeof($page)){
             $page = $this->params()->fromRoute('page');
-        } else {
-            $page = 1;
         }
 
         // Get travels list
         $travels = $this->travelManager->getTravelsList($page);
 
-        $this->layout('layout/future-imperfect-simple');
+        //$this->layout('layout/future-imperfect-simple');
         $view = new ViewModel([
             'travels' => $travels,
             'pages' => $this->travelManager->getTravelsPages(),

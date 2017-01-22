@@ -1,0 +1,67 @@
+<?php
+$this->headTitle($this->translate('Manage Travels'));
+
+$this->pageBreadcrumbs()->setItems([
+    $this->translate('Travels') => $this->url('travels'),
+    $this->translate('Manage Travels') => $this->url('travels_admin'),
+    $this->translate('Add Travel') => $this->url('travels_admin', ['action' => 'add']),
+]);
+?>
+<h2><?= $this->translate('Manage Travels'); ?></h2>
+
+<p>
+    <a class="btn btn-default" href="<?= $this->url('travels_admin', ['action' => 'add']); ?>">
+        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> <?= $this->translate('Add Travel'); ?>
+    </a>
+</p>
+<br />
+
+<table class="table table-striped">
+
+    <tr>
+        <th>ID</th>
+        <th><?= $this->translate('Title'); ?></th>
+        <th><?= $this->translate('Date Created'); ?></th>
+        <th><?= $this->translate('Status'); ?></th>
+        <th><?= $this->translate('Actions'); ?></th>
+    </tr>
+
+    <?php foreach ($this->travels as $travel): ?>
+        <?php //echo '<pre>'; print_r($travel); echo '</pre>'; ?>
+
+        <tr>
+            <td><?= $this->escapeHtml($travel['travel_id']); ?></td>
+            <td>
+                <a href="<?= $this->url('travels_admin', ['action' => 'edit', 'id' => $travel['travel_id']]); ?>">
+                    <?= $this->escapeHtml($travel['title']); ?>
+                </a>
+            </td>
+            <td><?= strftime('%e %B %G', strtotime($travel['date'])); ?></td>
+            <td><?php echo ($travel['status'] == 1?'<span class="label label-success">'.$this->translate('Published').'</span>':'<span class="label label-danger">'.$this->translate('Is Hidden').'</span>'); ?></td>
+            <td>
+                <a class="btn btn-default btn-sm" href="<?= $this->url('travels_admin', ['action' => 'delete', 'id' => $travel['travel_id']]); ?>">
+                    <span class="glyphicon glyphicon-remove"></span> <?= $this->translate('Delete'); ?>
+                </a>
+            </td>
+        </tr>
+
+    <?php endforeach; ?>
+
+</table>
+
+<nav aria-label="...">
+    <ul class="pagination">
+        <?php
+        if($this->page > 1){
+            echo '<li class="disabled"><a href="'.$this->url('travels_admin', ['action' => 'index', 'id' => ($this->page - 1)]).'" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>';
+        }
+        for($i = 1; $i <= $this->pages; $i++){
+            echo '<li class="'.($i == $this->page?'active':'disabled').'"><a href="'.$this->url('travels_admin', ['action' => 'index', 'id' => $i]).'">'.$i.' <span class="sr-only">'.$i.'</span></a></li>';
+        }
+
+        if(($this->page + 1) <= $this->pages){
+            echo '<li class="disabled"><a href="'.$this->url('travels_admin', ['action' => 'index', 'id' => ($this->page + 1)]).'" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>';
+        }
+        ?>
+    </ul>
+</nav>

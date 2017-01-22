@@ -78,6 +78,7 @@ class IndexController extends AbstractActionController
             // Set cookie with locale
             setcookie('locale', $locale, time() + 2592000, '/', $_SERVER['HTTP_HOST']);
             $_SESSION['locale'] = $locale;
+            setlocale(LC_ALL, $locale.".UTF-8");
         }
 
         // Go to prefer page

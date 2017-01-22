@@ -1,0 +1,50 @@
+<?= $this->doctype() ?>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <?= $this->headTitle('Administration')->setSeparator(' - ')->setAutoEscape(false) ?>
+
+    <?= $this->headMeta()
+        ->appendName('viewport', 'width=device-width, initial-scale=1.0')
+        ->appendHttpEquiv('X-UA-Compatible', 'IE=edge')
+    ?>
+
+    <!-- Le styles -->
+    <?= $this->headLink(['rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/img/favicon.ico'])
+        ->prependStylesheet($this->basePath('css/style.css'))
+        ->prependStylesheet($this->basePath('css/bootstrap-theme.min.css'))
+        ->prependStylesheet($this->basePath('css/bootstrap.min.css'))
+    ?>
+
+    <!-- Scripts -->
+    <?= $this->headScript()
+        ->prependFile($this->basePath('js/bootstrap.min.js'))
+        ->prependFile($this->basePath('js/jquery-3.1.0.min.js'))
+    ?>
+</head>
+<body>
+<div class="container">
+    <div style="float:right; margin-bottom: 10px; margin-right: 1px;">
+        <?php
+        if(isset($_COOKIE['locale']) and $_COOKIE['locale'] != ''){
+            if($_COOKIE['locale'] == 'ru_RU'){
+                echo '<a class="icon" style="overflow: none !important; text-indent: 0em; left: -20px; top: 2px;" href="'.$this->url('change-language', ['locale'=>'en_US']).'" title="'.$this->translate('English').'"><img src="/img/flags/en.png"></a>';
+            }
+            if($_COOKIE['locale'] == 'en_US'){
+                echo '<a class="icon" style="overflow: none !important; text-indent: 0em; left: -20px; top: 2px;" href="'.$this->url('change-language', ['locale'=>'ru_RU']).'" title="'.$this->translate('Русский').'"><img src="/img/flags/ru.png"></a>';
+            }
+        } else {
+            echo '<a class="icon" style="overflow: none !important; text-indent: 0em; left: -20px; top: 2px;" href="'.$this->url('change-language', ['locale'=>'ru_RU']).'" title="'.$this->translate('Русский').'"><img src="/img/flags/ru.png"></a>';
+        }
+        ?>
+    </div>
+    <div style="clear: both;"></div>
+
+    <?= $this->pageBreadcrumbs()->render(); ?>
+
+    <?= $this->content ?>
+</div>
+<?= $this->inlineScript() ?>
+</body>
+</html>

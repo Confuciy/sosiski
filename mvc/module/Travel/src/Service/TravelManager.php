@@ -1,7 +1,6 @@
 <?php
 namespace Travel\Service;
 
-use Travel\Entity\Travel;
 use Zend\Db\TableGateway\TableGateway;
 
 /**
@@ -32,52 +31,6 @@ class TravelManager
         $this->translator = $translator;
     }
 
-    /**
-     * This method updates data of an existing user.
-     */
-//    public function updateUser($user, $data)
-//    {
-//        // Do not allow to change user email if another user with such email already exits.
-//        if($user['email'] != $data['email'] && $this->checkUserExists($data['email'])) {
-//            throw new \Exception("Another user with email address " . $data['email'] . " already exists");
-//        }
-//
-//        $update_data = [
-//            'email' => $data['email'],
-//            'full_name' => $data['full_name'],
-//            'status' => $data['status'],
-//        ];
-//
-//        $res = new TableGateway('user', $this->dbAdapter);
-//        $sql = $res->getSql();
-//        $update = $sql->update();
-//        $update->table('user');
-//        $update->set($update_data);
-//        $update->where(array('id' => $user['id']));
-//        $statement = $sql->prepareStatementForSqlObject($update);
-//        $statement->execute($sql);
-//
-//        return true;
-//    }
-//
-//    public function setUserPassword($user, $password)
-//    {
-//        $update_data = [
-//            'password' => $password,
-//        ];
-//
-//        $res = new TableGateway('user', $this->dbAdapter);
-//        $sql = $res->getSql();
-//        $update = $sql->update();
-//        $update->table('user');
-//        $update->set($update_data);
-//        $update->where(array('id' => $user['id']));
-//        $statement = $sql->prepareStatementForSqlObject($update);
-//        $statement->execute($sql);
-//
-//        return true;
-//    }
-//
     /**
      * Get pages of travels
      * @return float
@@ -134,23 +87,54 @@ class TravelManager
         return $travel;
     }
 
-//    public function getUserByEmail($email)
-//    {
-//        $select = "SELECT `user`.* FROM `user` WHERE LOWER(`email`) = '".trim(mb_strtolower($email, 'UTF-8'))."' LIMIT 1";
-//        $user = $this->dbAdapter->query($select, 'execute')->current();
-//
-//        return $user;
-//    }
-//
-//    public function getUserById($id)
-//    {
-//        $res = new TableGateway('user', $this->dbAdapter);
-//        $sql = $res->getSql();
-//        $select = $sql->select();
-//        $select->where(['id' => $id]);
-//        $select->limit(1);
-//        $user = $res->selectWith($select)->current();
-//
-//        return $user;
-//    }
+    /**
+     * Get travel
+     * @param int $page
+     * @return null|\Zend\Db\ResultSet\ResultSetInterface
+     */
+    public function getTravelForEdit($travel_id = 0, $langs = [])
+    {
+        $res = new TableGateway('travels', $this->dbAdapter);
+        $sql = $res->getSql();
+        $select = $sql->select();
+        $select->join('user', 'user.id = travels.user_id', ['full_name', 'photo']);
+        $select->where(['travels.travel_id' => $travel_id]);
+        $select->limit(1);
+        $travel = $res->selectWith($select)->toArray()[0];
+        foreach ($langs as $lang){
+            $travel['txt'][$lang['locale']] = $this->getTravelByIdAndLocate($travel['travel_id'], $lang['locale']);
+        }
+
+        return $travel;
+    }
+
+    public function getTravelByIdAndLocate($travel_id = 0, $locate = '')
+    {
+        $res = new TableGateway('travels_txt', $this->dbAdapter);
+        $sql = $res->getSql();
+        $select = $sql->select();
+        $select->join('lang', 'lang.lang_id = travels_txt.lang_id', []);
+        $select->where(['travels_txt.travel_id' => $travel_id]);
+        $select->where(['lang.locale' => $locate]);
+        $select->limit(1);
+        $travel = $res->selectWith($select)->toArray()[0];
+
+        return $travel;
+    }
+
+    public function getLangs()
+    {
+        $res = new TableGateway('lang', $this->dbAdapter);
+        $sql = $res->getSql();
+        $select = $sql->select();
+        $langs = $res->selectWith($select)->toArray();
+
+        return $langs;
+    }
+
+    public function pr($arr = []){
+        echo '<pre>';
+        print_r($arr);
+        echo '</pre>';
+    }
 }

@@ -28,6 +28,11 @@ class Module
                     $travelManager = $container->get(TravelManager::class);
                     return new Controller\TravelController($dbAdapter, $travelManager);
                 },
+                Controller\TravelAdminController::class => function ($container) {
+                    $dbAdapter = $container->get('Zend\Db\Adapter\Adapter');
+                    $travelManager = $container->get(TravelManager::class);
+                    return new Controller\TravelAdminController($dbAdapter, $travelManager);
+                },
             ]
         ];
     }

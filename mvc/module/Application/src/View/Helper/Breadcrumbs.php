@@ -53,7 +53,7 @@ class Breadcrumbs extends AbstractHelper
         foreach ($this->items as $label=>$link) {
 
             // Make the last item inactive
-            $isActive = ($itemNum==$itemCount?true:false);
+            $isActive = ($itemNum==$itemCount?false:true);
 
             // Render current item
             $result .= $this->renderItem($label, $link, $isActive);
@@ -81,10 +81,10 @@ class Breadcrumbs extends AbstractHelper
 
         $result = $isActive?'<li class="active">':'<li>';
 
-        if (!$isActive)
+//        if (!$isActive)
             $result .= '<a href="'.$escapeHtml($link).'">'.$escapeHtml($label).'</a>';
-        else
-            $result .= $escapeHtml($label);
+//        else
+//            $result .= $escapeHtml($label);
 
         $result .= '</li>';
 

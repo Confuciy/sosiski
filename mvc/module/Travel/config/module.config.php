@@ -3,7 +3,7 @@ namespace Travel;
 
 //use Zend\Router\Http\Literal;
 use Zend\Router\Http\Segment;
-//use Zend\ServiceManager\Factory\InvokableFactory;
+use Zend\ServiceManager\Factory\InvokableFactory;
 
 return [
     'router' => [
@@ -35,6 +35,20 @@ return [
                     ],
                 ],
             ],
+            'travels_admin' => [
+                'type'    => Segment::class,
+                'options' => [
+                    'route'    => '/travels/admin[/:action][/:id][/]',
+                    'constraints' => [
+                        'action'  => '[a-zA-Z][a-zA-Z0-9_-]*',
+                        'id'  => '[0-9]+',
+                    ],
+                    'defaults' => [
+                        'controller'    => Controller\TravelAdminController::class,
+                        'action'        => 'index',
+                    ],
+                ],
+            ],
         ],
     ],
     // The 'access_filter' key is used by the User module to restrict or permit
@@ -53,6 +67,12 @@ return [
             Controller\TravelController::class => [
                 // Allow anyone to visit "index" and "about" actions
                 ['actions' => ['index', 'year', 'view'], 'allow' => '*'],
+                // Allow authorized users to visit "settings" action
+                //['actions' => ['settings'], 'allow' => '@']
+            ],
+            Controller\TravelAdminController::class => [
+                // Allow anyone to visit "index" and "about" actions
+                ['actions' => ['index', 'add', 'edit'], 'allow' => '@'],
                 // Allow authorized users to visit "settings" action
                 //['actions' => ['settings'], 'allow' => '@']
             ],
