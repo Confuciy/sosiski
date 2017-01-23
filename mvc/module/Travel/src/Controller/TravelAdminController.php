@@ -27,6 +27,11 @@ class TravelAdminController extends AbstractActionController
      */
     public function __construct($dbAdapter, $travelManager)
     {
+        if (isset($_SESSION['Zend_Auth']->session) and $_SESSION['Zend_Auth']->session != 'gorbachev.info@gmail.com') {
+            $this->getResponse()->setStatusCode(404);
+            return;
+        }
+
         $this->dbAdapter = $dbAdapter;
         $this->travelManager = $travelManager;
     }

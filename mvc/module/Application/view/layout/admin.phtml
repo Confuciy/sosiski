@@ -23,25 +23,26 @@
         ->prependFile($this->basePath('js/jquery-3.1.0.min.js'))
     ?>
 </head>
-<body>
-<div class="container">
-    <div style="float:right; margin-bottom: 10px; margin-right: 1px;">
-        <?php
-        if(isset($_COOKIE['locale']) and $_COOKIE['locale'] != ''){
-            if($_COOKIE['locale'] == 'ru_RU'){
-                echo '<a class="icon" style="overflow: none !important; text-indent: 0em; left: -20px; top: 2px;" href="'.$this->url('change-language', ['locale'=>'en_US']).'" title="'.$this->translate('English').'"><img src="/img/flags/en.png"></a>';
-            }
-            if($_COOKIE['locale'] == 'en_US'){
-                echo '<a class="icon" style="overflow: none !important; text-indent: 0em; left: -20px; top: 2px;" href="'.$this->url('change-language', ['locale'=>'ru_RU']).'" title="'.$this->translate('Русский').'"><img src="/img/flags/ru.png"></a>';
-            }
-        } else {
-            echo '<a class="icon" style="overflow: none !important; text-indent: 0em; left: -20px; top: 2px;" href="'.$this->url('change-language', ['locale'=>'ru_RU']).'" title="'.$this->translate('Русский').'"><img src="/img/flags/ru.png"></a>';
-        }
-        ?>
-    </div>
-    <div style="clear: both;"></div>
+<body style="padding-top: 8px;">
+<div style="margin-left: auto; margin-right: auto; padding-left: 25px; padding-right: 25px;">
 
     <?= $this->pageBreadcrumbs()->render(); ?>
+
+<!--    <div style="float:right; margin-bottom: 10px; margin-right: 1px;">-->
+<!--        --><?php
+//        if(isset($_COOKIE['locale']) and $_COOKIE['locale'] != ''){
+//            if($_COOKIE['locale'] == 'ru_RU'){
+//                echo '<a class="icon" style="overflow: none !important; text-indent: 0em; left: -20px; top: 2px;" href="'.$this->url('change-language', ['locale'=>'en_US']).'" title="'.$this->translate('English').'"><img src="/img/flags/en.png"></a>';
+//            }
+//            if($_COOKIE['locale'] == 'en_US'){
+//                echo '<a class="icon" style="overflow: none !important; text-indent: 0em; left: -20px; top: 2px;" href="'.$this->url('change-language', ['locale'=>'ru_RU']).'" title="'.$this->translate('Русский').'"><img src="/img/flags/ru.png"></a>';
+//            }
+//        } else {
+//            echo '<a class="icon" style="overflow: none !important; text-indent: 0em; left: -20px; top: 2px;" href="'.$this->url('change-language', ['locale'=>'ru_RU']).'" title="'.$this->translate('Русский').'"><img src="/img/flags/ru.png"></a>';
+//        }
+//        ?>
+<!--    </div>-->
+    <div style="clear: both;"></div>
 
     <?= $this->content ?>
 </div>

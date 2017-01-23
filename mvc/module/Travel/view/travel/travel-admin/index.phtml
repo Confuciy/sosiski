@@ -1,20 +1,19 @@
 <?php
 $this->headTitle($this->translate('Manage Travels'));
 
+$this->pageBreadcrumbs()->setHeader($this->translate('Manage Travels'));
 $this->pageBreadcrumbs()->setItems([
     $this->translate('Travels') => $this->url('travels'),
     $this->translate('Manage Travels') => $this->url('travels_admin'),
     $this->translate('Add Travel') => $this->url('travels_admin', ['action' => 'add']),
 ]);
 ?>
-<h2><?= $this->translate('Manage Travels'); ?></h2>
 
-<p>
+<p style="float: right;">
     <a class="btn btn-default" href="<?= $this->url('travels_admin', ['action' => 'add']); ?>">
         <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> <?= $this->translate('Add Travel'); ?>
     </a>
 </p>
-<br />
 
 <table class="table table-striped">
 
@@ -36,11 +35,11 @@ $this->pageBreadcrumbs()->setItems([
                     <?= $this->escapeHtml($travel['title']); ?>
                 </a>
             </td>
-            <td><?= strftime('%e %B %G', strtotime($travel['date'])); ?></td>
-            <td><?php echo ($travel['status'] == 1?'<span class="label label-success">'.$this->translate('Published').'</span>':'<span class="label label-danger">'.$this->translate('Is Hidden').'</span>'); ?></td>
+            <td><?= strftime('%A, <b>%e</b> %B, %Y', strtotime($travel['date'])); ?></td>
+            <td style="text-align: center;"><?php echo ($travel['status'] == 1?'<span class="label label-success">&nbsp;&nbsp;</span>':'<span class="label label-danger">'.$this->translate('Is Hidden').'</span>'); ?></td>
             <td>
                 <a class="btn btn-default btn-sm" href="<?= $this->url('travels_admin', ['action' => 'delete', 'id' => $travel['travel_id']]); ?>">
-                    <span class="glyphicon glyphicon-remove"></span> <?= $this->translate('Delete'); ?>
+                    <span class="glyphicon glyphicon-remove"></span>
                 </a>
             </td>
         </tr>

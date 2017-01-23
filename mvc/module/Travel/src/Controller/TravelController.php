@@ -43,7 +43,7 @@ class TravelController extends AbstractActionController
         // Get travels list
         $travels = $this->travelManager->getTravelsList($page);
 
-        //$this->layout('layout/future-imperfect-simple');
+        $this->layout('layout/future-imperfect-simple');
         $view = new ViewModel([
             'travels' => $travels,
             'pages' => $this->travelManager->getTravelsPages(),

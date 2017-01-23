@@ -1,16 +1,47 @@
 <?php
 $this->headTitle($this->translate('Edit Travels'));
 
+$this->pageBreadcrumbs()->setHeader($this->travel['txt'][$_SESSION['locale']]['title']);
 $this->pageBreadcrumbs()->setItems([
     $this->translate('Travels') => $this->url('travels'),
     $this->translate('Edit Travels') => $this->url('travels_admin'),
     $this->translate('Add Travel') => $this->url('travels_admin', ['action' => 'add']),
 ]);
+
+#echo '<pre>'; print_r($this->travel); echo '</pre>';
 ?>
-<!--<h2>--><?//= $this->translate('Edit Travels'); ?><!--</h2>-->
-<h2><?= $this->travel['txt'][$_SESSION['locale']]['title']; ?></h2>
 
 <br />
+
+<?php /* ?>
+<!-- Include Quill stylesheet -->
+<link href="https://cdn.quilljs.com/1.0.0/quill.snow.css" rel="stylesheet">
+<!-- Include the Quill library -->
+<script src="https://cdn.quilljs.com/1.0.0/quill.js"></script>
+<script>
+    var toolbarOptions = [
+        ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
+        ['blockquote', 'code-block'],
+
+        [{ 'header': 1 }, { 'header': 2 }],               // custom button values
+        [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+        [{ 'script': 'sub'}, { 'script': 'super' }],      // superscript/subscript
+        [{ 'indent': '-1'}, { 'indent': '+1' }],          // outdent/indent
+        [{ 'direction': 'rtl' }],                         // text direction
+
+        [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
+        [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+
+        [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
+        [{ 'font': [] }],
+        [{ 'align': [] }],
+
+        ['link', 'image'],
+
+        ['clean']                                         // remove formatting button
+    ];
+</script>
+<?php */ ?>
 
 <div>
     <!-- Nav tabs -->
@@ -24,22 +55,78 @@ $this->pageBreadcrumbs()->setItems([
 
     <!-- Tab panes -->
     <div class="tab-content">
-        <div role="tabpanel" class="tab-pane active" id="main-info">
-            <br />
-
+        <div role="tabpanel" class="tab-pane active" id="main-info" style="background: #f3f3f3; padding: 15px;">
             <?= $this->translate('Main Info'); ?>
+<!--            [travel_id] => 1-->
+<!--            [user_id] => 1-->
+<!--            [url] => how_we_visited_alps-->
+<!--            [image] => rs_IMG_7803.jpg-->
+<!--            [date] => 2016-12-19-->
+<!--            [status] => 1-->
+<!--            [full_name] => Gorbachev Aleksey-->
+<!--            [photo] => photo_1484346040.jpg-->
         </div>
         <?php foreach ($this->langs as $lang): ?>
-            <div role="tabpanel" class="tab-pane" id="<?= $lang['locale']; ?>">
-                <br />
+            <div role="tabpanel" class="tab-pane" id="<?= $lang['locale']; ?>" style="background: #f3f3f3; padding: 15px;">
+                <h3><?= $this->translate('Title'); ?></h3>
+                <input type="text" class="form-control" style="width: 60%;" placeholder="<?= $this->translate('Title'); ?>" value="<?= $this->travel['txt'][$lang['locale']]['title']; ?>">
 
-                <?= $lang['locale']; ?> / <?= $lang['name']; ?>
+                <h3><?= $this->translate('Subtitle'); ?></h3>
+                <input type="text" class="form-control" style="width: 60%;" placeholder="<?= $this->translate('Subtitle'); ?>" value="<?= $this->travel['txt'][$lang['locale']]['subtitle']; ?>">
+
+                <h3><?= $this->translate('Announce'); ?></h3>
+                <textarea class="form-control" rows="3"><?= $this->travel['txt'][$lang['locale']]['announce']; ?></textarea>
+
+                <h3><?= $this->translate('Text'); ?></h3>
+                <textarea class="form-control" rows="100"><?= $this->travel['txt'][$lang['locale']]['text']; ?></textarea>
+
+                <?php /* ?>
+                <!-- Create the toolbar container -->
+                <div id="toolbar<?= $lang['locale']; ?>"></div>
+
+                <!-- Create the editor container -->
+                <div id="editor<?= $lang['locale']; ?>">
+                    <p><?= $this->travel['txt'][$lang['locale']]['text']; ?></p>
+                </div>
+
+                <!-- Initialize Quill editor -->
+                <script>
+                    var toolbarOptions = [
+                        ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
+                        ['blockquote', 'code-block'],
+
+                        [{ 'header': 1 }, { 'header': 2 }],               // custom button values
+                        [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+                        [{ 'script': 'sub'}, { 'script': 'super' }],      // superscript/subscript
+                        [{ 'indent': '-1'}, { 'indent': '+1' }],          // outdent/indent
+                        [{ 'direction': 'rtl' }],                         // text direction
+
+                        [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
+                        [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+
+                        [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
+                        [{ 'font': [] }],
+                        [{ 'align': [] }],
+
+                        ['link', 'image']
+
+                        ['clean']                                         // remove formatting button
+                    ];
+
+                    var editor<?= $lang['locale']; ?> = new Quill('#editor<?= $lang['locale']; ?>', {
+                        modules: {
+                            toolbar: toolbarOptions
+                        },
+                        theme: 'snow',
+                        toolbar: '#toolbar<?= $lang['locale']; ?>'
+                    });
+                </script>
+                <?php */ ?>
             </div>
         <?php endforeach; ?>
-        <div role="tabpanel" class="tab-pane" id="images">
-            <br />
+        <div role="tabpanel" class="tab-pane" id="images" style="padding: 15px;">
 
-            <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+<!--            <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">-->
             <link rel="stylesheet" href="/js/jquery-file-upload-9.14.2/css/jquery.fileupload.css">
 
             <!-- The fileinput-button span is used to style the file input field as button -->
@@ -76,7 +163,7 @@ $this->pageBreadcrumbs()->setItems([
                 $(function () {
                     'use strict';
                     // Change this to the location of your server-side upload handler:
-                    var url = '/img/uploads/',
+                    var url = '/img/uploads',
                         uploadButton = $('<button/>')
                             .addClass('btn btn-primary')
                             .prop('disabled', true)
@@ -108,7 +195,7 @@ $this->pageBreadcrumbs()->setItems([
                             .test(window.navigator.userAgent),
                         previewMaxWidth: 100,
                         previewMaxHeight: 100,
-                        previewCrop: true
+                        previewCrop: true,
                     }).on('fileuploadadd', function (e, data) {
                         data.context = $('<div/>').appendTo('#files');
                         $.each(data.files, function (index, file) {
@@ -155,7 +242,10 @@ $this->pageBreadcrumbs()->setItems([
 //                                $(data.context.children()[index])
 //                                    .wrap(link);
                                 $(data.context.children()[index])
-                                    .append('<br /><input type="text" value="/img/upload/files/' + file.name + '" style="width: 90%">');
+                                    .append('<br /><b><?= $this->translate('Link'); ?></b><input type="text" class="form-control" value="/img/upload/files/' + file.name + '">' +
+                                        '<br /><b><?= $this->translate('Code Fit'); ?></b><input type="text" class="form-control" value="<div class=&quot;12u$&quot;><span class=&quot;image fit&quot;><img src=&quot;/img/uploads/files/' + file.name + '&quot; width=&quot;&quot; alt=&quot;&quot;></span></div>">' +
+                                        '<br /><b><?= $this->translate('Code Left'); ?></b><input type="text" class="form-control" value="<span class=&quot;image left&quot;><img src=&quot;/img/uploads/files/' + file.name + '&quot; width=&quot;&quot; alt=&quot;&quot;></span>">' +
+                                        '<br /><b><?= $this->translate('Code Right'); ?></b><input type="text" class="form-control" value="<span class=&quot;image right&quot;><img src=&quot;/img/uploads/files/' + file.name + '&quot; width=&quot;&quot; alt=&quot;&quot;></span>">');
                             } else if (file.error) {
                                 var error = $('<span class="text-danger"/>').text(file.error);
                                 $(data.context.children()[index])

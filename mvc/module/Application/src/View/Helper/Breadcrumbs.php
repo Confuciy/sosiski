@@ -13,6 +13,7 @@ class Breadcrumbs extends AbstractHelper
      * @var array
      */
     private $items = [];
+    private $header = '';
 
     /**
      * Constructor.
@@ -32,17 +33,28 @@ class Breadcrumbs extends AbstractHelper
         $this->items = $items;
     }
 
+    public function setHeader($header)
+    {
+        $this->header = $header;
+    }
+
     /**
      * Renders the breadcrumbs.
      * @return string HTML code of the breadcrumbs.
      */
     public function render()
     {
+        $result = '';
+
+        if ($this->header != '') {
+            $result .= '<h3>'.$this->header.'</h3><br />';
+        }
+
         if (count($this->items)==0)
             return ''; // Do nothing if there are no items.
 
         // Resulting HTML code will be stored in this var
-        $result = '<ol class="breadcrumb">';
+        $result .= '<ol class="breadcrumb">';
 
         // Get item count
         $itemCount = count($this->items);

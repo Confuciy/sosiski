@@ -20,7 +20,10 @@
         <nav class="links">
             <ul>
                 <li><a href="/family-gallery/"><?= $this->translate('Family Gallery'); ?></a></li>
-                <li><a href="/travels/"><?= $this->translate('Travels'); ?></a></li>
+                <li>
+                    <a href="/travels/"><?= $this->translate('Travels'); ?></a>
+                    <?php echo ((isset($_SESSION['Zend_Auth']->session) and $_SESSION['Zend_Auth']->session == 'gorbachev.info@gmail.com')?'/ <a href="/travels/admin/"><b>A</b></a>':''); ?>
+                </li>
             </ul>
         </nav>
         <nav class="main">
