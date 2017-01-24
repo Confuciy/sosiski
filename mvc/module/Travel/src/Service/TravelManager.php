@@ -132,6 +132,25 @@ class TravelManager
         return $langs;
     }
 
+    public function getTravelImages($travel_id = 0){
+        $images = [];
+
+        $dir = dirname(__FILE__).'/../../../../public/img/travels/'.$travel_id.'/files';
+        if (is_dir($dir)) {
+            if ($dh = opendir($dir)) {
+                $col = 0;
+                while (($file = readdir($dh)) !== false) {
+                    if($file != '.' and $file != '..' and is_file($dir.'/'.$file)){
+                        $images[] = $file;
+                    }
+                }
+                closedir($dh);
+            }
+        }
+
+        return $images;
+    }
+
     public function pr($arr = []){
         echo '<pre>';
         print_r($arr);

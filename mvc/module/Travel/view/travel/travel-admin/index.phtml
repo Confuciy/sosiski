@@ -19,9 +19,9 @@ $this->pageBreadcrumbs()->setItems([
 
     <tr>
         <th>ID</th>
+        <th>&nbsp;</th>
         <th><?= $this->translate('Title'); ?></th>
         <th><?= $this->translate('Date Created'); ?></th>
-        <th><?= $this->translate('Status'); ?></th>
         <th><?= $this->translate('Actions'); ?></th>
     </tr>
 
@@ -30,13 +30,13 @@ $this->pageBreadcrumbs()->setItems([
 
         <tr>
             <td><?= $this->escapeHtml($travel['travel_id']); ?></td>
+            <td style="text-align: center;"><?php echo ($travel['status'] == 1?'<span class="label label-success">&nbsp;&nbsp;</span>':'<span class="label label-danger">&nbsp;&nbsp;</span>'); ?></td>
             <td>
                 <a href="<?= $this->url('travels_admin', ['action' => 'edit', 'id' => $travel['travel_id']]); ?>">
                     <?= $this->escapeHtml($travel['title']); ?>
                 </a>
             </td>
             <td><?= strftime('%A, <b>%e</b> %B, %Y', strtotime($travel['date'])); ?></td>
-            <td style="text-align: center;"><?php echo ($travel['status'] == 1?'<span class="label label-success">&nbsp;&nbsp;</span>':'<span class="label label-danger">'.$this->translate('Is Hidden').'</span>'); ?></td>
             <td>
                 <a class="btn btn-default btn-sm" href="<?= $this->url('travels_admin', ['action' => 'delete', 'id' => $travel['travel_id']]); ?>">
                     <span class="glyphicon glyphicon-remove"></span>

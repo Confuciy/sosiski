@@ -144,7 +144,35 @@ $this->pageBreadcrumbs()->setItems([
                 <div class="progress-bar progress-bar-success"></div>
             </div>
             <!-- The container for the uploaded files -->
-            <div id="files" class="files"></div>
+            <div id="files" class="files">
+                <?php
+                #echo '<pre>'; print_r($images); echo '</pre>';
+                #die;
+                if (isset($this->images) and sizeof($this->images) > 0) {
+                ?>
+                    <?php foreach ($this->images as $image): ?>
+                        <div>
+                            <p>
+                                <img src="/img/travels/<?= $this->travel['travel_id']; ?>/files/thumbnail/<?= $image; ?>">
+                                <br />
+                                <span><?= $image; ?></span>
+                                <br /><br />
+                                <b>Link</b>
+                                <input class="form-control" value="/img/travels/<?= $this->travel['travel_id']; ?>/files/<?= $image; ?>" type="text">
+                                <b>Code Fit</b>
+                                <input class="form-control" value="&lt;div class=&quot;12u$&quot;&gt;&lt;span class=&quot;image fit&quot;&gt;&lt;img src=&quot;/img/travels/<?= $this->travel['travel_id']; ?>/files/<?= $image; ?>&quot; width=&quot;&quot; alt=&quot;&quot;&gt;&lt;/span&gt;&lt;/div&gt;" type="text">
+                                <b>Code Left</b>
+                                <input class="form-control" value="&lt;span class=&quot;image left&quot;&gt;&lt;img src=&quot;/img/travels/<?= $this->travel['travel_id']; ?>/files/<?= $image; ?>&quot; width=&quot;&quot; alt=&quot;&quot;&gt;&lt;/span&gt;" type="text">
+                                <b>Code Right</b>
+                                <input class="form-control" value="&lt;span class=&quot;image right&quot;&gt;&lt;img src=&quot;/img/travels/<?= $this->travel['travel_id']; ?>/files/<?= $image; ?>&quot; width=&quot;&quot; alt=&quot;&quot;&gt;&lt;/span&gt;" type="text">
+                                <br />
+                            </p>
+                        </div>
+                    <?php endforeach; ?>
+                <?php
+                }
+                ?>
+            </div>
 
             <script src="/js/jquery-file-upload-9.14.2/js/vendor/jquery.ui.widget.js"></script>
             <script src="//blueimp.github.io/JavaScript-Load-Image/js/load-image.all.min.js"></script>
@@ -163,7 +191,7 @@ $this->pageBreadcrumbs()->setItems([
                 $(function () {
                     'use strict';
                     // Change this to the location of your server-side upload handler:
-                    var url = '/img/uploads',
+                    var url = '/img/uploads/index.php?travel_id=<?= $this->travel['travel_id']; ?>',
                         uploadButton = $('<button/>')
                             .addClass('btn btn-primary')
                             .prop('disabled', true)
@@ -242,10 +270,10 @@ $this->pageBreadcrumbs()->setItems([
 //                                $(data.context.children()[index])
 //                                    .wrap(link);
                                 $(data.context.children()[index])
-                                    .append('<br /><b><?= $this->translate('Link'); ?></b><input type="text" class="form-control" value="/img/upload/files/' + file.name + '">' +
-                                        '<br /><b><?= $this->translate('Code Fit'); ?></b><input type="text" class="form-control" value="<div class=&quot;12u$&quot;><span class=&quot;image fit&quot;><img src=&quot;/img/uploads/files/' + file.name + '&quot; width=&quot;&quot; alt=&quot;&quot;></span></div>">' +
-                                        '<br /><b><?= $this->translate('Code Left'); ?></b><input type="text" class="form-control" value="<span class=&quot;image left&quot;><img src=&quot;/img/uploads/files/' + file.name + '&quot; width=&quot;&quot; alt=&quot;&quot;></span>">' +
-                                        '<br /><b><?= $this->translate('Code Right'); ?></b><input type="text" class="form-control" value="<span class=&quot;image right&quot;><img src=&quot;/img/uploads/files/' + file.name + '&quot; width=&quot;&quot; alt=&quot;&quot;></span>">');
+                                    .append('<br /><b><?= $this->translate('Link'); ?></b><input type="text" class="form-control" value="/img/travels/<?= $this->travel['travel_id']; ?>/files/' + file.name + '">' +
+                                        '<b><?= $this->translate('Code Fit'); ?></b><input type="text" class="form-control" value="<div class=&quot;12u$&quot;><span class=&quot;image fit&quot;><img src=&quot;/img/travels/<?= $this->travel['travel_id']; ?>/files/' + file.name + '&quot; width=&quot;&quot; alt=&quot;&quot;></span></div>">' +
+                                        '<b><?= $this->translate('Code Left'); ?></b><input type="text" class="form-control" value="<span class=&quot;image left&quot;><img src=&quot;/img/travels/<?= $this->travel['travel_id']; ?>/files/' + file.name + '&quot; width=&quot;&quot; alt=&quot;&quot;></span>">' +
+                                        '<b><?= $this->translate('Code Right'); ?></b><input type="text" class="form-control" value="<span class=&quot;image right&quot;><img src=&quot;/img/travels/<?= $this->travel['travel_id']; ?>/files/' + file.name + '&quot; width=&quot;&quot; alt=&quot;&quot;></span>"><br />');
                             } else if (file.error) {
                                 var error = $('<span class="text-danger"/>').text(file.error);
                                 $(data.context.children()[index])

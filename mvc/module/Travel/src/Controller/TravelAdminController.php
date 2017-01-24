@@ -61,13 +61,19 @@ class TravelAdminController extends AbstractActionController
         // Get langs
         $langs = $this->travelManager->getLangs();
 
+        $travel_id = $this->params()->fromRoute('id');
+
         // Get travel
-        $travel = $this->travelManager->getTravelForEdit($this->params()->fromRoute('id'), $langs);
+        $travel = $this->travelManager->getTravelForEdit($travel_id, $langs);
+
+        // Get travel's images
+        $images = $this->travelManager->getTravelImages($travel_id);
 
         $this->layout('layout/admin');
         $view = new ViewModel([
             'travel'    => $travel,
-            'langs'     => $langs
+            'langs'     => $langs,
+            'images'    => $images
         ]);
         $view->setTemplate('travel/travel-admin/edit');
 
