@@ -8,42 +8,94 @@ $this->pageBreadcrumbs()->setItems([
     $this->translate('Add Travel') => $this->url('travels_admin', ['action' => 'add']),
 ]);
 
+//echo '<pre>'; print_r($this->form); echo '</pre>';
+//die;
+
+$this->form->get('url')->setAttributes([
+    'class'=>'form-control',
+    'placeholder'=>$this->translate('Url'),
+    'value' => $this->travel['url'],
+    'size'  => 50,
+]);
+
+$this->form->get('date')->setAttributes([
+    'class'=>'form-control',
+    'id'=>'date',
+    'placeholder'=>$this->translate('Date'),
+    'value' => date('d.m.Y', strtotime($this->travel['date'])),
+    'size'  => 7,
+]);
+
+$this->form->get('image')->setAttributes([
+    'class'=>'form-control',
+    'style' => 'width: 80%;'
+]);
+
+$this->form->get('status')->setAttributes([
+    'class'=>'form-control',
+]);
+
+$this->form->get('submit')
+    ->setAttributes(['class'=>'btn btn-primary'])
+    ->setValue($this->translate('Save'));
+
+$this->form->prepare();
+
 #echo '<pre>'; print_r($this->travel); echo '</pre>';
 ?>
 
+<!-- Le styles -->
+<?= $this->headLink()
+    ->prependStylesheet($this->basePath('css/bootstrap-theme.min.css'))
+    ->prependStylesheet($this->basePath('css/bootstrap.admin.min.css'))
+?>
+
+<!-- Scripts -->
+<?= $this->headScript()
+    ->prependFile($this->basePath('js/bootstrap.min.js'))
+    ->prependFile($this->basePath('js/jquery-3.1.0.min.js'))
+?>
+
+<script type="text/javascript" src="/js/bootstrap-datetimepicker-master/js/bootstrap-datetimepicker.min.js" charset="UTF-8"></script>
+<link rel="stylesheet" href="/js/bootstrap-datetimepicker-master/css/bootstrap-datetimepicker.min.css">
+
+<script type="text/javascript">
+    function hideView(id) {
+        if($('#div_' + id).css('display') == 'none'){
+            $('#div_' + id).show();
+        } else {
+            $('#div_' + id).hide();
+        }
+
+        return false;
+    }
+
+    function deleteImage(id, url) {
+        $.ajax({
+            type: "DELETE",
+            url: url,
+            dataType : "html",
+            data: ({ }),
+            async: false,
+            success: function (data){
+                $('#image_' + id).hide();
+            }
+        });
+
+        return false;
+    }
+</script>
+
 <br />
 
-<?php /* ?>
-<!-- Include Quill stylesheet -->
-<link href="https://cdn.quilljs.com/1.0.0/quill.snow.css" rel="stylesheet">
-<!-- Include the Quill library -->
-<script src="https://cdn.quilljs.com/1.0.0/quill.js"></script>
-<script>
-    var toolbarOptions = [
-        ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
-        ['blockquote', 'code-block'],
-
-        [{ 'header': 1 }, { 'header': 2 }],               // custom button values
-        [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-        [{ 'script': 'sub'}, { 'script': 'super' }],      // superscript/subscript
-        [{ 'indent': '-1'}, { 'indent': '+1' }],          // outdent/indent
-        [{ 'direction': 'rtl' }],                         // text direction
-
-        [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
-        [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
-
-        [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
-        [{ 'font': [] }],
-        [{ 'align': [] }],
-
-        ['link', 'image'],
-
-        ['clean']                                         // remove formatting button
-    ];
-</script>
-<?php */ ?>
-
 <div>
+
+    <?= $this->form()->openTag($this->form); ?>
+
+    <div style="float: right;">
+        <?= $this->formElement($this->form->get('submit')); ?>
+    </div>
+
     <!-- Nav tabs -->
     <ul class="nav nav-tabs" role="tablist">
         <li role="presentation" class="active"><a href="#main-info" aria-controls="main-info" role="tab" data-toggle="tab"><?= $this->translate('Main Info'); ?></a></li>
@@ -55,84 +107,74 @@ $this->pageBreadcrumbs()->setItems([
 
     <!-- Tab panes -->
     <div class="tab-content">
-        <div role="tabpanel" class="tab-pane active" id="main-info" style="background: #f3f3f3; padding: 15px;">
-            <?= $this->translate('Main Info'); ?>
-<!--            [travel_id] => 1-->
-<!--            [user_id] => 1-->
-<!--            [url] => how_we_visited_alps-->
-<!--            [image] => rs_IMG_7803.jpg-->
-<!--            [date] => 2016-12-19-->
-<!--            [status] => 1-->
-<!--            [full_name] => Gorbachev Aleksey-->
-<!--            [photo] => photo_1484346040.jpg-->
+        <div role="tabpanel" class="tab-pane active" id="main-info" style="border-left: 1px solid #ddd;
+            border-bottom: 1px solid #ddd;
+            border-right: 1px solid #ddd;
+            padding: 15px;">
+            <div class="form-group">
+                <?= $this->formLabel($this->form->get('url')); ?>
+                <?= $this->formElement($this->form->get('url')); ?>
+                <?= $this->formElementErrors($this->form->get('url')); ?>
+            </div>
+            <br />
+            <div class="form-group">
+                <?= $this->formLabel($this->form->get('date')); ?>
+                <?= $this->formElement($this->form->get('date')); ?>
+                <?= $this->formElementErrors($this->form->get('date')); ?>
+            </div>
+            <br />
+            <div class="form-group">
+                <?= $this->formLabel($this->form->get('image')); ?>
+                <?= $this->formElement($this->form->get('image')); ?>
+                <?= $this->formElementErrors($this->form->get('image')); ?>
+                <?= ($travel['image'] != ''?'<br /><img src="/img/travels/'.$this->travel['travel_id'].'/'.$this->travel['image'].'" width="100%">':'') ?>
+            </div>
+            <br />
+            <div class="form-group">
+                <?= $this->formLabel($this->form->get('status')); ?>
+                <?= $this->formElement($this->form->get('status')); ?>
+                <?= $this->formElementErrors($this->form->get('status')); ?>
+            </div>
         </div>
         <?php foreach ($this->langs as $lang): ?>
-            <div role="tabpanel" class="tab-pane" id="<?= $lang['locale']; ?>" style="background: #f3f3f3; padding: 15px;">
+            <div role="tabpanel" class="tab-pane" id="<?= $lang['locale']; ?>" style="border-left: 1px solid #ddd;
+                border-bottom: 1px solid #ddd;
+                border-right: 1px solid #ddd;
+                padding: 15px;">
                 <h3><?= $this->translate('Title'); ?></h3>
-                <input type="text" class="form-control" style="width: 60%;" placeholder="<?= $this->translate('Title'); ?>" value="<?= $this->travel['txt'][$lang['locale']]['title']; ?>">
-
+                <input type="text" class="form-control" name="<?= $lang['locale']; ?>[title]" style="width: 60%;" placeholder="<?= $this->translate('Title'); ?>" value="<?= $this->travel['txt'][$lang['locale']]['title']; ?>">
+                <br />
                 <h3><?= $this->translate('Subtitle'); ?></h3>
-                <input type="text" class="form-control" style="width: 60%;" placeholder="<?= $this->translate('Subtitle'); ?>" value="<?= $this->travel['txt'][$lang['locale']]['subtitle']; ?>">
-
+                <input type="text" class="form-control" name="<?= $lang['locale']; ?>[subtitle]" style="width: 60%;" placeholder="<?= $this->translate('Subtitle'); ?>" value="<?= $this->travel['txt'][$lang['locale']]['subtitle']; ?>">
+                <br />
                 <h3><?= $this->translate('Announce'); ?></h3>
-                <textarea class="form-control" rows="3"><?= $this->travel['txt'][$lang['locale']]['announce']; ?></textarea>
-
+                <textarea class="form-control" name="<?= $lang['locale']; ?>[announce]" cols="140" rows="3"><?= $this->travel['txt'][$lang['locale']]['announce']; ?></textarea>
+                <br />
                 <h3><?= $this->translate('Text'); ?></h3>
-                <textarea class="form-control" rows="100"><?= $this->travel['txt'][$lang['locale']]['text']; ?></textarea>
-
-                <?php /* ?>
-                <!-- Create the toolbar container -->
-                <div id="toolbar<?= $lang['locale']; ?>"></div>
-
-                <!-- Create the editor container -->
-                <div id="editor<?= $lang['locale']; ?>">
-                    <p><?= $this->travel['txt'][$lang['locale']]['text']; ?></p>
-                </div>
-
-                <!-- Initialize Quill editor -->
-                <script>
-                    var toolbarOptions = [
-                        ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
-                        ['blockquote', 'code-block'],
-
-                        [{ 'header': 1 }, { 'header': 2 }],               // custom button values
-                        [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-                        [{ 'script': 'sub'}, { 'script': 'super' }],      // superscript/subscript
-                        [{ 'indent': '-1'}, { 'indent': '+1' }],          // outdent/indent
-                        [{ 'direction': 'rtl' }],                         // text direction
-
-                        [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
-                        [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
-
-                        [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
-                        [{ 'font': [] }],
-                        [{ 'align': [] }],
-
-                        ['link', 'image']
-
-                        ['clean']                                         // remove formatting button
-                    ];
-
-                    var editor<?= $lang['locale']; ?> = new Quill('#editor<?= $lang['locale']; ?>', {
-                        modules: {
-                            toolbar: toolbarOptions
-                        },
-                        theme: 'snow',
-                        toolbar: '#toolbar<?= $lang['locale']; ?>'
-                    });
-                </script>
-                <?php */ ?>
+                <textarea class="form-control" name="<?= $lang['locale']; ?>[text]" cols="140" rows="60"><?= $this->travel['txt'][$lang['locale']]['text']; ?></textarea>
             </div>
         <?php endforeach; ?>
+
+        <?= $this->form()->closeTag(); ?>
+
         <div role="tabpanel" class="tab-pane" id="images" style="padding: 15px;">
 
-<!--            <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">-->
             <link rel="stylesheet" href="/js/jquery-file-upload-9.14.2/css/jquery.fileupload.css">
+            <script type="text/javascript" src="/js/jquery-file-upload-9.14.2/js/vendor/jquery.ui.widget.js"></script>
+            <script type="text/javascript" src="/js/jquery-file-upload-9.14.2/js/load-image.all.min.js"></script>
+            <script type="text/javascript" src="/js/jquery-file-upload-9.14.2/js/canvas-to-blob.min.js"></script>
+            <script type="text/javascript" src="/js/jquery-file-upload-9.14.2/js/jquery.iframe-transport.js"></script>
+            <script type="text/javascript" src="/js/jquery-file-upload-9.14.2/js/jquery.fileupload.js"></script>
+            <script type="text/javascript" src="/js/jquery-file-upload-9.14.2/js/jquery.fileupload-process.js"></script>
+            <script type="text/javascript" src="/js/jquery-file-upload-9.14.2/js/jquery.fileupload-image.js"></script>
+            <script type="text/javascript" src="/js/jquery-file-upload-9.14.2/js/jquery.fileupload-audio.js"></script>
+            <script type="text/javascript" src="/js/jquery-file-upload-9.14.2/js/jquery.fileupload-video.js"></script>
+            <script type="text/javascript" src="/js/jquery-file-upload-9.14.2/js/jquery.fileupload-validate.js"></script>
 
             <!-- The fileinput-button span is used to style the file input field as button -->
             <span class="btn btn-success fileinput-button">
                 <i class="glyphicon glyphicon-plus"></i>
-                <span>Add files...</span>
+                <span><?= $this->translate('Add files...'); ?></span>
                 <!-- The file input field used as target for the file upload widget -->
                 <input id="fileupload" type="file" name="files[]" multiple>
             </span>
@@ -143,6 +185,7 @@ $this->pageBreadcrumbs()->setItems([
             <div id="progress" class="progress">
                 <div class="progress-bar progress-bar-success"></div>
             </div>
+
             <!-- The container for the uploaded files -->
             <div id="files" class="files">
                 <?php
@@ -150,42 +193,41 @@ $this->pageBreadcrumbs()->setItems([
                 #die;
                 if (isset($this->images) and sizeof($this->images) > 0) {
                 ?>
+                    <?php $col = 0;?>
                     <?php foreach ($this->images as $image): ?>
-                        <div>
-                            <p>
-                                <img src="/img/travels/<?= $this->travel['travel_id']; ?>/files/thumbnail/<?= $image; ?>">
+                        <div id="image_<?= $col; ?>" style="clear: both; margin-bottom: 20px;">
+                            <img src="/img/travels/<?= $this->travel['travel_id']; ?>/files/thumbnail/<?= $image; ?>">
+                            <div style="margin-top: 5px;">
+                            <button type="button" class="btn btn-info btn-xs" onclick="hideView(<?php $rand = rand(1, 10000); echo $rand; ?>);">
+                                <i class="glyphicon glyphicon-eye-open"></i>
+                                <span><?= $this->translate('View/Hide'); ?></span>
+                            </button>
+                            <button type="button" class="btn btn-danger delete btn-xs" onclick="deleteImage(<?= $col; ?>, '/img/uploads/index.php?travel_id=<?= $this->travel['travel_id']; ?>&file=<?= $image; ?>');">
+                                <i class="glyphicon glyphicon-trash"></i>
+                                <span><?= $this->translate('Delete'); ?></span>
+                            </button>
+                            </div>
+                            <div class="form-group form-group-sm" id="div_<?= $rand; ?>" style="display: none;">
                                 <br />
-                                <span><?= $image; ?></span>
-                                <br /><br />
-                                <b>Link</b>
-                                <input class="form-control" value="/img/travels/<?= $this->travel['travel_id']; ?>/files/<?= $image; ?>" type="text">
-                                <b>Code Fit</b>
-                                <input class="form-control" value="&lt;div class=&quot;12u$&quot;&gt;&lt;span class=&quot;image fit&quot;&gt;&lt;img src=&quot;/img/travels/<?= $this->travel['travel_id']; ?>/files/<?= $image; ?>&quot; width=&quot;&quot; alt=&quot;&quot;&gt;&lt;/span&gt;&lt;/div&gt;" type="text">
-                                <b>Code Left</b>
-                                <input class="form-control" value="&lt;span class=&quot;image left&quot;&gt;&lt;img src=&quot;/img/travels/<?= $this->travel['travel_id']; ?>/files/<?= $image; ?>&quot; width=&quot;&quot; alt=&quot;&quot;&gt;&lt;/span&gt;" type="text">
-                                <b>Code Right</b>
-                                <input class="form-control" value="&lt;span class=&quot;image right&quot;&gt;&lt;img src=&quot;/img/travels/<?= $this->travel['travel_id']; ?>/files/<?= $image; ?>&quot; width=&quot;&quot; alt=&quot;&quot;&gt;&lt;/span&gt;" type="text">
+                                <b><?= $this->translate('Link'); ?></b>
+                                <input class="form-control" style="width: 80%;" value="/img/travels/<?= $this->travel['travel_id']; ?>/files/<?= $image; ?>" type="text">
+                                <b><?= $this->translate('Image Fit'); ?></b>
+                                <input class="form-control" style="width: 80%;" value="&lt;div class=&quot;12u$&quot;&gt;&lt;span class=&quot;image fit&quot;&gt;&lt;img src=&quot;/img/travels/<?= $this->travel['travel_id']; ?>/files/<?= $image; ?>&quot; alt=&quot;&quot;&gt;&lt;/span&gt;&lt;/div&gt;" type="text">
+                                <b><?= $this->translate('Image Left'); ?></b>
+                                <input class="form-control" style="width: 80%;" value="&lt;span class=&quot;image left&quot;&gt;&lt;img src=&quot;/img/travels/<?= $this->travel['travel_id']; ?>/files/<?= $image; ?>&quot; width=&quot;&quot; alt=&quot;&quot;&gt;&lt;/span&gt;" type="text">
+                                <b><?= $this->translate('Image Right'); ?></b>
+                                <input class="form-control" style="width: 80%;" value="&lt;span class=&quot;image right&quot;&gt;&lt;img src=&quot;/img/travels/<?= $this->travel['travel_id']; ?>/files/<?= $image; ?>&quot; width=&quot;&quot; alt=&quot;&quot;&gt;&lt;/span&gt;" type="text">
                                 <br />
-                            </p>
+                            </div>
                         </div>
+                        <?php $col++; ?>
                     <?php endforeach; ?>
                 <?php
                 }
                 ?>
             </div>
 
-            <script src="/js/jquery-file-upload-9.14.2/js/vendor/jquery.ui.widget.js"></script>
-            <script src="//blueimp.github.io/JavaScript-Load-Image/js/load-image.all.min.js"></script>
-            <script src="//blueimp.github.io/JavaScript-Canvas-to-Blob/js/canvas-to-blob.min.js"></script>
-            <script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
-            <script src="/js/jquery-file-upload-9.14.2/js/jquery.iframe-transport.js"></script>
-            <script src="/js/jquery-file-upload-9.14.2/js/jquery.fileupload.js"></script>
-            <script src="/js/jquery-file-upload-9.14.2/js/jquery.fileupload-process.js"></script>
-            <script src="/js/jquery-file-upload-9.14.2/js/jquery.fileupload-image.js"></script>
-            <script src="/js/jquery-file-upload-9.14.2/js/jquery.fileupload-audio.js"></script>
-            <script src="/js/jquery-file-upload-9.14.2/js/jquery.fileupload-video.js"></script>
-            <script src="/js/jquery-file-upload-9.14.2/js/jquery.fileupload-validate.js"></script>
-            <script>
+            <script type="text/javascript">
                 /*jslint unparam: true, regexp: true */
                 /*global window, $ */
                 $(function () {
@@ -221,8 +263,8 @@ $this->pageBreadcrumbs()->setItems([
                         // send Blob objects via XHR requests:
                         disableImageResize: /Android(?!.*Chrome)|Opera/
                             .test(window.navigator.userAgent),
-                        previewMaxWidth: 100,
-                        previewMaxHeight: 100,
+                        previewMaxWidth: 120,
+                        previewMaxHeight: 120,
                         previewCrop: true,
                     }).on('fileuploadadd', function (e, data) {
                         data.context = $('<div/>').appendTo('#files');
@@ -270,10 +312,10 @@ $this->pageBreadcrumbs()->setItems([
 //                                $(data.context.children()[index])
 //                                    .wrap(link);
                                 $(data.context.children()[index])
-                                    .append('<br /><b><?= $this->translate('Link'); ?></b><input type="text" class="form-control" value="/img/travels/<?= $this->travel['travel_id']; ?>/files/' + file.name + '">' +
-                                        '<b><?= $this->translate('Code Fit'); ?></b><input type="text" class="form-control" value="<div class=&quot;12u$&quot;><span class=&quot;image fit&quot;><img src=&quot;/img/travels/<?= $this->travel['travel_id']; ?>/files/' + file.name + '&quot; width=&quot;&quot; alt=&quot;&quot;></span></div>">' +
-                                        '<b><?= $this->translate('Code Left'); ?></b><input type="text" class="form-control" value="<span class=&quot;image left&quot;><img src=&quot;/img/travels/<?= $this->travel['travel_id']; ?>/files/' + file.name + '&quot; width=&quot;&quot; alt=&quot;&quot;></span>">' +
-                                        '<b><?= $this->translate('Code Right'); ?></b><input type="text" class="form-control" value="<span class=&quot;image right&quot;><img src=&quot;/img/travels/<?= $this->travel['travel_id']; ?>/files/' + file.name + '&quot; width=&quot;&quot; alt=&quot;&quot;></span>"><br />');
+                                    .append('<div class="form-group form-group-sm"><br /><b><?= $this->translate('Link'); ?></b><br /><br /><input type="text" class="form-control" style="width: 80%;" value="/img/travels/<?= $this->travel['travel_id']; ?>/files/' + file.name + '">' +
+                                        '<br /><b><?= $this->translate('Image Fit'); ?></b><input type="text" class="form-control" style="width: 80%;" value="<div class=&quot;12u$&quot;><span class=&quot;image fit&quot;><img src=&quot;/img/travels/<?= $this->travel['travel_id']; ?>/files/' + file.name + '&quot; alt=&quot;&quot;></span></div>">' +
+                                        '<b><?= $this->translate('Image Left'); ?></b><input type="text" class="form-control" style="width: 80%;" value="<span class=&quot;image left&quot;><img src=&quot;/img/travels/<?= $this->travel['travel_id']; ?>/files/' + file.name + '&quot; width=&quot;&quot; alt=&quot;&quot;></span>">' +
+                                        '<b><?= $this->translate('Image Right'); ?></b><input type="text" class="form-control" style="width: 80%;" value="<span class=&quot;image right&quot;><img src=&quot;/img/travels/<?= $this->travel['travel_id']; ?>/files/' + file.name + '&quot; width=&quot;&quot; alt=&quot;&quot;></span>"><br /><br /></div>');
                             } else if (file.error) {
                                 var error = $('<span class="text-danger"/>').text(file.error);
                                 $(data.context.children()[index])
