@@ -63,7 +63,7 @@ $form->prepare();
             <?= $this->formLabel($form->get('photo')); ?>
             <?= $this->formElement($form->get('photo')); ?>
             <?= $this->formElementErrors($form->get('photo')); ?>
-            <?= ($user['photo'] != ''?'<br /><img src="/img/users/'.$this->user['id'].'/'.$user['photo'].'">':'') ?>
+            <?= ($user['photo'] != ''?'<br /><img src="/img/users/'.$this->user['id'].'/'.$this->user['photo'].'">':'') ?>
         </div>
         <br />
         <div class="form-group">

@@ -3,6 +3,7 @@ namespace Travel\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
+use Travel\Form\TravelEditForm;
 
 /**
  * This controller is responsible for travel management (adding, editing, viewing travels).
@@ -22,10 +23,12 @@ class TravelAdminController extends AbstractActionController
      */
     private $travelManager;
 
+    private $uploadPath = '';
+
     /**
      * Constructor.
      */
-    public function __construct($dbAdapter, $travelManager)
+    public function __construct($dbAdapter, $travelManager, $uploadPath)
     {
         if (isset($_SESSION['Zend_Auth']->session) and $_SESSION['Zend_Auth']->session != 'gorbachev.info@gmail.com') {
             $this->getResponse()->setStatusCode(404);
@@ -34,6 +37,7 @@ class TravelAdminController extends AbstractActionController
 
         $this->dbAdapter = $dbAdapter;
         $this->travelManager = $travelManager;
+        $this->uploadPath = $uploadPath;
     }
 
     public function indexAction()
@@ -66,6 +70,36 @@ class TravelAdminController extends AbstractActionController
         // Get travel
         $travel = $this->travelManager->getTravelForEdit($travel_id, $langs);
 
+        // Create travel edit form
+        $form = new TravelEditForm($this->dbAdapter, $travel, $this->uploadPath);
+        $form->setAttribute('action', '/travels/admin/edit/'.$travel_id);
+
+        // Check if travel has submitted the form
+        if ($this->getRequest()->isPost()) {
+
+            // Fill in the form with POST data and FILES data
+            $data = array_merge_recursive((array)$this->params()->fromPost(), (array)$this->params()->fromFiles());
+
+            $form->setData($data);
+
+            // Validate form
+            if($form->isValid()) {
+
+                // Get filtered and validated data
+                //$data = $form->getData();
+
+                // Update the travel.
+                $this->travelManager->updateTravel($travel, $data);
+
+                // Redirect to "edit" page
+                return $this->redirect()->toRoute('travels_admin', ['action' => 'edit', 'id' => $travel_id]);
+            }
+        } else {
+            $form->setData(array(
+                'travel'    => $travel,
+            ));
+        }
+
         // Get travel's images
         $images = $this->travelManager->getTravelImages($travel_id);
 
@@ -73,7 +107,8 @@ class TravelAdminController extends AbstractActionController
         $view = new ViewModel([
             'travel'    => $travel,
             'langs'     => $langs,
-            'images'    => $images
+            'images'    => $images,
+            'form' => $form
         ]);
         $view->setTemplate('travel/travel-admin/edit');
 

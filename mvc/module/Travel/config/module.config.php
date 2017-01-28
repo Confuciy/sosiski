@@ -91,5 +91,6 @@ return [
             __DIR__ . '/../view',
         ],
     ],
+    'uploadPath' => dirname(__FILE__).'/../../../public/img/travels/',
 ];
 

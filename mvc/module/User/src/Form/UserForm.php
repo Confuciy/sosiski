@@ -221,7 +221,7 @@ class UserForm extends Form
                 [
                     'name' => UserPhotoValidator::class,
                     'options' => [
-                        'minSize' => '520',
+                        'minSize' => '64',
                         'maxSize' => '1024',
                         'newFileName' => 'photo_'.time(),
                         'uploadPath' => $_SERVER['DOCUMENT_ROOT'].'/mvc/public/img/users/'.$this->user['id'].'/',

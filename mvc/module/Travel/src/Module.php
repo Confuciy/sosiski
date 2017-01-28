@@ -44,7 +44,8 @@ class Module
                 Service\TravelManager::class => function ($container) {
                     $dbAdapter = $container->get('Zend\Db\Adapter\Adapter');
                     $translator = $container->get('Zend\Mvc\I18n\Translator');
-                    return new Service\TravelManager($dbAdapter, $translator);
+                    $config = $container->get('Config');
+                    return new Service\TravelManager($dbAdapter, $translator, $config['uploadPath']);
                 },
             ]
         ];

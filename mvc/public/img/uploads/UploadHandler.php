@@ -154,8 +154,8 @@ class UploadHandler
                     // Uncomment the following to force the max
                     // dimensions and e.g. create square thumbnails:
                     //'crop' => true,
-                    'max_width' => 80,
-                    'max_height' => 80
+                    'max_width' => 120,
+                    'max_height' => 120
                 )
             ),
             'print_response' => true
@@ -265,7 +265,7 @@ class UploadHandler
         $file->deleteUrl = $this->options['script_url']
             .$this->get_query_separator($this->options['script_url'])
             .$this->get_singular_param_name()
-            .'='.rawurlencode($file->name);
+            .'='.rawurlencode($file->name).'&travel_id='.$_GET['travel_id'];
         $file->deleteType = $this->options['delete_type'];
         if ($file->deleteType !== 'DELETE') {
             $file->deleteUrl .= '&_method=DELETE';

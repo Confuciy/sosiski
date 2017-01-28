@@ -22,13 +22,16 @@ class TravelManager
 
     private  $translator;
 
+    private $uploadPath = '';
+
     /**
      * Constructs the service.
      */
-    public function __construct($dbAdapter, $translator)
+    public function __construct($dbAdapter, $translator, $uploadPath)
     {
         $this->dbAdapter = $dbAdapter;
         $this->translator = $translator;
+        $this->uploadPath = $uploadPath;
     }
 
     /**
@@ -102,20 +105,20 @@ class TravelManager
         $select->limit(1);
         $travel = $res->selectWith($select)->toArray()[0];
         foreach ($langs as $lang){
-            $travel['txt'][$lang['locale']] = $this->getTravelByIdAndLocate($travel['travel_id'], $lang['locale']);
+            $travel['txt'][$lang['locale']] = $this->getTravelByIdAndLocale($travel['travel_id'], $lang['locale']);
         }
 
         return $travel;
     }
 
-    public function getTravelByIdAndLocate($travel_id = 0, $locate = '')
+    public function getTravelByIdAndLocale($travel_id = 0, $locale = '')
     {
         $res = new TableGateway('travels_txt', $this->dbAdapter);
         $sql = $res->getSql();
         $select = $sql->select();
         $select->join('lang', 'lang.lang_id = travels_txt.lang_id', []);
         $select->where(['travels_txt.travel_id' => $travel_id]);
-        $select->where(['lang.locale' => $locate]);
+        $select->where(['lang.locale' => $locale]);
         $select->limit(1);
         $travel = $res->selectWith($select)->toArray()[0];
 
@@ -135,7 +138,7 @@ class TravelManager
     public function getTravelImages($travel_id = 0){
         $images = [];
 
-        $dir = dirname(__FILE__).'/../../../../public/img/travels/'.$travel_id.'/files';
+        $dir = $this->uploadPath.$travel_id.'/files';
         if (is_dir($dir)) {
             if ($dh = opendir($dir)) {
                 $col = 0;
@@ -149,6 +152,74 @@ class TravelManager
         }
 
         return $images;
+    }
+
+    public function updateTravel($travel, $data){
+        $update_data = [
+            'url' => $data['url'],
+            'date' => date('Y-m-d', strtotime($data['date'])),
+            'status' => $data['status'],
+            'image' => ((isset($data['image']['name']) and $data['image']['name'] != '')?$data['image']['name']:$travel['image'])
+        ];
+
+        if (isset($data['image']['name']) and $data['image']['name'] != '') {
+            if(!move_uploaded_file($data['image']['tmp_name'], $this->uploadPath.$travel['travel_id'].'/'.$data['image']['name'])) {
+                throw new \Exception($this->translator->translate('Can\'t upload image!'));
+            } else {
+                $dir = $this->uploadPath.$travel['travel_id'];
+                if (is_dir($dir)) {
+                    if ($dh = opendir($dir)) {
+                        $col = 0;
+                        while (($file = readdir($dh)) !== false) {
+                            if($file != '.' and $file != '..' and is_file($dir.'/'.$file) and $file != $data['image']['name']){
+                                unlink($dir.'/'.$file);
+                            }
+                        }
+                        closedir($dh);
+                    }
+                }
+            }
+        }
+
+        $connection = $this->dbAdapter->getDriver()->getConnection();
+        $connection->beginTransaction();
+
+        try {
+            $res = new TableGateway('travels', $this->dbAdapter);
+            $sql = $res->getSql();
+            $update = $sql->update();
+            $update->table('travels');
+            $update->set($update_data);
+            $update->where(array('travel_id' => $travel['travel_id']));
+            $statement = $sql->prepareStatementForSqlObject($update);
+            $statement->execute($sql);
+
+            $langs = $this->getLangs();
+            foreach ($langs as $lang) {
+                $travel['txt'][$lang['locale']] = $this->getTravelByIdAndLocale($travel['travel_id'], $lang['locale']);
+
+                $update_data = [
+                    'title' => $data[$lang['locale']]['title'],
+                    'subtitle' => $data[$lang['locale']]['subtitle'],
+                    'announce' => $data[$lang['locale']]['announce'],
+                    'text' => $data[$lang['locale']]['text'],
+                ];
+
+                $res = new TableGateway('travels_txt', $this->dbAdapter);
+                $sql = $res->getSql();
+                $update = $sql->update();
+                $update->table('travels_txt');
+                $update->set($update_data);
+                $update->where(array('travel_id' => $travel['travel_id']));
+                $update->where(array('lang_id' => $lang['lang_id']));
+                $statement = $sql->prepareStatementForSqlObject($update);
+                $statement->execute($sql);
+            }
+
+            $connection->commit();
+        }  catch (Exception $e) {
+            $connection->rollback();
+        }
     }
 
     public function pr($arr = []){
