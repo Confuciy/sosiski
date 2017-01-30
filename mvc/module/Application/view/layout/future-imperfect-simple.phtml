@@ -20,10 +20,7 @@
         <nav class="links">
             <ul>
                 <li><a href="<?= $this->url('family-gallery'); ?>"><?= $this->translate('Family Gallery'); ?></a></li>
-                <li>
-                    <a href="<?= $this->url('travels'); ?>"><?= $this->translate('Travels'); ?></a>
-                    <?php echo ((isset($_SESSION['Zend_Auth']->session) and $_SESSION['Zend_Auth']->session == 'gorbachev.info@gmail.com')?'/ <a href="'.$this->url('travels_admin').'"><b>A</b></a>':''); ?>
-                </li>
+                <li><a href="<?= $this->url('travels'); ?>"><?= $this->translate('Travels'); ?></a></li>
             </ul>
         </nav>
         <nav class="main">
@@ -110,18 +107,20 @@
     </div>
 
     <!-- Footer -->
-    <?php /* ?>
     <section id="footer">
         <ul class="icons">
-            <li><a href="#" class="fa-twitter"><span class="label">Twitter</span></a></li>
-            <li><a href="#" class="fa-facebook"><span class="label">Facebook</span></a></li>
-            <li><a href="#" class="fa-instagram"><span class="label">Instagram</span></a></li>
+            <li><a href="https://twitter.com/gorbachev_al_vl" class="fa-twitter"><span class="label">Twitter</span></a></li>
+            <li><a href="https://www.facebook.com/futuramus" class="fa-facebook"><span class="label">Facebook</span></a></li>
+            <li><a href="https://www.instagram.com/go.al/" class="fa-instagram"><span class="label">Instagram</span></a></li>
+            <?php /* ?>
             <li><a href="#" class="fa-rss"><span class="label">RSS</span></a></li>
             <li><a href="#" class="fa-envelope"><span class="label">Email</span></a></li>
+            <?php */ ?>
         </ul>
+        <?php /* ?>
         <p class="copyright">&copy; Untitled. Design: <a href="http://html5up.net">HTML5 UP</a>. Images: <a href="http://unsplash.com">Unsplash</a>.</p>
+        <?php */ ?>
     </section>
-    <?php */ ?>
 
 </div>
 

@@ -8,6 +8,19 @@
     <link rel="stylesheet" href="/templates/future-imperfect/assets/css/admin_main.css" />
     <!--[if lte IE 9]><link rel="stylesheet" href="/templates/future-imperfect/assets/css/ie9.css" /><![endif]-->
     <!--[if lte IE 8]><link rel="stylesheet" href="/templates/future-imperfect/assets/css/ie8.css" /><![endif]-->
+
+    <!-- Le styles -->
+    <?= $this->headLink()
+        ->prependStylesheet($this->basePath('css/bootstrap-theme.min.css'))
+        ->prependStylesheet($this->basePath('css/bootstrap.admin.min.css'))
+    ?>
+
+    <!-- Scripts -->
+    <?= $this->headScript()
+        ->prependFile($this->basePath('js/bootstrap.min.js'))
+        ->prependFile($this->basePath('js/jquery-3.1.0.min.js'))
+    ?>
+
 </head>
 <body class="single">
 
@@ -20,10 +33,7 @@
         <nav class="links">
             <ul>
                 <li><a href="<?= $this->url('family-gallery'); ?>"><?= $this->translate('Family Gallery'); ?></a></li>
-                <li>
-                    <a href="<?= $this->url('travels'); ?>"><?= $this->translate('Travels'); ?></a>
-                    <?php echo ((isset($_SESSION['Zend_Auth']->session) and $_SESSION['Zend_Auth']->session == 'gorbachev.info@gmail.com')?'/ <a href="'.$this->url('travels_admin').'"><b>A</b></a>':''); ?>
-                </li>
+                <li><a href="<?= $this->url('travels'); ?>"><?= $this->translate('Travels'); ?></a></li>
             </ul>
         </nav>
         <nav class="main">

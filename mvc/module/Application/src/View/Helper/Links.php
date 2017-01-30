@@ -14,13 +14,16 @@ class Links extends AbstractHelper
      */
     private $items = [];
 
+    private $userManager;
+
     /**
      * Constructor.
      * @param array $items Array of items (optional).
      */
-    public function __construct($items=[])
+    public function __construct($items=[], $userManager)
     {
         $this->items = $items;
+        $this->userManager = $userManager;
     }
 
     /**
@@ -53,9 +56,31 @@ class Links extends AbstractHelper
                         <h3>'.$this->view->translate('Travels').'</h3>
                         <p>'.$this->view->translate('Photos and stories about our travels').'</p>
                     </a>
-                </li>
+                </li>';
+
+                if (isset($_SESSION['Zend_Auth']->session) and $_SESSION['Zend_Auth']->session != '') {
+                    // Find a user with such Email.
+                    $user = $this->userManager->getUserByEmail($_SESSION['Zend_Auth']->session);
+                    $user_roles = $this->userManager->getUserRolesIds($user['id']);
+
+                    // If user is Administrator
+//                    if (in_array(4, $user_roles)) {
+//                        $result .= '
+//                        <li>
+//                            <a href="'.$this->view->url('users').'">'.$this->view->translate('Administration of users').'</a>
+//                            <a href="'.$this->view->url('travels_admin').'">'.$this->view->translate('Administration of travels').'</a>
+//                        </li>';
+//                    }
+                }
+
+            $result .= '
             </ul>
         </section>';
+        if (in_array(4, $user_roles)) {
+            $result .= '
+            <a href="' . $this->view->url('users') . '">' . $this->view->translate('Administration of users') . '</a>
+            <a href="' . $this->view->url('travels_admin') . '">' . $this->view->translate('Administration of travels') . '</a>';
+        }
 
         return $result;
 

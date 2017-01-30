@@ -20,7 +20,7 @@ class TravelManager
      */
     private $dbAdapter;
 
-    private  $translator;
+    private $translator;
 
     private $uploadPath = '';
 
@@ -32,6 +32,10 @@ class TravelManager
         $this->dbAdapter = $dbAdapter;
         $this->translator = $translator;
         $this->uploadPath = $uploadPath;
+    }
+
+    public function getUploadPath() {
+        return $this->uploadPath;
     }
 
     /**
@@ -52,7 +56,7 @@ class TravelManager
      * @param int $page
      * @return null|\Zend\Db\ResultSet\ResultSetInterface
      */
-    public function getTravelsList($page = 1)
+    public function getTravelsList($page = 1, $admin = 0)
     {
         $res = new TableGateway('travels', $this->dbAdapter);
         $sql = $res->getSql();
@@ -60,7 +64,9 @@ class TravelManager
         $select->join('travels_txt', 'travels_txt.travel_id = travels.travel_id', ['lang_id', 'title', 'subtitle', 'announce', 'text']);
         $select->join('user', 'user.id = travels.user_id', ['full_name', 'photo']);
         $select->join('lang', 'lang.lang_id = travels_txt.lang_id', []);
-        $select->where(['travels.status' => 1]);
+        if (empty($admin)) {
+            $select->where(['travels.status' => 1]);
+        }
         $select->where(['lang.locale' => $_SESSION['locale']]);
         $select->limit($this->page_limit, $page);
         $travels = $res->selectWith($select);
@@ -82,7 +88,9 @@ class TravelManager
         $select->join('user', 'user.id = travels.user_id', ['full_name', 'photo']);
         $select->join('lang', 'lang.lang_id = travels_txt.lang_id', []);
         $select->where(['travels.url' => $url]);
-        $select->where(['travels.status' => 1]);
+        if(!isset($_GET['preview'])) {
+            $select->where(['travels.status' => 1]);
+        }
         $select->where(['lang.locale' => $_SESSION['locale']]);
         $select->limit(1);
         $travel= $res->selectWith($select)->current();
@@ -199,10 +207,11 @@ class TravelManager
                 $travel['txt'][$lang['locale']] = $this->getTravelByIdAndLocale($travel['travel_id'], $lang['locale']);
 
                 $update_data = [
-                    'title' => $data[$lang['locale']]['title'],
-                    'subtitle' => $data[$lang['locale']]['subtitle'],
-                    'announce' => $data[$lang['locale']]['announce'],
-                    'text' => $data[$lang['locale']]['text'],
+                    'title' => trim($data[$lang['locale']]['title']),
+                    'subtitle' => trim($data[$lang['locale']]['subtitle']),
+                    'announce' => trim($data[$lang['locale']]['announce']),
+                    'text' => trim($data[$lang['locale']]['text']),
+//                    'text' => str_replace("\r\n", '<br />', trim($data[$lang['locale']]['text'])),
                 ];
 
                 $res = new TableGateway('travels_txt', $this->dbAdapter);

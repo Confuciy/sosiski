@@ -1,0 +1,502 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: sosiski.net\n"
+"POT-Creation-Date: 2017-01-30 23:49+0300\n"
+"PO-Revision-Date: 2017-01-30 23:49+0300\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: ru_RU\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.7.7\n"
+"X-Poedit-Basepath: .\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: translate\n"
+"X-Poedit-SearchPath-0: C:\\Users\\1\\Desktop\\git\\sosiski.net\\mvc\\module\n"
+
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Application/src/View/Helper/Links.php:50
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Application/view/layout/admin.phtml:35
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Application/view/layout/future-imperfect-simple.phtml:22
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Application/view/layout/future-imperfect.phtml:22
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/FamilyGallery/view/family-gallery/family-gallery/index.phtml:2
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/FamilyGallery/view/family-gallery/family-gallery/index.phtml:8
+msgid "Family Gallery"
+msgstr "Галерея семьи"
+
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Application/src/View/Helper/Links.php:51
+msgid "A small gallery of our family members"
+msgstr "Небольшая галерея членов наших семьи"
+
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Application/src/View/Helper/Links.php:56
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Application/view/layout/admin.phtml:36
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Application/view/layout/future-imperfect-simple.phtml:23
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Application/view/layout/future-imperfect.phtml:23
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/view/travel/travel-admin/edit.phtml:6
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/view/travel/travel-admin/index.phtml:6
+msgid "Travels"
+msgstr "Путешествия"
+
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Application/src/View/Helper/Links.php:57
+msgid "Photos and stories about our travels"
+msgstr "Фотографии и рассказы о наших путешествиях"
+
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Application/src/View/Helper/Links.php:70
+msgid "Administration of users"
+msgstr "Управление пользователями"
+
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Application/src/View/Helper/Links.php:71
+msgid "Administration of travels"
+msgstr "Управление путешествиями"
+
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Application/src/View/Helper/Menu.php:63
+msgid "Toggle navigation"
+msgstr "Переключение навигации"
+
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/src/Controller/TravelAdminController.php:51
+msgid "You're not administrator"
+msgstr "Вы, не администратор"
+
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/src/Form/TravelEditForm.php:55
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/view/travel/travel-admin/edit.phtml:16
+msgid "Url"
+msgstr "Адрес URL"
+
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/src/Form/TravelEditForm.php:64
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/view/travel/travel-admin/edit.phtml:24
+msgid "Date"
+msgstr "Дата"
+
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/src/Form/TravelEditForm.php:70
+msgid "Image"
+msgstr "Изображение"
+
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/src/Form/TravelEditForm.php:78
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/User/view/user/user/index.phtml:28
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/User/view/user/user/view.phtml:48
+msgid "Status"
+msgstr "Статус"
+
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/src/Form/TravelEditForm.php:80
+msgid "Active"
+msgstr "Активно"
+
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/src/Form/TravelEditForm.php:81
+msgid "Not Active"
+msgstr "Не активно"
+
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/src/Form/TravelEditForm.php:91
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/view/travel/travel-admin/edit.phtml:41
+msgid "Save"
+msgstr "Сохранить"
+
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/src/Form/TravelEditForm.php:144
+msgid "Date Not Set!"
+msgstr "Дата не установлена!"
+
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/src/Form/TravelEditForm.php:145
+msgid "Invalid Date!"
+msgstr "Неправильная дата!"
+
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/src/Form/TravelEditForm.php:146
+msgid "Invalid Format!"
+msgstr "Неверные формат!"
+
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/src/Form/TravelEditForm.php:154
+msgid "Please, Enter Date"
+msgstr "Пожалуйста, введите дату"
+
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/src/Service/TravelManager.php:175
+msgid "Can't upload image!"
+msgstr "Не удается загрузить изображение!"
+
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Application/view/application/index/about.phtml:2
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Application/view/application/index/about.phtml:8
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Application/view/application/index/about.phtml:12
+msgid "About"
+msgstr "О нас"
+
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Application/view/application/index/about.phtml:7
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Application/view/application/index/settings.phtml:7
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/User/view/user/user/add.phtml:7
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/User/view/user/user/change-password.phtml:7
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/User/view/user/user/edit.phtml:7
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/User/view/user/user/index.phtml:7
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/User/view/user/user/register.phtml:7
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/User/view/user/user/view.phtml:7
+msgid "Home"
+msgstr "Главная"
+
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Application/view/application/index/about.phtml:13
+msgid "Application name"
+msgstr "Название приложения"
+
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Application/view/application/index/about.phtml:14
+msgid "Application description"
+msgstr "Описание приложения"
+
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Application/view/application/index/settings.phtml:2
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Application/view/application/index/settings.phtml:8
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Application/view/application/index/settings.phtml:12
+msgid "Settings"
+msgstr "Настройки"
+
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Application/view/application/index/settings.phtml:26
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/User/view/user/user/add.phtml:19
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/User/view/user/user/edit.phtml:21
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/User/view/user/user/index.phtml:26
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/User/view/user/user/view.phtml:36
+msgid "Full Name"
+msgstr "Полное имя"
+
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Application/view/application/index/settings.phtml:30
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/view/travel/travel-admin/index.phtml:24
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/User/view/user/user/index.phtml:27
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/User/view/user/user/view.phtml:40
+msgid "Date Created"
+msgstr "Дата создания"
+
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Application/view/layout/admin.phtml:4
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Application/view/layout/admin.phtml:32
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Application/view/layout/future-imperfect-simple.phtml:4
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Application/view/layout/future-imperfect-simple.phtml:19
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Application/view/layout/future-imperfect.phtml:4
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Application/view/layout/future-imperfect.phtml:19
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/User/view/user/auth/intro.phtml:8
+msgid "Our life"
+msgstr "Наша жизнь"
+
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Application/view/layout/admin.phtml:45
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Application/view/layout/future-imperfect-simple.phtml:32
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Application/view/layout/future-imperfect.phtml:32
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/view/travel/travel-admin/edit.phtml:92
+msgid "English"
+msgstr "Английский"
+
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Application/view/layout/admin.phtml:48
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Application/view/layout/admin.phtml:51
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Application/view/layout/future-imperfect-simple.phtml:35
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Application/view/layout/future-imperfect-simple.phtml:38
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Application/view/layout/future-imperfect.phtml:35
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Application/view/layout/future-imperfect.phtml:38
+msgid "Русский"
+msgstr "Русский"
+
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Application/view/layout/admin.phtml:56
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Application/view/layout/admin.phtml:58
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Application/view/layout/admin.phtml:74
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Application/view/layout/future-imperfect-simple.phtml:43
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Application/view/layout/future-imperfect-simple.phtml:45
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Application/view/layout/future-imperfect-simple.phtml:61
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Application/view/layout/future-imperfect.phtml:43
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Application/view/layout/future-imperfect.phtml:45
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Application/view/layout/future-imperfect.phtml:61
+msgid "Search"
+msgstr "Поиск"
+
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Application/view/layout/admin.phtml:62
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Application/view/layout/future-imperfect-simple.phtml:49
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Application/view/layout/future-imperfect.phtml:49
+msgid "Menu"
+msgstr "Меню"
+
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/FamilyGallery/view/family-gallery/family-gallery/view-header.phtml:4
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/FamilyGallery/view/family-gallery/family-gallery/view.phtml:19
+msgid "back"
+msgstr "назад"
+
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/view/travel/travel-admin/edit.phtml:2
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/view/travel/travel-admin/edit.phtml:7
+msgid "Edit Travels"
+msgstr "Редактировать путешествия"
+
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/view/travel/travel-admin/edit.phtml:8
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/view/travel/travel-admin/index.phtml:8
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/view/travel/travel-admin/index.phtml:14
+msgid "Add Travel"
+msgstr "Добавить путешествие"
+
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/view/travel/travel-admin/edit.phtml:90
+msgid "Main Info"
+msgstr "Основная информация"
+
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/view/travel/travel-admin/edit.phtml:92
+msgid "Russian"
+msgstr "Русский"
+
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/view/travel/travel-admin/edit.phtml:94
+msgid "Images"
+msgstr "Изображения"
+
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/view/travel/travel-admin/edit.phtml:107
+msgid "Preview"
+msgstr ""
+
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/view/travel/travel-admin/edit.phtml:134
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/view/travel/travel-admin/edit.phtml:135
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/view/travel/travel-admin/index.phtml:23
+msgid "Title"
+msgstr "Заголовок"
+
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/view/travel/travel-admin/edit.phtml:137
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/view/travel/travel-admin/edit.phtml:138
+msgid "Subtitle"
+msgstr "Подзаголовок"
+
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/view/travel/travel-admin/edit.phtml:140
+msgid "Announce"
+msgstr "Анонс"
+
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/view/travel/travel-admin/edit.phtml:143
+msgid "Text"
+msgstr "Текст"
+
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/view/travel/travel-admin/edit.phtml:167
+msgid "Add files..."
+msgstr "Добавить файлы"
+
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/view/travel/travel-admin/edit.phtml:193
+msgid "View/Hide"
+msgstr "Посмотреть / Скрыть"
+
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/view/travel/travel-admin/edit.phtml:197
+msgid "Delete"
+msgstr "Удалить"
+
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/view/travel/travel-admin/edit.phtml:202
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/view/travel/travel-admin/edit.phtml:307
+msgid "Link"
+msgstr "Ссылка"
+
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/view/travel/travel-admin/edit.phtml:204
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/view/travel/travel-admin/edit.phtml:308
+msgid "Image Fit"
+msgstr "Вписать изображение"
+
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/view/travel/travel-admin/edit.phtml:206
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/view/travel/travel-admin/edit.phtml:309
+msgid "Image Left"
+msgstr "Изображение слева"
+
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/view/travel/travel-admin/edit.phtml:208
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/view/travel/travel-admin/edit.phtml:310
+msgid "Image Right"
+msgstr "Изображение справа"
+
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/view/travel/travel-admin/index.phtml:2
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/view/travel/travel-admin/index.phtml:4
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/view/travel/travel-admin/index.phtml:7
+msgid "Manage Travels"
+msgstr "Управление путешествиями"
+
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/view/travel/travel-admin/index.phtml:25
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/User/view/user/user/index.phtml:29
+msgid "Actions"
+msgstr "Действия"
+
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/view/travel/travel/index.phtml:22
+msgid "Continue Reading"
+msgstr "Продолжить чтение"
+
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/User/view/user/auth/intro.phtml:9
+msgid "Our life, our family, our travels and etc."
+msgstr "Наша жизнь, наша семья, наши путешествия и др."
+
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/User/view/user/auth/login.phtml:2
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/User/view/user/auth/login.phtml:48
+msgid "Sign in"
+msgstr "Войти"
+
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/User/view/user/auth/login.phtml:8
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/User/view/user/user/reset-password.phtml:6
+msgid "Email address"
+msgstr "Email адрес"
+
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/User/view/user/auth/login.phtml:18
+msgid "Password"
+msgstr "Пароль"
+
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/User/view/user/auth/login.phtml:29
+msgid "Please sign in"
+msgstr "Пожалуйста, войдите"
+
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/User/view/user/auth/login.phtml:32
+msgid "Incorrect login and/or password."
+msgstr "Некорректный логин и/или пароль."
+
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/User/view/user/auth/login.phtml:33
+msgid "Forgot password?"
+msgstr "Забыли пароль?"
+
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/User/view/user/auth/login.phtml:56
+msgid "Log In"
+msgstr "Авторизоваться"
+
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/User/view/user/auth/login.phtml:63
+msgid "Log Out"
+msgstr "Выйти"
+
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/User/view/user/user/add.phtml:2
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/User/view/user/user/add.phtml:9
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/User/view/user/user/add.phtml:39
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/User/view/user/user/register.phtml:9
+msgid "Add User"
+msgstr "Добавить пользователя"
+
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/User/view/user/user/add.phtml:8
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/User/view/user/user/change-password.phtml:8
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/User/view/user/user/edit.phtml:8
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/User/view/user/user/index.phtml:8
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/User/view/user/user/index.phtml:12
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/User/view/user/user/register.phtml:8
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/User/view/user/user/view.phtml:8
+msgid "Manage Users"
+msgstr "Управление пользователями"
+
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/User/view/user/user/add.phtml:41
+msgid "Please fill out the following form and click the <i>Create</i> button."
+msgstr ""
+"Пожалуйста , заполните следующую форму и нажмите кнопку <i>Создать</i>."
+
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/User/view/user/user/change-password.phtml:2
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/User/view/user/user/change-password.phtml:9
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/User/view/user/user/edit.phtml:43
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/User/view/user/user/index.phtml:51
+msgid "Change Password"
+msgstr "Изменить пароль"
+
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/User/view/user/user/change-password.phtml:14
+msgid "Enter old password"
+msgstr "Введите старый пароль"
+
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/User/view/user/user/change-password.phtml:19
+msgid "Enter new password"
+msgstr "Введите новый пароль"
+
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/User/view/user/user/change-password.phtml:24
+msgid "Re-enter new password"
+msgstr "Повторно введите новый пароль"
+
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/User/view/user/user/change-password.phtml:32
+msgid "Change Password for"
+msgstr "Изменение пароля для"
+
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/User/view/user/user/edit.phtml:2
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/User/view/user/user/edit.phtml:9
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/User/view/user/user/edit.phtml:41
+msgid "Edit User"
+msgstr "Редактирование пользователя"
+
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/User/view/user/user/edit.phtml:42
+msgid "View"
+msgstr "Просмотр"
+
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/User/view/user/user/index.phtml:2
+msgid "Users"
+msgstr "Пользователи"
+
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/User/view/user/user/index.phtml:17
+msgid "New User"
+msgstr "Новый пользователь"
+
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/User/view/user/user/index.phtml:47
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/User/view/user/user/view.phtml:20
+msgid "Edit"
+msgstr "Изменить"
+
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/User/view/user/user/message.phtml:2
+msgid "Thank You"
+msgstr "Спасибо"
+
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/User/view/user/user/message.phtml:7
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/User/view/user/user/reset-password.phtml:2
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/User/view/user/user/reset-password.phtml:20
+msgid "Reset Password"
+msgstr "Сбросить пароль"
+
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/User/view/user/user/message.phtml:10
+msgid "A password reset link has been sent to your email address."
+msgstr "Ссылка для сброса пароля отправлена на указанный Вами e-mail."
+
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/User/view/user/user/message.phtml:12
+msgid "There is no user with such an email."
+msgstr "Пользователь с таким электронным адресом не зарегистрирован"
+
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/User/view/user/user/message.phtml:14
+msgid "Your new password has been set successfully."
+msgstr "Ваш новый пароль был успешно установлен."
+
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/User/view/user/user/message.phtml:15
+msgid "Return to"
+msgstr "Вернуться к"
+
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/User/view/user/user/message.phtml:15
+msgid "login page"
+msgstr "страница авторизации"
+
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/User/view/user/user/message.phtml:17
+msgid "Invalid reset key or it may have expired. Please return"
+msgstr "Неверный ключ сброса или он, возможно, истек. Пожалуйста, вернитесь"
+
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/User/view/user/user/message.phtml:18
+msgid "here"
+msgstr "здесь"
+
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/User/view/user/user/message.phtml:18
+msgid "and try reset your password again."
+msgstr "и попробуйте сбросить пароль еще раз."
+
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/User/view/user/user/register.phtml:2
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/User/view/user/user/register.phtml:21
+msgid "User Register"
+msgstr "Регистрация пользователя"
+
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/User/view/user/user/register.phtml:23
+msgid ""
+"Please fill out the following form and click the <i>Register</i> button."
+msgstr ""
+"Пожалуйста , заполните форму ниже и нажмите кнопку <i>Зарегистрироваться</i>."
+
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/User/view/user/user/reset-password.phtml:22
+msgid "Enter your e-mail address below to reset your password"
+msgstr "Введите свой адрес электронной почты ниже, чтобы сбросить пароль"
+
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/User/view/user/user/reset-password.phtml:28
+msgid "Enter the letters above as you see them."
+msgstr "Введите символы выше, как вы видите их."
+
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/User/view/user/user/view.phtml:2
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/User/view/user/user/view.phtml:9
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/User/view/user/user/view.phtml:17
+msgid "View User"
+msgstr "Посмотр пользователя"
+
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/User/view/user/user/view.phtml:44
+msgid "Photo"
+msgstr "Изображение"
+
+#~ msgid "Code Fit"
+#~ msgstr "Код приспосабливающийся"
+
+#~ msgid "Code Left"
+#~ msgstr "Код слева"
+
+#~ msgid "Code Right"
+#~ msgstr "Код справа"
+
+#~ msgid "Is Hidden"
+#~ msgstr "Скрыто"
+
+#~ msgid "Published"
+#~ msgstr "Опубликовано"
+
+#~ msgid "Manage travels"
+#~ msgstr "Управление путешествиями"
+
+#~ msgid "Add travel"
+#~ msgstr "Добавить путешествие"
+
+#~ msgid "Russian_RU"
+#~ msgstr "Russian"

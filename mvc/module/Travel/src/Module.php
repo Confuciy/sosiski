@@ -31,7 +31,9 @@ class Module
                 Controller\TravelAdminController::class => function ($container) {
                     $dbAdapter = $container->get('Zend\Db\Adapter\Adapter');
                     $travelManager = $container->get(TravelManager::class);
-                    return new Controller\TravelAdminController($dbAdapter, $travelManager);
+                    $userManager = $container->get('User\Service\UserManager');
+                    $translator = $container->get('Zend\Mvc\I18n\Translator');
+                    return new Controller\TravelAdminController($dbAdapter, $travelManager, $userManager, $translator);
                 },
             ]
         ];

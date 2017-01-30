@@ -305,4 +305,32 @@ class UserManager
 
         return $user;
     }
+
+    public function getUserRoles($id)
+    {
+        $res = new TableGateway('role', $this->dbAdapter);
+        $sql = $res->getSql();
+        $select = $sql->select()
+            ->join('user_role_linker', 'user_role_linker.role_id = role.id', NULL)
+            ->where(['user_role_linker.user_id' => $id]);
+        $roles = $res->selectWith($select)->toArray();
+
+        return $roles;
+    }
+
+    public function getUserRolesIds($id = 0)
+    {
+        $roles = [];
+        if(!empty($id)){
+            $select = "SELECT role_id FROM user_role_linker WHERE user_id = ".$id;
+            $res = $this->dbAdapter->query($select, 'execute')->toArray();
+            if (sizeof($res) > 0) {
+                foreach ($res as $row) {
+                    $roles[] = $row['role_id'];
+                }
+            }
+        }
+
+        return $roles;
+    }
 }

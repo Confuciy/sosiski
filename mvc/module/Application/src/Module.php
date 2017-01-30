@@ -30,6 +30,7 @@ class Module
 
         $application = $event->getApplication();
         $serviceManager = $application->getServiceManager();
+        $eventManager = $application->getEventManager();
 
         // The following line instantiates the SessionManager and automatically
         // makes the SessionManager the 'default' one to avoid passing the
@@ -52,7 +53,7 @@ class Module
             $locale = $event->getApplication()->getServiceManager()->get('Config')['translator']['locale'];
             if(isset($locale) and isset($_COOKIE['locale']) and $_COOKIE['locale'] != '' and $_COOKIE['locale'] != $locale) {
                 $translator = $event->getApplication()->getServiceManager()->get(Translator::class);
-                $translator->setLocale($_COOKIE['locale'])->setFallbackLocale($locale);
+                $translator->setLocale($_COOKIE['locale']); //->setFallbackLocale($locale);
             }
             if(!isset($_SESSION['locale']) or $_SESSION['locale'] == ''){
                 if(isset($_COOKIE['locale']) and $_COOKIE['locale'] != '') {

@@ -11,7 +11,7 @@ if(sizeof($travel) > 0){
                 <p>'.$travel['subtitle'].'</p>
             </div>
             <div class="meta">
-                <time class="published" datetime="'.date('Y-m-d', $date).'">'.date('F d, Y', $date).'</time>
+                <time class="published" datetime="'.date('Y-m-d', $date).'">'.strftime('%a, %b %e, %Y', $date).'</time>
                 <a href="'.$this->url('users', ['action' => 'view', 'id' => $travel['user_id']]).'" class="author"><span class="name" style="font-size: 0.8em;">'.$travel['full_name'].'</span><img src="/img/users/'.$travel['user_id'].'/'.$travel['photo'].'" alt="'.$travel['full_name'].'" /></a>
             </div>
         </header>

@@ -9,18 +9,6 @@ $this->pageBreadcrumbs()->setItems([
 ]);
 ?>
 
-<!-- Le styles -->
-<?= $this->headLink()
-    ->prependStylesheet($this->basePath('css/bootstrap-theme.min.css'))
-    ->prependStylesheet($this->basePath('css/bootstrap.admin.min.css'))
-?>
-
-<!-- Scripts -->
-<?= $this->headScript()
-    ->prependFile($this->basePath('js/bootstrap.min.js'))
-    ->prependFile($this->basePath('js/jquery-3.1.0.min.js'))
-?>
-
 <p style="float: right;">
     <a class="btn btn-default" href="<?= $this->url('travels_admin', ['action' => 'add']); ?>">
         <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> <?= $this->translate('Add Travel'); ?>
@@ -48,7 +36,7 @@ $this->pageBreadcrumbs()->setItems([
                     <?= $this->escapeHtml($travel['title']); ?>
                 </a>
             </td>
-            <td><small><?= strftime('%A, <b>%e</b> %B, %Y', strtotime($travel['date'])); ?></small></td>
+            <td><small><?= strftime('%a, %b <b>%e</b>, %Y', strtotime($travel['date'])); ?></small></td>
             <td>
                 <a class="btn btn-default btn-sm" href="<?= $this->url('travels_admin', ['action' => 'delete', 'id' => $travel['travel_id']]); ?>">
                     <span class="glyphicon glyphicon-remove"></span>

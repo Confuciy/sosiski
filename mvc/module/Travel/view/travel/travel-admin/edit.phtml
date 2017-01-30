@@ -15,7 +15,7 @@ $this->form->get('url')->setAttributes([
     'class'=>'form-control',
     'placeholder'=>$this->translate('Url'),
     'value' => $this->travel['url'],
-    'size'  => 50,
+    'style' => 'width: 80%;',
 ]);
 
 $this->form->get('date')->setAttributes([
@@ -45,20 +45,8 @@ $this->form->prepare();
 #echo '<pre>'; print_r($this->travel); echo '</pre>';
 ?>
 
-<!-- Le styles -->
-<?= $this->headLink()
-    ->prependStylesheet($this->basePath('css/bootstrap-theme.min.css'))
-    ->prependStylesheet($this->basePath('css/bootstrap.admin.min.css'))
-?>
-
-<!-- Scripts -->
-<?= $this->headScript()
-    ->prependFile($this->basePath('js/bootstrap.min.js'))
-    ->prependFile($this->basePath('js/jquery-3.1.0.min.js'))
-?>
-
-<script type="text/javascript" src="/js/bootstrap-datetimepicker-master/js/bootstrap-datetimepicker.min.js" charset="UTF-8"></script>
-<link rel="stylesheet" href="/js/bootstrap-datetimepicker-master/css/bootstrap-datetimepicker.min.css">
+<!--<script type="text/javascript" src="/js/bootstrap-datetimepicker-master/js/bootstrap-datetimepicker.min.js" charset="UTF-8"></script>-->
+<!--<link rel="stylesheet" href="/js/bootstrap-datetimepicker-master/css/bootstrap-datetimepicker.min.css">-->
 
 <script type="text/javascript">
     function hideView(id) {
@@ -101,7 +89,7 @@ $this->form->prepare();
     <ul class="nav nav-tabs" role="tablist">
         <li role="presentation" class="active"><a href="#main-info" aria-controls="main-info" role="tab" data-toggle="tab"><?= $this->translate('Main Info'); ?></a></li>
         <?php foreach ($this->langs as $lang): ?>
-            <li role="presentation"><a href="#<?= $lang['locale']; ?>" aria-controls="<?= $lang['locale']; ?>" role="tab" data-toggle="tab"><?= $lang['name']; ?></a></li>
+            <li role="presentation"><a href="#<?= $lang['locale']; ?>" aria-controls="<?= $lang['locale']; ?>" role="tab" data-toggle="tab"><?= ($lang['locale'] == 'ru_RU'?$this->translate('Russian'):$this->translate('English')); ?></a></li>
         <?php endforeach; ?>
         <li role="presentation"><a href="#images" aria-controls="images" role="tab" data-toggle="tab"><?= $this->translate('Images'); ?></a></li>
     </ul>
@@ -116,6 +104,7 @@ $this->form->prepare();
                 <?= $this->formLabel($this->form->get('url')); ?>
                 <?= $this->formElement($this->form->get('url')); ?>
                 <?= $this->formElementErrors($this->form->get('url')); ?>
+                <a href="<?= $this->url('travels_view', ['url' => $this->travel['url']]); ?>?preview=1" target="_blank<?= $this->travel['travel_id']; ?>"><?= $this->translate('Preview'); ?></a>
             </div>
             <br />
             <div class="form-group">
@@ -149,10 +138,10 @@ $this->form->prepare();
                 <input type="text" class="form-control" name="<?= $lang['locale']; ?>[subtitle]" style="width: 60%;" placeholder="<?= $this->translate('Subtitle'); ?>" value="<?= $this->travel['txt'][$lang['locale']]['subtitle']; ?>">
                 <br />
                 <h3><?= $this->translate('Announce'); ?></h3>
-                <textarea class="form-control" name="<?= $lang['locale']; ?>[announce]" cols="140" rows="3"><?= $this->travel['txt'][$lang['locale']]['announce']; ?></textarea>
+                <textarea class="form-control" style="width: 100%;" name="<?= $lang['locale']; ?>[announce]" cols="140" rows="3"><?= $this->travel['txt'][$lang['locale']]['announce']; ?></textarea>
                 <br />
                 <h3><?= $this->translate('Text'); ?></h3>
-                <textarea class="form-control" name="<?= $lang['locale']; ?>[text]" cols="140" rows="60"><?= $this->travel['txt'][$lang['locale']]['text']; ?></textarea>
+                <textarea class="form-control" style="width: 100%;" name="<?= $lang['locale']; ?>[text]" rows="60"><?= $this->travel['txt'][$lang['locale']]['text']; ?></textarea>
             </div>
         <?php endforeach; ?>
 
@@ -237,6 +226,7 @@ $this->form->prepare();
                     var url = '/img/uploads/index.php?travel_id=<?= $this->travel['travel_id']; ?>',
                         uploadButton = $('<button/>')
                             .addClass('btn btn-primary')
+                            .prop('type', 'button')
                             .prop('disabled', true)
                             .text('Processing...')
                             .on('click', function () {
@@ -296,6 +286,7 @@ $this->form->prepare();
                         if (index + 1 === data.files.length) {
                             data.context.find('button')
                                 .text('Upload')
+                                .prop('type', 'button')
                                 .prop('disabled', !!data.files.error);
                         }
                     }).on('fileuploadprogressall', function (e, data) {

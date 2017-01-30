@@ -23,21 +23,33 @@ class TravelAdminController extends AbstractActionController
      */
     private $travelManager;
 
-    private $uploadPath = '';
+    private $userManager;
+
+    private $translator;
 
     /**
      * Constructor.
      */
-    public function __construct($dbAdapter, $travelManager, $uploadPath)
+    public function __construct($dbAdapter, $travelManager, $userManager, $translator)
     {
-        if (isset($_SESSION['Zend_Auth']->session) and $_SESSION['Zend_Auth']->session != 'gorbachev.info@gmail.com') {
-            $this->getResponse()->setStatusCode(404);
-            return;
-        }
+//        if (isset($_SESSION['Zend_Auth']->session) and $_SESSION['Zend_Auth']->session != 'gorbachev.info@gmail.com') {
+//            $this->getResponse()->setStatusCode(404);
+//            return;
+//        }
 
         $this->dbAdapter = $dbAdapter;
         $this->travelManager = $travelManager;
-        $this->uploadPath = $uploadPath;
+        $this->userManager = $userManager;
+        $this->translator = $translator;
+
+        // Find a user with such Email.
+        $user = $this->userManager->getUserByEmail($_SESSION['Zend_Auth']->session);
+        $user_roles = $this->userManager->getUserRolesIds($user['id']);
+
+        // If user not Administrator
+        if (!in_array(4, $user_roles)) {
+            throw new \Exception($this->translator->translate('You\'re not administrator'));
+        }
     }
 
     public function indexAction()
@@ -48,7 +60,7 @@ class TravelAdminController extends AbstractActionController
         }
 
         // Get travels list
-        $travels = $this->travelManager->getTravelsList($page);
+        $travels = $this->travelManager->getTravelsList($page, 1);
 
         $this->layout('layout/admin');
         $view = new ViewModel([
@@ -71,7 +83,7 @@ class TravelAdminController extends AbstractActionController
         $travel = $this->travelManager->getTravelForEdit($travel_id, $langs);
 
         // Create travel edit form
-        $form = new TravelEditForm($this->dbAdapter, $travel, $this->uploadPath);
+        $form = new TravelEditForm($this->dbAdapter, $travel, $this->travelManager->getUploadPath());
         $form->setAttribute('action', '/travels/admin/edit/'.$travel_id);
 
         // Check if travel has submitted the form

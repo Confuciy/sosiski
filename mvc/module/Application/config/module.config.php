@@ -76,7 +76,7 @@ return [
         'controllers' => [
             Controller\IndexController::class => [
                 // Allow anyone to visit "index" and "about" actions
-                ['actions' => ['index', 'about'], 'allow' => '*'],
+                ['actions' => ['index', 'about', 'changeLanguage'], 'allow' => '*'],
                 // Allow authorized users to visit "settings" action
                 ['actions' => ['settings'], 'allow' => '@']
             ],
@@ -111,7 +111,7 @@ return [
         'factories' => [
             View\Helper\Menu::class => View\Helper\Factory\MenuFactory::class,
             View\Helper\Breadcrumbs::class => InvokableFactory::class,
-            View\Helper\Links::class => InvokableFactory::class,
+            View\Helper\Links::class => View\Helper\Factory\LinksFactory::class,
         ],
         'aliases' => [
             'mainMenu' => View\Helper\Menu::class,
@@ -127,11 +127,11 @@ return [
         ]
     ],
     'translator' => [
-        'locale' => 'en_US', //ru_RU
+        'locale' => 'ru_RU', //ru_RU en_US
         'translation_file_patterns' => [
             [
                 'type' => 'gettext',
-                'base_dir' => __DIR__ . '/../language',
+                'base_dir' => __DIR__ . '/../../../language',
                 'pattern' => '%s.mo',
             ],
         ],

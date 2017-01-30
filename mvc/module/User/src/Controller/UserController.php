@@ -46,7 +46,7 @@ class UserController extends AbstractActionController
         // Get users list
         $users = $this->userManager->getUserList();
 
-        $this->layout('layout/future-imperfect-simple');
+        $this->layout('layout/admin');
         return new ViewModel([
             'users' => $users
         ]);
@@ -91,7 +91,7 @@ class UserController extends AbstractActionController
 //        //$layout->__invoke()->addChild($message, 'message');
 //        $this->layout('layout/future-imperfect')->__invoke()->addChild($message, 'message');
 
-        $this->layout('layout/future-imperfect-simple');
+        $this->layout('layout/admin');
         return new ViewModel([
             'form' => $form
         ]);
@@ -211,7 +211,7 @@ class UserController extends AbstractActionController
             ));
         }
 
-        $this->layout('layout/future-imperfect-simple');
+        $this->layout('layout/admin');
         return new ViewModel(array(
             'user' => $user,
             'form' => $form
@@ -265,7 +265,7 @@ class UserController extends AbstractActionController
             }
         }
 
-        $this->layout('layout/future-imperfect-simple');
+        $this->layout('layout/admin');
         return new ViewModel([
             'user' => $user,
             'form' => $form
