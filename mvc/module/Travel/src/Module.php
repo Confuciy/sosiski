@@ -8,6 +8,7 @@
 namespace Travel;
 
 use Travel\Service\TravelManager;
+use User\Service\UserManager;
 
 class Module
 {
@@ -31,7 +32,7 @@ class Module
                 Controller\TravelAdminController::class => function ($container) {
                     $dbAdapter = $container->get('Zend\Db\Adapter\Adapter');
                     $travelManager = $container->get(TravelManager::class);
-                    $userManager = $container->get('User\Service\UserManager');
+                    $userManager = $container->get(UserManager::class);
                     $translator = $container->get('Zend\Mvc\I18n\Translator');
                     return new Controller\TravelAdminController($dbAdapter, $travelManager, $userManager, $translator);
                 },

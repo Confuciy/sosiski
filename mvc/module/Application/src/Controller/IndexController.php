@@ -35,6 +35,8 @@ class IndexController extends AbstractActionController
      */
     public function indexAction()
     {
+        $this->layout('layout/future-imperfect');
+
         return new ViewModel();
     }
 

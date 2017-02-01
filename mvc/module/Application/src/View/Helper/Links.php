@@ -64,23 +64,27 @@ class Links extends AbstractHelper
                     $user_roles = $this->userManager->getUserRolesIds($user['id']);
 
                     // If user is Administrator
-//                    if (in_array(4, $user_roles)) {
-//                        $result .= '
-//                        <li>
-//                            <a href="'.$this->view->url('users').'">'.$this->view->translate('Administration of users').'</a>
-//                            <a href="'.$this->view->url('travels_admin').'">'.$this->view->translate('Administration of travels').'</a>
-//                        </li>';
-//                    }
+                    if (in_array(4, $user_roles)) {
+                        $result .= '
+                        <li>
+                            <h3>'.$this->view->translate('Administration').'</h3>
+                            <a href="'.$this->view->url('users').'"><p>'.$this->view->translate('Administration of users').'</p></a>
+                            <a href="'.$this->view->url('travels_admin').'"><p>'.$this->view->translate('Administration of travels').'</p></a>
+                        </li>';
+                    }
                 }
 
             $result .= '
             </ul>
         </section>';
-        if (in_array(4, $user_roles)) {
-            $result .= '
-            <a href="' . $this->view->url('users') . '">' . $this->view->translate('Administration of users') . '</a>
-            <a href="' . $this->view->url('travels_admin') . '">' . $this->view->translate('Administration of travels') . '</a>';
-        }
+//        if (in_array(4, $user_roles)) {
+//            $result .= '
+//            <section style="margin-left: 5px; font-size: 0.8em;">
+//                <a href="' . $this->view->url('users') . '">' . $this->view->translate('Administration of users') . '</a>
+//                <br />
+//                <a href="' . $this->view->url('travels_admin') . '">' . $this->view->translate('Administration of travels') . '</a>
+//            </section>';
+//        }
 
         return $result;
 

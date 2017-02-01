@@ -69,6 +69,7 @@ class TravelManager
         }
         $select->where(['lang.locale' => $_SESSION['locale']]);
         $select->limit($this->page_limit, $page);
+        $select->order('travels.date DESC');
         $travels = $res->selectWith($select);
 
         return $travels;

@@ -11,6 +11,7 @@ use Zend\Mvc\MvcEvent;
 use Zend\Session\SessionManager;
 use Zend\Session\AbstractManager;
 use \Zend\Mvc\I18n\Translator;
+use User\Service\UserManager;
 //use Zend\Authentication\AuthenticationService;
 
 class Module
@@ -27,10 +28,10 @@ class Module
      */
     public function onBootstrap(MvcEvent $event)
     {
-
         $application = $event->getApplication();
         $serviceManager = $application->getServiceManager();
         $eventManager = $application->getEventManager();
+        $sharedEventManager = $eventManager->getSharedManager();
 
         // The following line instantiates the SessionManager and automatically
         // makes the SessionManager the 'default' one to avoid passing the
@@ -48,11 +49,27 @@ class Module
 //        echo '<pre>_COOKIE<br />'; print_r($_COOKIE); echo '</pre>';
 //        die;
 
+//        $eventManager->attach(MvcEvent::EVENT_DISPATCH_ERROR, function ($e) use ($eventManager){
+//            die('ddd1');
+//        }, 100);
+//        $eventManager->attach(MvcEvent::EVENT_RENDER_ERROR, function ($e) use ($eventManager){
+//            die('ddd2');
+//        }, 100);
+
+        $eventManager->attach(MvcEvent::EVENT_DISPATCH_ERROR,
+            function($e) use ($event) {
+                if ($e->getParam('exception')){
+                    $event->getViewModel()->setTemplate('error/index');
+                    //$serviceManager->get('Zend\Log\Logger')->crit($e->getParam('exception'));
+                }
+            }
+        );
+
         // Set translate locale
         try {
-            $locale = $event->getApplication()->getServiceManager()->get('Config')['translator']['locale'];
+            $locale = $serviceManager->get('Config')['translator']['locale'];
             if(isset($locale) and isset($_COOKIE['locale']) and $_COOKIE['locale'] != '' and $_COOKIE['locale'] != $locale) {
-                $translator = $event->getApplication()->getServiceManager()->get(Translator::class);
+                $translator = $serviceManager->get(Translator::class);
                 $translator->setLocale($_COOKIE['locale']); //->setFallbackLocale($locale);
             }
             if(!isset($_SESSION['locale']) or $_SESSION['locale'] == ''){
@@ -71,6 +88,8 @@ class Module
         // Forget bad session
         $sessionManager = $serviceManager->get(SessionManager::class);
         $this->forgetInvalidSession($sessionManager);
+
+        $userManager = $serviceManager->get(UserManager::class);
     }
 
     protected function forgetInvalidSession(AbstractManager $sessionManager) {
@@ -83,4 +102,41 @@ class Module
 
         session_unset();
     }
+
+    // Event listener method.
+//    public function onError(MvcEvent $event)
+//    {
+//        // Get the exception information.
+//        $exception = $event->getParam('exception');
+//        if ($exception!=null) {
+//            $exceptionName = $exception->getMessage();
+//            $file = $exception->getFile();
+//            $line = $exception->getLine();
+//            $stackTrace = $exception->getTraceAsString();
+//        }
+//        $errorMessage = $event->getError();
+//        $controllerName = $event->getController();
+//
+//        // Prepare email message.
+//        $to = 'admin@yourdomain.com';
+//        $subject = 'Your Website Exception';
+//
+//        $body = '';
+//        if(isset($_SERVER['REQUEST_URI'])) {
+//            $body .= "Request URI: " . $_SERVER['REQUEST_URI'] . "\n\n";
+//        }
+//        $body .= "Controller: $controllerName\n";
+//        $body .= "Error message: $errorMessage\n";
+//        if ($exception!=null) {
+//            $body .= "Exception: $exceptionName\n";
+//            $body .= "File: $file\n";
+//            $body .= "Line: $line\n";
+//            $body .= "Stack trace:\n\n" . $stackTrace;
+//        }
+//
+//        $body = str_replace("\n", "<br>", $body);
+//
+//        // Send an email about the error.
+//        mail($to, $subject, $body);
+//    }
 }

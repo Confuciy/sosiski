@@ -9,6 +9,8 @@ $this->pageBreadcrumbs()->setItems([
 ]);
 ?>
 
+<h3><?= $this->translate('Manage Travels'); ?></h3>
+
 <p style="float: right;">
     <a class="btn btn-default" href="<?= $this->url('travels_admin', ['action' => 'add']); ?>">
         <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> <?= $this->translate('Add Travel'); ?>

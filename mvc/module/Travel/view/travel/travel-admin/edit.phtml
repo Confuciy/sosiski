@@ -45,6 +45,10 @@ $this->form->prepare();
 #echo '<pre>'; print_r($this->travel); echo '</pre>';
 ?>
 
+<h3><?= $this->travel['txt'][$_SESSION['locale']]['title']; ?></h3>
+<small style="color: grey;"><?= $this->translate('Travel Editing'); ?></small>
+<br /><br />
+
 <!--<script type="text/javascript" src="/js/bootstrap-datetimepicker-master/js/bootstrap-datetimepicker.min.js" charset="UTF-8"></script>-->
 <!--<link rel="stylesheet" href="/js/bootstrap-datetimepicker-master/css/bootstrap-datetimepicker.min.css">-->
 
@@ -204,9 +208,9 @@ $this->form->prepare();
                                 <b><?= $this->translate('Image Fit'); ?></b>
                                 <input class="form-control" style="width: 80%;" value="&lt;div class=&quot;12u$&quot;&gt;&lt;span class=&quot;image fit&quot;&gt;&lt;img src=&quot;/img/travels/<?= $this->travel['travel_id']; ?>/files/<?= $image; ?>&quot; alt=&quot;&quot;&gt;&lt;/span&gt;&lt;/div&gt;" type="text">
                                 <b><?= $this->translate('Image Left'); ?></b>
-                                <input class="form-control" style="width: 80%;" value="&lt;span class=&quot;image left&quot;&gt;&lt;img src=&quot;/img/travels/<?= $this->travel['travel_id']; ?>/files/<?= $image; ?>&quot; width=&quot;&quot; alt=&quot;&quot;&gt;&lt;/span&gt;" type="text">
+                                <input class="form-control" style="width: 80%;" value="&lt;span class=&quot;image left&quot; style=&quot;&quot;&gt;&lt;img src=&quot;/img/travels/<?= $this->travel['travel_id']; ?>/files/<?= $image; ?>&quot; alt=&quot;&quot;&gt;&lt;/span&gt;" type="text">
                                 <b><?= $this->translate('Image Right'); ?></b>
-                                <input class="form-control" style="width: 80%;" value="&lt;span class=&quot;image right&quot;&gt;&lt;img src=&quot;/img/travels/<?= $this->travel['travel_id']; ?>/files/<?= $image; ?>&quot; width=&quot;&quot; alt=&quot;&quot;&gt;&lt;/span&gt;" type="text">
+                                <input class="form-control" style="width: 80%;" value="&lt;span class=&quot;image right&quot; style=&quot;&quot;&gt;&lt;img src=&quot;/img/travels/<?= $this->travel['travel_id']; ?>/files/<?= $image; ?>&quot; alt=&quot;&quot;&gt;&lt;/span&gt;" type="text">
                                 <br />
                             </div>
                         </div>
@@ -306,8 +310,8 @@ $this->form->prepare();
                                 $(data.context.children()[index])
                                     .append('<div class="form-group form-group-sm"><br /><b><?= $this->translate('Link'); ?></b><br /><br /><input type="text" class="form-control" style="width: 80%;" value="/img/travels/<?= $this->travel['travel_id']; ?>/files/' + file.name + '">' +
                                         '<br /><b><?= $this->translate('Image Fit'); ?></b><input type="text" class="form-control" style="width: 80%;" value="<div class=&quot;12u$&quot;><span class=&quot;image fit&quot;><img src=&quot;/img/travels/<?= $this->travel['travel_id']; ?>/files/' + file.name + '&quot; alt=&quot;&quot;></span></div>">' +
-                                        '<b><?= $this->translate('Image Left'); ?></b><input type="text" class="form-control" style="width: 80%;" value="<span class=&quot;image left&quot;><img src=&quot;/img/travels/<?= $this->travel['travel_id']; ?>/files/' + file.name + '&quot; width=&quot;&quot; alt=&quot;&quot;></span>">' +
-                                        '<b><?= $this->translate('Image Right'); ?></b><input type="text" class="form-control" style="width: 80%;" value="<span class=&quot;image right&quot;><img src=&quot;/img/travels/<?= $this->travel['travel_id']; ?>/files/' + file.name + '&quot; width=&quot;&quot; alt=&quot;&quot;></span>"><br /><br /></div>');
+                                        '<b><?= $this->translate('Image Left'); ?></b><input type="text" class="form-control" style="width: 80%;" value="<span class=&quot;image left&quot; style=&quot;&quot;><img src=&quot;/img/travels/<?= $this->travel['travel_id']; ?>/files/' + file.name + '&quot; alt=&quot;&quot;></span>">' +
+                                        '<b><?= $this->translate('Image Right'); ?></b><input type="text" class="form-control" style="width: 80%;" value="<span class=&quot;image right&quot; style=&quot;&quot;><img src=&quot;/img/travels/<?= $this->travel['travel_id']; ?>/files/' + file.name + '&quot; alt=&quot;&quot;></span>"><br /><br /></div>');
                             } else if (file.error) {
                                 var error = $('<span class="text-danger"/>').text(file.error);
                                 $(data.context.children()[index])

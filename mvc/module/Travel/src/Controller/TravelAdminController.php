@@ -48,7 +48,11 @@ class TravelAdminController extends AbstractActionController
 
         // If user not Administrator
         if (!in_array(4, $user_roles)) {
-            throw new \Exception($this->translator->translate('You\'re not administrator'));
+            echo 'user_id: '.$user['id'].'<br />';
+            echo 'roles:<br />';
+            echo '<pre>'; print_r($user_roles); echo '</pre>';
+            die($this->translator->translate('You\'re not administrator'));
+//            throw new \Exception($this->translator->translate('You\'re not administrator'));
         }
     }
 
