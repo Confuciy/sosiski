@@ -1,12 +1,8 @@
 <?php
-/**
- * @link      http://github.com/zendframework/ZendSkeletonApplication for the canonical source repository
- * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
- */
-
 namespace Travel;
 
+use Zend\Db\Adapter\Adapter;
+use Zend\Mvc\I18n\Translator;
 use Travel\Service\TravelManager;
 use User\Service\UserManager;
 
@@ -25,15 +21,15 @@ class Module
         return [
             'factories' => [
                 Controller\TravelController::class => function ($container) {
-                    $dbAdapter = $container->get('Zend\Db\Adapter\Adapter');
+                    $dbAdapter = $container->get(Adapter::class);
                     $travelManager = $container->get(TravelManager::class);
                     return new Controller\TravelController($dbAdapter, $travelManager);
                 },
                 Controller\TravelAdminController::class => function ($container) {
-                    $dbAdapter = $container->get('Zend\Db\Adapter\Adapter');
+                    $dbAdapter = $container->get(Adapter::class);
                     $travelManager = $container->get(TravelManager::class);
                     $userManager = $container->get(UserManager::class);
-                    $translator = $container->get('Zend\Mvc\I18n\Translator');
+                    $translator = $container->get(Translator::class);
                     return new Controller\TravelAdminController($dbAdapter, $travelManager, $userManager, $translator);
                 },
             ]
@@ -45,8 +41,8 @@ class Module
         return [
             'factories' => [
                 Service\TravelManager::class => function ($container) {
-                    $dbAdapter = $container->get('Zend\Db\Adapter\Adapter');
-                    $translator = $container->get('Zend\Mvc\I18n\Translator');
+                    $dbAdapter = $container->get(Adapter::class);
+                    $translator = $container->get(Translator::class);
                     $config = $container->get('Config');
                     return new Service\TravelManager($dbAdapter, $translator, $config['uploadPath']);
                 },

@@ -32,10 +32,10 @@ class TravelAdminController extends AbstractActionController
      */
     public function __construct($dbAdapter, $travelManager, $userManager, $translator)
     {
-//        if (isset($_SESSION['Zend_Auth']->session) and $_SESSION['Zend_Auth']->session != 'gorbachev.info@gmail.com') {
-//            $this->getResponse()->setStatusCode(404);
-//            return;
-//        }
+        if (!isset($_SESSION['Zend_Auth']->session)) {
+            $this->getResponse()->setStatusCode(404);
+            return;
+        }
 
         $this->dbAdapter = $dbAdapter;
         $this->travelManager = $travelManager;
@@ -48,11 +48,7 @@ class TravelAdminController extends AbstractActionController
 
         // If user not Administrator
         if (!in_array(4, $user_roles)) {
-            echo 'user_id: '.$user['id'].'<br />';
-            echo 'roles:<br />';
-            echo '<pre>'; print_r($user_roles); echo '</pre>';
-            die($this->translator->translate('You\'re not administrator'));
-//            throw new \Exception($this->translator->translate('You\'re not administrator'));
+            throw new \Exception($this->translator->translate('You\'re not administrator'));
         }
     }
 

@@ -1,10 +1,4 @@
 <?php
-/**
- * @link      http://github.com/zendframework/ZendSkeletonApplication for the canonical source repository
- * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
- */
-
 namespace User;
 
 use Zend\Mvc\MvcEvent;
@@ -119,19 +113,19 @@ class Module
                     $authenticationService = $container->get(AuthenticationService::class);
                     $sessionManager = $container->get(SessionManager::class);
 
-                    // Authenticate user if he has a cookie with authentication info
-                    if (!$authenticationService->hasIdentity() and isset($_COOKIE['user_hash']) and $_COOKIE['user_hash'] != ''
-                            and !isset($_POST['email']) and !isset($_POST['password']) and !isset($_POST['remember_me'])) {
-
-                        $authAdapter = $container->get(AuthAdapter::class);
-
-                        $decrypt = $authAdapter->getRSAdecode();
-
-                        $authAdapter->setEmail($decrypt['email']);
-                        $authAdapter->setPassword($decrypt['password']);
-
-                        $authenticationService->authenticate();
-                    }
+//                    // Authenticate user if he has a cookie with authentication info
+//                    if (!$authenticationService->hasIdentity() and isset($_COOKIE['user_hash']) and $_COOKIE['user_hash'] != ''
+//                            and !isset($_POST['email']) and !isset($_POST['password']) and !isset($_POST['remember_me'])) {
+//
+//                        $authAdapter = $container->get(AuthAdapter::class);
+//
+//                        $decrypt = $authAdapter->getRSAdecode();
+//
+//                        $authAdapter->setEmail($decrypt['email']);
+//                        $authAdapter->setPassword($decrypt['password']);
+//
+//                        $authenticationService->authenticate();
+//                    }
 
                     // Get contents of 'access_filter' config key (the AuthManager service
                     // will use this data to determine whether to allow currently logged in user

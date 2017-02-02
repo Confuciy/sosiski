@@ -1,18 +1,12 @@
 <?php
-/**
- * @link      http://github.com/zendframework/ZendSkeletonApplication for the canonical source repository
- * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
- */
-
 namespace Application;
 
 use Zend\Mvc\MvcEvent;
 use Zend\Session\SessionManager;
 use Zend\Session\AbstractManager;
-use \Zend\Mvc\I18n\Translator;
-use User\Service\UserManager;
-//use Zend\Authentication\AuthenticationService;
+use Zend\Authentication\AuthenticationService;
+use Zend\Mvc\I18n\Translator;
+use \User\Service\AuthAdapter;
 
 class Module
 {
@@ -49,21 +43,8 @@ class Module
 //        echo '<pre>_COOKIE<br />'; print_r($_COOKIE); echo '</pre>';
 //        die;
 
-//        $eventManager->attach(MvcEvent::EVENT_DISPATCH_ERROR, function ($e) use ($eventManager){
-//            die('ddd1');
-//        }, 100);
-//        $eventManager->attach(MvcEvent::EVENT_RENDER_ERROR, function ($e) use ($eventManager){
-//            die('ddd2');
-//        }, 100);
-
-        $eventManager->attach(MvcEvent::EVENT_DISPATCH_ERROR,
-            function($e) use ($event) {
-                if ($e->getParam('exception')){
-                    $event->getViewModel()->setTemplate('error/index');
-                    //$serviceManager->get('Zend\Log\Logger')->crit($e->getParam('exception'));
-                }
-            }
-        );
+        // Error processing
+        $sharedEventManager->attach(__NAMESPACE__, MvcEvent::EVENT_DISPATCH_ERROR, [$this, 'onError'], 100);
 
         // Set translate locale
         try {
@@ -89,7 +70,22 @@ class Module
         $sessionManager = $serviceManager->get(SessionManager::class);
         $this->forgetInvalidSession($sessionManager);
 
-        $userManager = $serviceManager->get(UserManager::class);
+        // Authenticate user
+        $authenticationService = $serviceManager->get(AuthenticationService::class);
+
+        // Authenticate user if he has a cookie with authentication info
+        if (!$authenticationService->hasIdentity() and isset($_COOKIE['user_hash']) and $_COOKIE['user_hash'] != ''
+            and !isset($_POST['email']) and !isset($_POST['password']) and !isset($_POST['remember_me'])) {
+
+            $authAdapter = $serviceManager->get(AuthAdapter::class);
+
+            $decrypt = $authAdapter->getRSAdecode();
+
+            $authAdapter->setEmail($decrypt['email']);
+            $authAdapter->setPassword($decrypt['password']);
+
+            $authenticationService->authenticate();
+        }
     }
 
     protected function forgetInvalidSession(AbstractManager $sessionManager) {
@@ -104,21 +100,23 @@ class Module
     }
 
     // Event listener method.
-//    public function onError(MvcEvent $event)
-//    {
-//        // Get the exception information.
-//        $exception = $event->getParam('exception');
-//        if ($exception!=null) {
-//            $exceptionName = $exception->getMessage();
-//            $file = $exception->getFile();
-//            $line = $exception->getLine();
-//            $stackTrace = $exception->getTraceAsString();
-//        }
-//        $errorMessage = $event->getError();
-//        $controllerName = $event->getController();
-//
-//        // Prepare email message.
-//        $to = 'admin@yourdomain.com';
+    public function onError(MvcEvent $event)
+    {
+        // Get the exception information.
+        $exception = $event->getParam('exception');
+        if ($exception!=null) {
+            $exceptionName = $exception->getMessage();
+            $file = $exception->getFile();
+            $line = $exception->getLine();
+            $stackTrace = $exception->getTraceAsString();
+        }
+        $errorMessage = $event->getError();
+        $controllerName = $event->getController();
+
+        $event->getViewModel()->setTemplate('error/index');
+
+        // Prepare email message.
+//        $to = 'confuciy@yandex.rux';
 //        $subject = 'Your Website Exception';
 //
 //        $body = '';
@@ -138,5 +136,5 @@ class Module
 //
 //        // Send an email about the error.
 //        mail($to, $subject, $body);
-//    }
+    }
 }
