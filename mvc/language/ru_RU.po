@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: sosiski.net\n"
-"POT-Creation-Date: 2017-02-02 01:22+0300\n"
-"PO-Revision-Date: 2017-02-02 01:22+0300\n"
+"POT-Creation-Date: 2017-02-05 14:14+0300\n"
+"PO-Revision-Date: 2017-02-05 14:15+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru_RU\n"
@@ -34,6 +34,7 @@ msgstr "Небольшая галерея членов наших семьи"
 #: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Application/view/layout/admin.phtml:36
 #: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Application/view/layout/future-imperfect-simple.phtml:23
 #: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Application/view/layout/future-imperfect.phtml:23
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/view/travel/travel-admin/create.phtml:6
 #: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/view/travel/travel-admin/edit.phtml:6
 #: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/view/travel/travel-admin/index.phtml:6
 msgid "Travels"
@@ -59,56 +60,75 @@ msgstr "Управление путешествиями"
 msgid "Toggle navigation"
 msgstr "Переключение навигации"
 
-#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/src/Controller/TravelAdminController.php:54
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/src/Controller/TravelAdminController.php:53
 msgid "You're not administrator"
 msgstr "Вы, не администратор"
 
-#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/src/Form/TravelEditForm.php:55
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/src/Controller/TravelAdminController.php:159
+msgid "Cannot create travel!"
+msgstr "Невозможно создать путешествие"
+
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/src/Controller/TravelAdminController.php:178
+msgid "Travel was deleted successfully."
+msgstr "Путешествие было успешно удалено."
+
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/src/Controller/TravelAdminController.php:183
+msgid "Cannot delete travel!"
+msgstr "Невозможно удалить путешествие!"
+
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/src/Form/TravelEditForm.php:58
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/view/travel/travel-admin/create.phtml:16
 #: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/view/travel/travel-admin/edit.phtml:16
 msgid "Url"
 msgstr "Адрес URL"
 
-#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/src/Form/TravelEditForm.php:64
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/src/Form/TravelEditForm.php:67
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/view/travel/travel-admin/create.phtml:24
 #: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/view/travel/travel-admin/edit.phtml:24
 msgid "Date"
 msgstr "Дата"
 
-#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/src/Form/TravelEditForm.php:70
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/src/Form/TravelEditForm.php:74
 msgid "Image"
 msgstr "Изображение"
 
-#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/src/Form/TravelEditForm.php:78
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/src/Form/TravelEditForm.php:82
 #: C:\Users\1\Desktop\git\sosiski.net\mvc\module/User/view/user/user/index.phtml:28
 #: C:\Users\1\Desktop\git\sosiski.net\mvc\module/User/view/user/user/view.phtml:48
 msgid "Status"
 msgstr "Статус"
 
-#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/src/Form/TravelEditForm.php:80
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/src/Form/TravelEditForm.php:84
 msgid "Active"
 msgstr "Активно"
 
-#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/src/Form/TravelEditForm.php:81
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/src/Form/TravelEditForm.php:85
 msgid "Not Active"
 msgstr "Не активно"
 
-#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/src/Form/TravelEditForm.php:91
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/src/Form/TravelEditForm.php:96
 #: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/view/travel/travel-admin/edit.phtml:41
 msgid "Save"
 msgstr "Сохранить"
 
-#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/src/Form/TravelEditForm.php:144
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/src/Form/TravelEditForm.php:96
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/view/travel/travel-admin/create.phtml:31
+msgid "Create"
+msgstr "Создать"
+
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/src/Form/TravelEditForm.php:170
 msgid "Date Not Set!"
 msgstr "Дата не установлена!"
 
-#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/src/Form/TravelEditForm.php:145
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/src/Form/TravelEditForm.php:171
 msgid "Invalid Date!"
 msgstr "Неправильная дата!"
 
-#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/src/Form/TravelEditForm.php:146
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/src/Form/TravelEditForm.php:172
 msgid "Invalid Format!"
 msgstr "Неверные формат!"
 
-#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/src/Form/TravelEditForm.php:154
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/src/Form/TravelEditForm.php:180
 msgid "Please, Enter Date"
 msgstr "Пожалуйста, введите дату"
 
@@ -156,7 +176,7 @@ msgid "Full Name"
 msgstr "Полное имя"
 
 #: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Application/view/application/index/settings.phtml:30
-#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/view/travel/travel-admin/index.phtml:26
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/view/travel/travel-admin/index.phtml:28
 #: C:\Users\1\Desktop\git\sosiski.net\mvc\module/User/view/user/user/index.phtml:27
 #: C:\Users\1\Desktop\git\sosiski.net\mvc\module/User/view/user/user/view.phtml:40
 msgid "Date Created"
@@ -175,7 +195,7 @@ msgstr "Наша жизнь"
 #: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Application/view/layout/admin.phtml:45
 #: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Application/view/layout/future-imperfect-simple.phtml:32
 #: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Application/view/layout/future-imperfect.phtml:32
-#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/view/travel/travel-admin/edit.phtml:96
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/view/travel/travel-admin/edit.phtml:104
 msgid "English"
 msgstr "Английский"
 
@@ -211,85 +231,96 @@ msgstr "Меню"
 msgid "back"
 msgstr "назад"
 
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/view/travel/travel-admin/create.phtml:2
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/view/travel/travel-admin/create.phtml:7
 #: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/view/travel/travel-admin/edit.phtml:2
 #: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/view/travel/travel-admin/edit.phtml:7
 msgid "Edit Travels"
 msgstr "Редактировать путешествия"
 
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/view/travel/travel-admin/create.phtml:8
 #: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/view/travel/travel-admin/edit.phtml:8
 #: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/view/travel/travel-admin/index.phtml:8
 #: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/view/travel/travel-admin/index.phtml:16
 msgid "Add Travel"
 msgstr "Добавить путешествие"
 
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/view/travel/travel-admin/create.phtml:36
+msgid "Travel Create"
+msgstr "Добавить путешествие"
+
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/view/travel/travel-admin/edit.phtml:49
+msgid "Back to Travel"
+msgstr "Назад к путешествиям"
+
 #: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/view/travel/travel-admin/edit.phtml:49
 msgid "Travel Editing"
 msgstr "Редактирование путешествия"
 
-#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/view/travel/travel-admin/edit.phtml:94
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/view/travel/travel-admin/edit.phtml:102
 msgid "Main Info"
 msgstr "Основная информация"
 
-#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/view/travel/travel-admin/edit.phtml:96
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/view/travel/travel-admin/edit.phtml:104
 msgid "Russian"
 msgstr "Русский"
 
-#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/view/travel/travel-admin/edit.phtml:98
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/view/travel/travel-admin/edit.phtml:106
 msgid "Images"
 msgstr "Изображения"
 
-#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/view/travel/travel-admin/edit.phtml:111
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/view/travel/travel-admin/edit.phtml:119
 msgid "Preview"
 msgstr "Превью"
 
-#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/view/travel/travel-admin/edit.phtml:138
-#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/view/travel/travel-admin/edit.phtml:139
-#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/view/travel/travel-admin/index.phtml:25
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/view/travel/travel-admin/edit.phtml:179
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/view/travel/travel-admin/edit.phtml:180
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/view/travel/travel-admin/index.phtml:27
 msgid "Title"
 msgstr "Заголовок"
 
-#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/view/travel/travel-admin/edit.phtml:141
-#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/view/travel/travel-admin/edit.phtml:142
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/view/travel/travel-admin/edit.phtml:182
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/view/travel/travel-admin/edit.phtml:183
 msgid "Subtitle"
 msgstr "Подзаголовок"
 
-#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/view/travel/travel-admin/edit.phtml:144
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/view/travel/travel-admin/edit.phtml:185
 msgid "Announce"
 msgstr "Анонс"
 
-#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/view/travel/travel-admin/edit.phtml:147
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/view/travel/travel-admin/edit.phtml:188
 msgid "Text"
 msgstr "Текст"
 
-#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/view/travel/travel-admin/edit.phtml:171
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/view/travel/travel-admin/edit.phtml:212
 msgid "Add files..."
 msgstr "Добавить файлы"
 
-#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/view/travel/travel-admin/edit.phtml:197
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/view/travel/travel-admin/edit.phtml:238
 msgid "View/Hide"
 msgstr "Посмотреть / Скрыть"
 
-#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/view/travel/travel-admin/edit.phtml:201
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/view/travel/travel-admin/edit.phtml:242
 msgid "Delete"
 msgstr "Удалить"
 
-#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/view/travel/travel-admin/edit.phtml:206
-#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/view/travel/travel-admin/edit.phtml:311
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/view/travel/travel-admin/edit.phtml:247
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/view/travel/travel-admin/edit.phtml:352
 msgid "Link"
 msgstr "Ссылка"
 
-#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/view/travel/travel-admin/edit.phtml:208
-#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/view/travel/travel-admin/edit.phtml:312
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/view/travel/travel-admin/edit.phtml:249
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/view/travel/travel-admin/edit.phtml:353
 msgid "Image Fit"
 msgstr "Вписать изображение"
 
-#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/view/travel/travel-admin/edit.phtml:210
-#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/view/travel/travel-admin/edit.phtml:313
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/view/travel/travel-admin/edit.phtml:251
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/view/travel/travel-admin/edit.phtml:354
 msgid "Image Left"
 msgstr "Изображение слева"
 
-#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/view/travel/travel-admin/edit.phtml:212
-#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/view/travel/travel-admin/edit.phtml:314
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/view/travel/travel-admin/edit.phtml:253
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/view/travel/travel-admin/edit.phtml:355
 msgid "Image Right"
 msgstr "Изображение справа"
 
@@ -300,10 +331,18 @@ msgstr "Изображение справа"
 msgid "Manage Travels"
 msgstr "Управление путешествиями"
 
-#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/view/travel/travel-admin/index.phtml:27
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/view/travel/travel-admin/index.phtml:29
 #: C:\Users\1\Desktop\git\sosiski.net\mvc\module/User/view/user/user/index.phtml:29
 msgid "Actions"
 msgstr "Действия"
+
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/view/travel/travel-admin/index.phtml:40
+msgid "Untitled"
+msgstr "Без названия"
+
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/view/travel/travel-admin/index.phtml:46
+msgid "Are you sure you want to delete this travel?"
+msgstr "Вы уверены, что хотите удалить это путешествие?"
 
 #: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/view/travel/travel/index.phtml:22
 msgid "Continue Reading"
@@ -485,6 +524,12 @@ msgstr "Посмотр пользователя"
 #: C:\Users\1\Desktop\git\sosiski.net\mvc\module/User/view/user/user/view.phtml:44
 msgid "Photo"
 msgstr "Изображение"
+
+#~ msgid "Cannot create travel"
+#~ msgstr "Невозможно создать путешествие"
+
+#~ msgid "Travel was delete successfully."
+#~ msgstr "Путешествие было успешно удалено."
 
 #~ msgid "Edit travel"
 #~ msgstr "Редактировать путешествие"

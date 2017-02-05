@@ -7,12 +7,13 @@ use Zend\Form\Element;
 use Zend\InputFilter\InputFilter;
 use Zend\Validator\Date;
 use Zend\Validator\NotEmpty;
-//use Travel\Validator\TravelExistsValidator;
+use Travel\Validator\TravelExistsValidator;
 use Travel\Validator\TravelImageValidator;
-use Zend\I18n\Translator\Translator;
 
 class TravelEditForm extends Form
 {
+    private $scenario = '';
+
     private $dbAdapter = null;
 
     private $travel = null;
@@ -24,8 +25,9 @@ class TravelEditForm extends Form
     /**
      * Constructor.
      */
-    public function __construct($dbAdapter = null, $travel = null, $uploadPath = null)
+    public function __construct($scenario = '', $dbAdapter = null, $travel = null, $translator = null, $uploadPath = null)
     {
+
         // Define form name
         parent::__construct('travel-form');
 
@@ -33,9 +35,10 @@ class TravelEditForm extends Form
         $this->setAttribute('method', 'post');
 
         // Save parameters for internal use.
+        $this->scenario = $scenario;
         $this->dbAdapter = $dbAdapter;
         $this->travel = $travel;
-        $this->translator = new Translator();
+        $this->translator = $translator;
         $this->uploadPath = $uploadPath;
 
         $this->addElements();
@@ -65,30 +68,32 @@ class TravelEditForm extends Form
             ],
         ]);
 
-        // Add "image" field
-        $file = new Element\File('image-file');
-        $file->setLabel($this->translator->translate('Image'))->setAttribute('name', 'image')->setAttribute('type', 'file');
-        $this->add($file);
+        if ($this->scenario == 'edit') {
+            // Add "image" field
+            $file = new Element\File('image-file');
+            $file->setLabel($this->translator->translate('Image'))->setAttribute('name', 'image')->setAttribute('type', 'file');
+            $this->add($file);
 
-        // Add "status" field
-        $this->add([
-            'type'  => 'select',
-            'name' => 'status',
-            'options' => [
-                'label' => $this->translator->translate('Status'),
-                'value_options' => [
-                    1 => $this->translator->translate('Active'),
-                    0 => $this->translator->translate('Not Active'),
-                ]
-            ],
-        ]);
+            // Add "status" field
+            $this->add([
+                'type' => 'select',
+                'name' => 'status',
+                'options' => [
+                    'label' => $this->translator->translate('Status'),
+                    'value_options' => [
+                        1 => $this->translator->translate('Active'),
+                        0 => $this->translator->translate('Not Active'),
+                    ]
+                ],
+            ]);
+        }
 
         // Add the Submit button
         $this->add([
             'type'  => 'submit',
             'name' => 'submit',
             'attributes' => [
-                'value' => $this->translator->translate('Save')
+                'value' => ($this->scenario == 'edit'?$this->translator->translate('Save'):$this->translator->translate('Create'))
             ],
         ]);
     }
@@ -102,36 +107,57 @@ class TravelEditForm extends Form
         $inputFilter = new InputFilter();
         $this->setInputFilter($inputFilter);
 
-        // Add input for "url" field
-        $inputFilter->add([
-            'name'     => 'url',
-            'required' => true,
-            'filters'  => [
-                ['name' => 'StringTrim'],
-            ],
-            'validators' => [
-                [
-                    'name'    => 'StringLength',
-                    'options' => [
-                        'min' => 1,
-                        'max' => 128
+        if ($this->scenario == 'create') {
+            // Add input for "url" field
+            $inputFilter->add([
+                'name' => 'url',
+                'required' => true,
+                'filters' => [
+                    ['name' => 'StringTrim'],
+                ],
+                'validators' => [
+                    [
+                        'name' => 'StringLength',
+                        'options' => [
+                            'min' => 1,
+                            'max' => 128
+                        ],
+                    ],
+                    [
+                        'name' => TravelExistsValidator::class,
+                        'options' => [
+                            'dbAdapter' => $this->dbAdapter,
+                            'travel' => $this->travel
+                        ],
                     ],
                 ],
-//                [
-//                    'name' => TravelExistsValidator::class,
-//                    'options' => [
-//                        'dbAdapter' => $this->dbAdapter,
-//                        'travel' => $this->travel
-//                    ],
-//                ],
-            ],
-        ]);
+            ]);
+        }
+        if ($this->scenario == 'edit') {
+            // Add input for "url" field
+            $inputFilter->add([
+                'name' => 'url',
+                'required' => true,
+                'filters' => [
+                    ['name' => 'StringTrim'],
+                ],
+                'validators' => [
+                    [
+                        'name' => 'StringLength',
+                        'options' => [
+                            'min' => 1,
+                            'max' => 128
+                        ],
+                    ],
+                ],
+            ]);
+        }
 
         // Add input for "date" field
         $inputFilter->add([
-            'name'     => 'date',
+            'name' => 'date',
             'required' => true,
-            'filters'  => [
+            'filters' => [
                 ['name' => 'StringTrim'],
             ],
             'validators' => [
@@ -158,35 +184,37 @@ class TravelEditForm extends Form
             ],
         ]);
 
-        // Add input for "image" field
-        $inputFilter->add([
-            'name' => 'image',
-            'required' => false,
-            'validators' => [
-                [
-                    'name' => TravelImageValidator::class,
-                    'options' => [
-                        'minSize' => '64',
-                        'maxSize' => '1024',
-                        //'newFileName' => 'photo_'.time(),
-                        'uploadPath' => $this->uploadPath.$this->travel['travel_id'].'/',
-                        'travel_id' => $this->travel['travel_id'],
-                        'dbAdapter' => $this->dbAdapter,
+        if ($this->scenario == 'edit') {
+            // Add input for "image" field
+            $inputFilter->add([
+                'name' => 'image',
+                'required' => false,
+                'validators' => [
+                    [
+                        'name' => TravelImageValidator::class,
+                        'options' => [
+                            'minSize' => '64',
+                            'maxSize' => '1024',
+                            //'newFileName' => 'photo_'.time(),
+                            'uploadPath' => $this->uploadPath . $this->travel['travel_id'] . '/',
+                            'travel_id' => $this->travel['travel_id'],
+                            'dbAdapter' => $this->dbAdapter,
+                        ],
                     ],
                 ],
-            ],
-        ]);
+            ]);
 
-        // Add input for "status" field
-        $inputFilter->add([
-            'name'     => 'status',
-            'required' => true,
-            'filters'  => [
-                ['name' => 'ToInt'],
-            ],
-            'validators' => [
-                ['name'=>'InArray', 'options'=>['haystack'=>[1, 0]]]
-            ],
-        ]);
+            // Add input for "status" field
+            $inputFilter->add([
+                'name' => 'status',
+                'required' => true,
+                'filters' => [
+                    ['name' => 'ToInt'],
+                ],
+                'validators' => [
+                    ['name' => 'InArray', 'options' => ['haystack' => [1, 0]]]
+                ],
+            ]);
+        }
     }
 }

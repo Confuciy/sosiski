@@ -1,0 +1,77 @@
+<?php
+$this->headTitle($this->translate('Edit Travels'));
+
+$this->pageBreadcrumbs()->setHeader($this->travel['txt'][$_SESSION['locale']]['title']);
+$this->pageBreadcrumbs()->setItems([
+    $this->translate('Travels') => $this->url('travels'),
+    $this->translate('Edit Travels') => $this->url('travels_admin'),
+    $this->translate('Add Travel') => $this->url('travels_admin', ['action' => 'add']),
+]);
+
+//echo '<pre>'; print_r($this->form); echo '</pre>';
+//die;
+
+$this->form->get('url')->setAttributes([
+    'class'=>'form-control',
+    'placeholder'=>$this->translate('Url'),
+    'value' => $this->travel['url'],
+    'style' => 'width: 80%;',
+]);
+
+$this->form->get('date')->setAttributes([
+    'class'=>'form-control',
+    'id'=>'date',
+    'placeholder'=>$this->translate('Date'),
+    'value' => date('d.m.Y', strtotime($this->travel['date'])),
+    'size'  => 7,
+]);
+
+$this->form->get('submit')
+    ->setAttributes(['class'=>'btn btn-primary'])
+    ->setValue($this->translate('Create'));
+
+$this->form->prepare();
+?>
+
+<h3><?= $this->translate('Travel Create'); ?></h3>
+<br /><br />
+
+<script type="text/javascript" src="/js/jquery-1.7.1.js"></script>
+<script type="text/javascript" src="/js/jquery-ui.js"></script>
+<link rel="stylesheet" href="/css/bootstrap-datepicker.css">
+
+<br />
+
+<div>
+
+    <?= $this->form()->openTag($this->form); ?>
+
+    <div class="form-group">
+        <?= $this->formLabel($this->form->get('url')); ?>
+        <?= $this->formElement($this->form->get('url')); ?>
+        <?= $this->formElementErrors()
+            ->setMessageOpenFormat('<div class="alert alert-danger" role="alert">')
+            ->setMessageSeparatorString('</div><div class="alert alert-danger" role="alert">')
+            ->setMessageCloseString('</div>')
+            ->render($this->form->get('url')); ?>
+    </div>
+    <br />
+    <div class="form-group">
+        <?= $this->formLabel($this->form->get('date')); ?>
+        <input type='text' class="form-control" name="date" id="datepicker" value="" />
+        <script>
+            $(function() {
+                $( "#datepicker" ).datepicker();
+                $( "#datepicker" ).datepicker( "option", "dateFormat", "dd.mm.yy" );
+                $( "#datepicker" ).val("<?= date('d.m.Y'); ?>");
+            });
+        </script>
+        <?= $this->formElementErrors($this->form->get('date')); ?>
+    </div>
+    <div style="float: right;">
+        <?= $this->formElement($this->form->get('submit')); ?>
+    </div>
+    <?= $this->form()->closeTag(); ?>
+</div>
+
+<br /><br />

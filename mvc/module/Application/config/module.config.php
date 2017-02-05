@@ -112,11 +112,13 @@ return [
             View\Helper\Menu::class => View\Helper\Factory\MenuFactory::class,
             View\Helper\Breadcrumbs::class => InvokableFactory::class,
             View\Helper\Links::class => View\Helper\Factory\LinksFactory::class,
+            View\Helper\Sections::class => InvokableFactory::class,
         ],
         'aliases' => [
             'mainMenu' => View\Helper\Menu::class,
             'pageBreadcrumbs' => View\Helper\Breadcrumbs::class,
             'mainLinks' => View\Helper\Links::class,
+            'mainSections' => View\Helper\Sections::class,
         ],
     ],
     'view_helper_config' => [

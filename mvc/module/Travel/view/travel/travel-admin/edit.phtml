@@ -46,10 +46,18 @@ $this->form->prepare();
 ?>
 
 <h3><?= $this->travel['txt'][$_SESSION['locale']]['title']; ?></h3>
-<small style="color: grey;"><?= $this->translate('Travel Editing'); ?></small>
+<small style="color: grey;"><a href="<?= $this->url('travels_admin'); ?>">&larr; <?= $this->translate('Back to Travel'); ?></a> / <?= $this->translate('Travel Editing'); ?></small>
 <br /><br />
 
-<!--<script type="text/javascript" src="/js/bootstrap-datetimepicker-master/js/bootstrap-datetimepicker.min.js" charset="UTF-8"></script>-->
+<!--<script type="text/javascript" src="/js/moment/moment.js"></script>-->
+<!--<script type="text/javascript" src="/js/bootstrap-transition.js"></script>-->
+<!--<script type="text/javascript" src="/js/bootstrap-collapse.js"></script>-->
+
+<script type="text/javascript" src="/js/jquery-1.7.1.js"></script>
+<script type="text/javascript" src="/js/jquery-ui.js"></script>
+<link rel="stylesheet" href="/css/bootstrap-datepicker.css">
+
+<!--<script type="text/javascript" src="/js/bootstrap-datetimepicker-master/js/bootstrap-datetimepicker.min.js"></script>-->
 <!--<link rel="stylesheet" href="/js/bootstrap-datetimepicker-master/css/bootstrap-datetimepicker.min.css">-->
 
 <script type="text/javascript">
@@ -113,8 +121,41 @@ $this->form->prepare();
             <br />
             <div class="form-group">
                 <?= $this->formLabel($this->form->get('date')); ?>
-                <?= $this->formElement($this->form->get('date')); ?>
+                <input type='text' class="form-control" name="date" id="datepicker" value="" />
+                <script>
+                    $(function() {
+                        $( "#datepicker" ).datepicker();
+                        $( "#datepicker" ).datepicker( "option", "dateFormat", "dd.mm.yy" );
+                        $( "#datepicker" ).val("<?= date('d.m.Y', strtotime($this->travel['date'])); ?>");
+                    });
+                </script>
                 <?= $this->formElementErrors($this->form->get('date')); ?>
+                <?php /* ?>
+                <div class="container">
+                    <div class="row">
+                        <div class='col-sm-6' style="padding-left: 0 !important;">
+                            <div class="form-group">
+                                <?= $this->formLabel($this->form->get('date')); ?>
+                                <div class='input-group date' id='datetimepicker2'>
+                                    <?//= $this->formElement($this->form->get('date')); ?>
+                                    <input type='text' class="form-control" name="date" value="<?= date('Y-m-d H:i', strtotime($this->travel['date'])); ?>" />
+                                    <span class="input-group-addon" style="height: 20px !important;">
+                                        <span class="glyphicon glyphicon-calendar"></span>
+                                    </span>
+                                </div>
+                                <?= $this->formElementErrors($this->form->get('date')); ?>
+                            </div>
+                        </div>
+                        <script type="text/javascript">
+                            $(function () {
+                                $('#datetimepicker2').datetimepicker({
+                                    locale: 'ru'
+                                });
+                            });
+                        </script>
+                    </div>
+                </div>
+                <?php */ ?>
             </div>
             <br />
             <div class="form-group">

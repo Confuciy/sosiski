@@ -69,8 +69,8 @@ class TravelManager
         }
         $select->where(['lang.locale' => $_SESSION['locale']]);
         $select->limit($this->page_limit, $page);
-        $select->order('travels.date DESC');
-        $travels = $res->selectWith($select);
+        $select->order('travels.date DESC, travels.travel_id DESC');
+        $travels = $res->selectWith($select)->toArray();
 
         return $travels;
     }
@@ -163,7 +163,27 @@ class TravelManager
         return $images;
     }
 
-    public function updateTravel($travel, $data){
+    public function getTravelImagesSize($travel_id = 0)
+    {
+        $size_sum = 0;
+
+        $dir = $this->uploadPath.$travel_id.'/files';
+        if (is_dir($dir)) {
+            if ($dh = opendir($dir)) {
+                $col = 0;
+                while (($file = readdir($dh)) !== false) {
+                    if($file != '.' and $file != '..' and is_file($dir.'/'.$file)){
+                        $size_sum += filesize($dir.'/'.$file);
+                    }
+                }
+                closedir($dh);
+            }
+        }
+
+        return $this->fileSizeConvert($size_sum);
+    }
+
+    public function editTravel($travel, $data){
         $update_data = [
             'url' => $data['url'],
             'date' => date('Y-m-d', strtotime($data['date'])),
@@ -230,6 +250,120 @@ class TravelManager
         }  catch (Exception $e) {
             $connection->rollback();
         }
+    }
+
+    public function createTravel($user_id, $data){
+        // Travel data
+        $create_data = [
+            'user_id' => $user_id,
+            'url' => $data['url'],
+            'image' => '',
+            'date' => date('Y-m-d', strtotime($data['date'])),
+            'status' => 0
+        ];
+
+        // Begin transaction
+        $connection = $this->dbAdapter->getDriver()->getConnection();
+        $connection->beginTransaction();
+
+        try {
+            // Try to insert travel data
+            $res = new TableGateway('travels', $this->dbAdapter);
+            $res->insert($create_data);
+
+            // Get travel_id
+            $travel_id = $res->getLastInsertValue();
+
+            // Try to insert travel_txt data
+            if(!empty($travel_id)) {
+                $langs = $this->getLangs();
+                foreach ($langs as $lang) {
+                    $create_txt_data = [
+                        'travel_id' => $travel_id,
+                        'lang_id' => $lang['lang_id'],
+                        'title' => '',
+                        'subtitle' => '',
+                        'announce' => '',
+                        'text' => '',
+                    ];
+
+                    $res = new TableGateway('travels_txt', $this->dbAdapter);
+                    $res->insert($create_txt_data);
+                }
+            } else {
+                // Rollback transaction
+                $connection->rollback();
+
+                // Return false;
+                return false;
+            }
+
+            // Commmit transaction
+            $connection->commit();
+
+            // Return travel_id
+            return $travel_id;
+
+        }  catch (Exception $e) {
+            // Rollback transaction
+            $connection->rollback();
+
+            // Return false;
+            return false;
+        }
+    }
+
+    public function deleteTravel($travel_id = 0)
+    {
+        // Begin transaction
+        $connection = $this->dbAdapter->getDriver()->getConnection();
+        $connection->beginTransaction();
+
+        $res = new TableGateway('travels', $this->dbAdapter);
+        $res->delete(['travel_id' => $travel_id]);
+
+        // Commmit transaction
+        $connection->commit();
+
+        return;
+    }
+
+    public function fileSizeConvert($bytes)
+    {
+        $bytes = floatval($bytes);
+        $arBytes = array(
+            0 => array(
+                "UNIT" => "TB",
+                "VALUE" => pow(1024, 4)
+            ),
+            1 => array(
+                "UNIT" => "GB",
+                "VALUE" => pow(1024, 3)
+            ),
+            2 => array(
+                "UNIT" => "MB",
+                "VALUE" => pow(1024, 2)
+            ),
+            3 => array(
+                "UNIT" => "KB",
+                "VALUE" => 1024
+            ),
+            4 => array(
+                "UNIT" => "B",
+                "VALUE" => 1
+            ),
+        );
+
+        foreach($arBytes as $arItem)
+        {
+            if($bytes >= $arItem["VALUE"])
+            {
+                $result = $bytes / $arItem["VALUE"];
+                $result = str_replace(".", "," , strval(round($result, 2)))." ".$arItem["UNIT"];
+                break;
+            }
+        }
+        return $result;
     }
 
     public function pr($arr = []){
