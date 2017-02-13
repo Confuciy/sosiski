@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: sosiski.net\n"
-"POT-Creation-Date: 2017-02-05 14:14+0300\n"
-"PO-Revision-Date: 2017-02-05 14:15+0300\n"
+"POT-Creation-Date: 2017-02-05 21:06+0300\n"
+"PO-Revision-Date: 2017-02-05 21:07+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru_RU\n"
@@ -64,15 +64,15 @@ msgstr "Переключение навигации"
 msgid "You're not administrator"
 msgstr "Вы, не администратор"
 
-#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/src/Controller/TravelAdminController.php:159
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/src/Controller/TravelAdminController.php:164
 msgid "Cannot create travel!"
 msgstr "Невозможно создать путешествие"
 
-#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/src/Controller/TravelAdminController.php:178
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/src/Controller/TravelAdminController.php:185
 msgid "Travel was deleted successfully."
 msgstr "Путешествие было успешно удалено."
 
-#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/src/Controller/TravelAdminController.php:183
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/src/Controller/TravelAdminController.php:190
 msgid "Cannot delete travel!"
 msgstr "Невозможно удалить путешествие!"
 
@@ -132,7 +132,7 @@ msgstr "Неверные формат!"
 msgid "Please, Enter Date"
 msgstr "Пожалуйста, введите дату"
 
-#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/src/Service/TravelManager.php:176
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/src/Service/TravelManager.php:196
 msgid "Can't upload image!"
 msgstr "Не удается загрузить изображение!"
 
@@ -340,7 +340,7 @@ msgstr "Действия"
 msgid "Untitled"
 msgstr "Без названия"
 
-#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/view/travel/travel-admin/index.phtml:46
+#: C:\Users\1\Desktop\git\sosiski.net\mvc\module/Travel/view/travel/travel-admin/index.phtml:47
 msgid "Are you sure you want to delete this travel?"
 msgstr "Вы уверены, что хотите удалить это путешествие?"
 

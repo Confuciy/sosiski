@@ -1,10 +1,28 @@
 <?php
 $url = 'https://api.instagram.com/oauth/authorize/?client_id=b29e26b3d4f34883a06aa475a629b08e&redirect_uri=http://sosiski.net/scripts/instagram.php&response_type=code&scope=basic';
-$code_file = '/pub/home/confuciy/htdocs_sosiski/mvc/public/scripts/instagram/instagram_code.txt';
-$token_file = '/pub/home/confuciy/htdocs_sosiski/mvc/public/scripts/instagram/instagram_token.txt';
-$section_en = '/pub/home/confuciy/htdocs_sosiski/mvc/public/scripts/instagram/instagram_section_en_US.txt';
-$section_ru = '/pub/home/confuciy/htdocs_sosiski/mvc/public/scripts/instagram/instagram_section_ru_RU.txt';
+$main_path = '/pub/home/confuciy/htdocs_sosiski/mvc';
+$files_path = $main_path.'/public/scripts/instagram';
+$code_file = $files_path.'/instagram_code.txt';
+$token_file = $files_path.'/instagram_token.txt';
 
+if (file_exists($main_path.'/vendor/autoload.php')) {
+    $loader = include $main_path.'/vendor/autoload.php';
+}
+
+if (file_exists($main_path.'/config/autoload/global.php')) {
+    $global = include $main_path.'/config/autoload/global.php';
+}
+if (file_exists($main_path.'/config/autoload/local.php')) {
+    $local = include $main_path.'/config/autoload/local.php';
+}
+
+$adapter = new Zend\Db\Adapter\Adapter(array(
+    'driver' => $global['db']['driver'],
+    'dsn' => $global['db']['dsn'],
+    'username' => $local['db']['username'],
+    'password' => $local['db']['password'],
+    'driver_options' => $global['db']['driver_options'],
+));
 
 if(isset($_GET['code'])){
     $handle = fopen($code_file, 'w+');
@@ -48,80 +66,60 @@ if(isset($_GET['code'])){
         $data = json_decode($html, 1);
 
         if(isset($data['data']) and sizeof($data['data']) > 0){
-            setlocale(LC_ALL, "en_US.UTF-8");
-$html = '<section>
+
+            $res = new Zend\Db\TableGateway\TableGateway('lang', $adapter);
+            $sql = $res->getSql();
+            $select = $sql->select();
+            $langs = $res->selectWith($select)->toArray();
+
+            if(sizeof($langs) > 0){
+                foreach($langs as $lang){
+                    setlocale(LC_ALL, $lang['locale'].".UTF-8");
+
+$html = '
+<section>
     <ul class="posts">';
-        foreach($data['data'] as $row){
-            $title = '';
-            if($row['location']['name'] != ''){
-                $title = $row['location']['name'];
-            } else {
-                if($row['caption']['text'] != '') {
+                    foreach($data['data'] as $row){
+                        $title = '';
+                        if($row['location']['name'] != ''){
+                            $title = $row['location']['name'];
+                        } else {
+                            if($row['caption']['text'] != '') {
 //                                $text_arr = explode(' ', $row['caption']['text']);
 //                                $title = implode(' ', $text_arr);
-                    $title = mb_substr($row['caption']['text'], 0, 40, 'UTF-8').'..';
-                }
-            }
-            $html .= '
+                                $title = mb_substr($row['caption']['text'], 0, 40, 'UTF-8').'..';
+                            }
+                        }
+                        $html .= '
                 <li>
                     <article>
                         <header style="margin-top: -5px;">
                             <span class="icon fa-heart" style="-moz-osx-font-smoothing: grayscale; -webkit-font-smoothing: antialiased; font-size: 0.8em !important; letter-spacing: 0.25em !important;">'.$row['likes']['count'].'</span>
                             <h3><a href="'.$row['link'].'" target="_blank">'.$title.'</a></h3>
-                            <time class="published" datetime="'.date('Y-m-d', $row['created_time']).'">'.strftime('%B %e, %Y', $row['created_time']).'</time>
+                            <time class="published" datetime="'.date('Y-m-d', $row['created_time']).'">'.getNormalMouth(strftime('%B %e, %Y', $row['created_time']), $lang['locale']).'</time>
                         </header>
                         <a href="'.$row['link'].'" class="image" target="_blank"><img src="'.$row['images']['thumbnail']['url'].'" alt="" /></a>
                     </article>
                 </li>';
-        }
-    $html .= '</ul>
+                    }
+                    $html .= '</ul>
 </section>';
 
-            $handle = fopen($section_en, 'w+');
-            fwrite($handle, $html);
-            fclose($handle);
-
-            setlocale(LC_ALL, "ru_RU.UTF-8");
-$html = '<section>
-    <ul class="posts">';
-        foreach($data['data'] as $row){
-            $title = '';
-            if($row['location']['name'] != ''){
-                $title = $row['location']['name'];
-            } else {
-                if($row['caption']['text'] != '') {
-//                                $text_arr = explode(' ', $row['caption']['text']);
-//                                $title = implode(' ', $text_arr);
-                    $title = mb_substr($row['caption']['text'], 0, 40, 'UTF-8').'..';
+                    $handle = fopen($files_path.'/instagram_section_'.$lang['locale'].'.txt', 'w+');
+                    fwrite($handle, $html);
+                    fclose($handle);
                 }
             }
-            $html .= '
-            <li>
-                <article>
-                    <header style="margin-top: -5px;">
-                        <span class="icon fa-heart" style="-moz-osx-font-smoothing: grayscale; -webkit-font-smoothing: antialiased; font-size: 0.8em !important; letter-spacing: 0.25em !important;">'.$row['likes']['count'].'</span>
-                        <h3><a href="'.$row['link'].'" target="_blank">'.$title.'</a></h3>
-                        <time class="published" datetime="'.date('Y-m-d', $row['created_time']).'">'.getNormalMouth(strftime('%B %e, %Y', $row['created_time'])).'</time>
-                    </header>
-                    <a href="'.$row['link'].'" class="image" target="_blank"><img src="'.$row['images']['thumbnail']['url'].'" alt="" /></a>
-                </article>
-            </li>';
         }
-    $html .= '</ul>
-</section>';
-
-            $handle = fopen($section_ru, 'w+');
-            fwrite($handle, $html);
-            fclose($handle);
-        }
-        //echo '<pre>'; print_r($data); echo '</pre>';
-
-        //die($html);
     }
 }
 
-function getNormalMouth($str = '')
+function getNormalMouth($str = '', $locale = '')
 {
+    if($locale != 'ru_RU'){
+        return $str;
+    }
+
     $search_months = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'];
     $replace_months = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'];
 
