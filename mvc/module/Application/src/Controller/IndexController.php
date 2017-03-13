@@ -3,6 +3,7 @@ namespace Application\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
+use Application\Form\PayAmountForm;
 use Zend\Barcode\Barcode;
 use Zend\Mvc\MvcEvent;
 
@@ -17,15 +18,18 @@ class IndexController extends AbstractActionController
      * @var var Zend\Db\Adapter\Adapter
      */
     private $dbAdapter;
-
+    private $paymentManager;
+    private $translator;
     //private $authService;
 
     /**
      * Constructor. Its purpose is to inject dependencies into the controller.
      */
-    public function __construct($dbAdapter)
+    public function __construct($dbAdapter, $paymentManager, $translator)
     {
         $this->dbAdapter = $dbAdapter;
+        $this->paymentManager = $paymentManager;
+        $this->translator = $translator;
         //$this->authService = $authService;
     }
 
@@ -48,11 +52,41 @@ class IndexController extends AbstractActionController
         $appName = 'User Demo';
         $appDescription = 'This demo shows how to implement user management with Zend Framework 3';
 
-        // Return variables to view script with the help of
-        // ViewObject variable container
+        $pay_amount = 0;
+        $pay_result = [];
+
+        // Create Pay Amount form
+        $form = new PayAmountForm($this->translator);
+        $form->setAttribute('action', '/about/');
+
+        if ($this->getRequest()->isPost()) {
+
+            // Fill in the form with POST data and FILES data
+            $data = array_merge_recursive((array)$this->params()->fromPost(), (array)$this->params()->fromFiles());
+
+            $form->setData($data);
+
+            // Validate form
+            if ($form->isValid()) {
+
+                $pay_amount = $data['pay_amount'];
+                $pay_result = $this->paymentManager->pay($pay_amount);
+
+                // Redirect to "edit" page
+                #return $this->redirect()->toRoute('about');
+            }
+        }
+
+        #$pay_amount = 260;
+        #$pay_result = $this->paymentManager->pay($pay_amount);
+
+        $this->layout('layout/future-imperfect-simple');
         return new ViewModel([
             'appName' => $appName,
-            'appDescription' => $appDescription
+            'appDescription' => $appDescription,
+            'form' => $form,
+            'pay_amount' => $pay_amount,
+            'pay_result' => $pay_result
         ]);
     }
 
@@ -73,6 +107,10 @@ class IndexController extends AbstractActionController
 //        ]);
     }
 
+    /**
+     * Change language
+     * @return \Zend\Http\Response
+     */
     public function changeLanguageAction(){
         // Get locale param from route
         $locale = (string)$this->params()->fromRoute('locale', '');
