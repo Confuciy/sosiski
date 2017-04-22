@@ -16,12 +16,14 @@ $form->get('email')->setAttributes([
     'size'  => 70,
 ]);
 
-$form->get('full_name')->setAttributes([
-    'class'=>'form-control',
-    'placeholder'=>$this->translate('Full Name'),
-    'value' => $user['full_name'],
-    'size'  => 80,
-]);
+foreach ($_SESSION['langs'] as $lang) {
+    $form->get('full_name_'.$lang['locale'])->setAttributes([
+        'class' => 'form-control',
+        'placeholder' => $this->translate('Full Name'),
+        'value' => $user['txt'][$lang['locale']]['full_name'],
+        'size' => 80,
+    ]);
+}
 
 $form->get('photo')->setAttributes([
     'class'=>'form-control',
@@ -53,10 +55,15 @@ $form->prepare();
             <?= $this->formElementErrors($form->get('email')); ?>
         </div>
         <br />
+        <?= $this->formLabel($form->get('full_name_'.$lang['locale'])); ?>
+
         <div class="form-group">
-            <?= $this->formLabel($form->get('full_name')); ?>
-            <?= $this->formElement($form->get('full_name')); ?>
-            <?= $this->formElementErrors($form->get('full_name')); ?>
+            <?php foreach ($_SESSION['langs'] as $lang):?>
+                <?= '<small>'.$lang['name'].'</small>'; ?>
+                <?= $this->formElement($form->get('full_name_'.$lang['locale'])); ?>
+                <?= $this->formElementErrors($form->get('full_name_'.$lang['locale'])); ?>
+                <br />
+            <?php endforeach; ?>
         </div>
         <br />
         <div class="form-group">

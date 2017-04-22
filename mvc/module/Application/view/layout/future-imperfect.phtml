@@ -79,7 +79,7 @@
 				<?= $this->content ?>
 
 				<!-- Actions -->
-				<?= $this->travelViewHelper()->action('index', ['page' => 1]); ?>
+				<?= $this->travelViewHelper()->action('index', ['page' => $this->page]); ?>
 
 				<?php
 //				if(isset($_SESSION['Zend_Auth']->session) and $_SERVER['REQUEST_URI'] == '/'){
@@ -92,7 +92,6 @@
 
 				<?php
 				if(isset($_GET['t'])) {
-
 					?>
 					<!-- Post -->
 					<article class="post">
@@ -578,6 +577,7 @@ print 'It took ' + i + ' iterations to sort the deck.';</code></pre>
 				<?= $this->authViewHelper()->action('intro'); ?>
 
 				<!-- Mini Posts -->
+				<?php /* ?>
 				<section>
 					<div class="mini-posts">
 
@@ -623,6 +623,7 @@ print 'It took ' + i + ' iterations to sort the deck.';</code></pre>
 
 					</div>
 				</section>
+				<?php */ ?>
 
 				<!-- Posts List -->
 				<?= $this->mainSections()->instagramSection(); ?>
@@ -680,10 +681,10 @@ print 'It took ' + i + ' iterations to sort the deck.';</code></pre>
 
 				<!-- About -->
 				<section class="blurb">
-					<h2>About</h2>
-					<p>Mauris neque quam, fermentum ut nisl vitae, convallis maximus nisl. Sed mattis nunc id lorem euismod amet placerat. Vivamus porttitor magna enim, ac accumsan tortor cursus at phasellus sed ultricies.</p>
+					<h2><?= $this->translate('About'); ?></h2>
+					<p><?= $this->translate('Hello, we are a family living in Moscow, Russia. Papa Lesha, Mama Dasha and two sons Akim and Artemy, living. A lot of walking, playing, sometimes traveling. Dad takes photos and programs, Mom deals with children, and children have fun :)'); ?></p>
 					<ul class="actions">
-						<li><a href="#" class="button">Learn More</a></li>
+						<li><a href="<?= $this->url('about'); ?>" class="button"><?= $this->translate('Learn More'); ?></a></li>
 					</ul>
 				</section>
 

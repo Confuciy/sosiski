@@ -85,7 +85,7 @@ class TravelAdminController extends AbstractActionController
     public function editAction()
     {
         // Get langs
-        $langs = $this->travelManager->getLangs();
+        $langs = $_SESSION['langs'];
 
         $travel_id = $this->params()->fromRoute('id');
 

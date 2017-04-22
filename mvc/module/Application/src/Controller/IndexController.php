@@ -39,7 +39,10 @@ class IndexController extends AbstractActionController
      */
     public function indexAction()
     {
+        $page = (int)$this->params()->fromRoute('page');
+
         $this->layout('layout/future-imperfect');
+        $this->layout()->setVariable('page', $page);
 
         return new ViewModel();
     }
@@ -49,9 +52,6 @@ class IndexController extends AbstractActionController
      */
     public function aboutAction()
     {
-        $appName = 'User Demo';
-        $appDescription = 'This demo shows how to implement user management with Zend Framework 3';
-
         $pay_amount = 0;
         $pay_result = [];
 
@@ -68,17 +68,10 @@ class IndexController extends AbstractActionController
 
             // Validate form
             if ($form->isValid()) {
-
                 $pay_amount = $data['pay_amount'];
                 $pay_result = $this->paymentManager->pay($pay_amount);
-
-                // Redirect to "edit" page
-                #return $this->redirect()->toRoute('about');
             }
         }
-
-        #$pay_amount = 260;
-        #$pay_result = $this->paymentManager->pay($pay_amount);
 
         $this->layout('layout/future-imperfect-simple');
         return new ViewModel([

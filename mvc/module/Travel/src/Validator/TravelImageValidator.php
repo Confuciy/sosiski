@@ -137,7 +137,6 @@ class TravelImageValidator extends AbstractValidator
 //            return false;
 //        }
 
-
 //        $file = new FileInput('file');
 //        $file->setRequired(false);
 ////        $file->getValidatorChain()->attach(new UploadFile);
@@ -148,8 +147,6 @@ class TravelImageValidator extends AbstractValidator
 //            'use_upload_name'       => true,
 //            'randomize'             => true,
 //        )));
-//
-//
 //
 //        $inputFilter = new InputFilter($file);
 //        $inputFilter->add($file);
@@ -191,7 +188,9 @@ class TravelImageValidator extends AbstractValidator
             $di = new RecursiveDirectoryIterator($options['uploadPath'], FilesystemIterator::SKIP_DOTS);
             $ri = new RecursiveIteratorIterator($di, RecursiveIteratorIterator::CHILD_FIRST);
             foreach ( $ri as $file ) {
-                $file->isDir() ?  rmdir($file) : unlink($file);
+                if (!preg_match('|'.str_replace('/', '\/', $options['uploadPath']).'files|i', $file)) {
+                   $file->isDir() ? rmdir($file) : unlink($file);
+                }
             }
 
 //            if(move_uploaded_file($fileInput['tmp_name'], $uploadPath.$destination)){

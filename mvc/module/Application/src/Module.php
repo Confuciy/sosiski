@@ -61,7 +61,17 @@ class Module
                     $_SESSION['locale'] = $locale;
                 }
             }
+
             setlocale(LC_ALL, $locale.".UTF-8");
+
+            $_SESSION['langs'] = [
+                ['lang_id' => 1, 'name' => 'English', 'locale' => 'en_US'],
+                ['lang_id' => 2, 'name' => 'Русский', 'locale' => 'ru_RU']
+            ];
+//            $_SESSION['langs_id_locale'] = [
+//                1 => ['name' => 'English', 'locale' => 'en_US'],
+//                2 => ['name' => 'Русский', 'locale' => 'ru_RU']
+//            ];
         } catch (\Exception $e) {
             echo $e->getMessage();
         }

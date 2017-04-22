@@ -44,8 +44,8 @@ class UploadHandler
         $this->response = array();
         $this->options = array(
             'script_url' => $this->get_full_url().'/'.$this->basename($this->get_server_var('SCRIPT_NAME')),
-            'upload_dir' => dirname($this->get_server_var('SCRIPT_FILENAME')).(isset($_GET['travel_id'])?'/../travels/'.$_GET['travel_id'].'/':'/').'files/',
-            'upload_url' => $this->get_full_url().(isset($_GET['travel_id'])?'/../travels/'.$_GET['travel_id'].'/':'/').'files/',
+            'upload_dir' => dirname($this->get_server_var('SCRIPT_FILENAME')).'/files/',
+            'upload_url' => $this->get_full_url().'/files/',
             'input_stream' => 'php://input',
             'user_dirs' => false,
             'mkdir_mode' => 0755,
@@ -193,7 +193,7 @@ class UploadHandler
         }
     }
 
-    protected function get_full_url() {
+    public static function get_full_url() {
         $https = !empty($_SERVER['HTTPS']) && strcasecmp($_SERVER['HTTPS'], 'on') === 0 ||
             !empty($_SERVER['HTTP_X_FORWARDED_PROTO']) &&
                 strcasecmp($_SERVER['HTTP_X_FORWARDED_PROTO'], 'https') === 0;
@@ -265,7 +265,7 @@ class UploadHandler
         $file->deleteUrl = $this->options['script_url']
             .$this->get_query_separator($this->options['script_url'])
             .$this->get_singular_param_name()
-            .'='.rawurlencode($file->name).'&travel_id='.$_GET['travel_id'];
+            .'='.rawurlencode($file->name).((isset($_GET['travel_id']) and !empty($_GET['travel_id']))?'&travel_id='.$_GET['travel_id']:'');
         $file->deleteType = $this->options['delete_type'];
         if ($file->deleteType !== 'DELETE') {
             $file->deleteUrl .= '&_method=DELETE';
@@ -1252,6 +1252,13 @@ class UploadHandler
     public function generate_response($content, $print_response = true) {
         $this->response = $content;
         if ($print_response) {
+
+            foreach ($content['files'] as $file) {
+                \Tinify\setKey("0dl-M4GFe_MUu_cCC9WphHJFM84Js2WA");
+                $source = \Tinify\fromFile($this->options['upload_dir'].$file->name);
+                $source->toFile($this->options['upload_dir'].$file->name);
+            }
+
             $json = json_encode($content);
             $redirect = stripslashes($this->get_post_param('redirect'));
             if ($redirect && preg_match($this->options['redirect_allow_target'], $redirect)) {

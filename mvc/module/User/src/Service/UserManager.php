@@ -72,7 +72,6 @@ class UserManager
 
         $update_data = [
             'email' => $data['email'],
-            'full_name' => $data['full_name'],
             'status' => $data['status'],
         ];
 //        if(isset($data['photo']) and $data['photo'] != ''){
@@ -82,11 +81,25 @@ class UserManager
         $res = new TableGateway('user', $this->dbAdapter);
         $sql = $res->getSql();
         $update = $sql->update();
-        $update->table('user');
         $update->set($update_data);
         $update->where(array('id' => $user['id']));
         $statement = $sql->prepareStatementForSqlObject($update);
         $statement->execute($sql);
+
+        foreach ($_SESSION['langs'] as $lang) {
+            $update_data = [
+                'full_name' => $data['full_name_'.$lang['locale']],
+            ];
+
+            $res = new TableGateway('user_txt', $this->dbAdapter);
+            $sql = $res->getSql();
+            $update = $sql->update();
+            $update->set($update_data);
+            $update->where(array('user_id' => $user['id']));
+            $update->where(array('lang_id' => $lang['lang_id']));
+            $statement = $sql->prepareStatementForSqlObject($update);
+            $statement->execute($sql);
+        }
 
         return true;
     }
@@ -256,12 +269,11 @@ class UserManager
         ];
 
         $res = new TableGateway('user', $this->dbAdapter);
-        $sql = $res->getSql();
-        $update = $sql->update();
-        $update->table('user');
-        $update->set($update_data);
-        $update->where(array('id' => $user['id']));
-        $statement = $sql->prepareStatementForSqlObject($update);
+        $sql = $res->getSql()->update()
+            ->table('user')
+            ->set($update_data)
+            ->where(array('id' => $user['id']));
+        $statement = $sql->prepareStatementForSqlObject($sql);
         $statement->execute($sql);
 
         return true;
@@ -277,18 +289,26 @@ class UserManager
     public function getUserList()
     {
         $res = new TableGateway('user', $this->dbAdapter);
-        $sql = $res->getSql();
-        $select = $sql->select();
-        $select->where(['status' => 1]);
-        $select->limit(10);
-        $users = $res->selectWith($select);
+        $sql = $res->getSql()->select()
+            ->join('user_txt', 'user_txt.user_id = user.id', ['full_name'])
+            ->join('lang', 'lang.lang_id = user_txt.lang_id', [])
+            ->where(['lang.locale' => $_SESSION['locale']])
+            ->where(['user.status' => 1])
+            ->limit(10);
+        $users = $res->selectWith($sql);
 
         return $users;
     }
 
     public function getUserByEmail($email)
     {
-        $select = "SELECT `user`.* FROM `user` WHERE LOWER(`email`) = '".trim(mb_strtolower($email, 'UTF-8'))."' LIMIT 1";
+        $select = "SELECT `user`.*, `user_txt`.`full_name` 
+        FROM `user` 
+        JOIN `user_txt` ON `user_txt`.`user_id` = `user`.`id` 
+        JOIN `lang` ON `lang`.`lang_id` = `user_txt`.`lang_id` 
+        WHERE LOWER(`user`.`email`) = '".trim(mb_strtolower($email, 'UTF-8'))."' 
+        AND `lang`.`locale` = '".$_SESSION['locale']."'
+        LIMIT 1";
         $user = $this->dbAdapter->query($select, 'execute')->current();
 
         return $user;
@@ -297,23 +317,34 @@ class UserManager
     public function getUserById($id)
     {
         $res = new TableGateway('user', $this->dbAdapter);
-        $sql = $res->getSql();
-        $select = $sql->select();
-        $select->where(['id' => $id]);
-        $select->limit(1);
-        $user = $res->selectWith($select)->current();
+        $sql = $res->getSql()->select()
+            ->join('user_txt', 'user_txt.user_id = user.id', ['full_name'])
+            ->join('lang', 'lang.lang_id = user_txt.lang_id', [])
+            ->where(['lang.locale' => $_SESSION['locale']])
+            ->where(['user.id' => $id])
+            ->limit(1);
+        $user = $res->selectWith($sql)->current();
+
+        $res = new TableGateway('user_txt', $this->dbAdapter);
+        $sql = $res->getSql()->select()
+            ->join('lang', 'lang.lang_id = user_txt.lang_id', ['locale'])
+            ->where(['user_txt.user_id' => $id]);
+        $user_txt = $res->selectWith($sql)->toArray();
+
+        foreach ($user_txt as $txt) {
+            $user['txt'][$txt['locale']] = $txt;
+        }
 
         return $user;
     }
 
     public function getUserRoles($id)
     {
-        $res = new TableGateway('role', $this->dbAdapter);
-        $sql = $res->getSql();
-        $select = $sql->select()
-            ->join('user_role_linker', 'user_role_linker.role_id = role.id', NULL)
+        $res = new TableGateway('user_role', $this->dbAdapter);
+        $sql = $res->getSql()->select()
+            ->join('user_role_linker', 'user_role_linker.role_id = user_role.id', NULL)
             ->where(['user_role_linker.user_id' => $id]);
-        $roles = $res->selectWith($select)->toArray();
+        $roles = $res->selectWith($sql)->toArray();
 
         return $roles;
     }

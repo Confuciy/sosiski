@@ -61,13 +61,15 @@ class UserForm extends Form
         ]);
 
         // Add "full_name" field
-        $this->add([
-            'type'  => 'text',
-            'name' => 'full_name',
-            'options' => [
-                'label' => 'Full Name',
-            ],
-        ]);
+        foreach ($_SESSION['langs'] as $lang) {
+            $this->add([
+                'type'  => 'text',
+                'name' => 'full_name_'.$lang['locale'],
+                'options' => [
+                    'label' => 'Full Name',
+                ],
+            ]);
+        }
 
         if ($this->scenario == 'create') {
 
@@ -160,22 +162,24 @@ class UserForm extends Form
         ]);
 
         // Add input for "full_name" field
-        $inputFilter->add([
-            'name'     => 'full_name',
-            'required' => true,
-            'filters'  => [
-                ['name' => 'StringTrim'],
-            ],
-            'validators' => [
-                [
-                    'name'    => 'StringLength',
-                    'options' => [
-                        'min' => 1,
-                        'max' => 512
+        foreach ($_SESSION['langs'] as $lang) {
+            $inputFilter->add([
+                'name' => 'full_name_'.$lang['locale'],
+                'required' => true,
+                'filters' => [
+                    ['name' => 'StringTrim'],
+                ],
+                'validators' => [
+                    [
+                        'name' => 'StringLength',
+                        'options' => [
+                            'min' => 1,
+                            'max' => 512
+                        ],
                     ],
                 ],
-            ],
-        ]);
+            ]);
+        }
 
         if ($this->scenario == 'create') {
 

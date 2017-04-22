@@ -15,12 +15,16 @@ return [
     'router' => [
         'routes' => [
             'home' => [
-                'type' => Literal::class,
+                'type' => Segment::class,
                 'options' => [
-                    'route'    => '/',
+                    'route'    => '[/:page][/]',
+                    'constraints' => [
+                        'page' => '[0-9]*',
+                    ],
                     'defaults' => [
                         'controller' => Controller\IndexController::class,
                         'action'     => 'index',
+                        'page'       => 1,
                     ],
                 ],
             ],
@@ -85,6 +89,7 @@ return [
     'service_manager' => [
         'factories' => [
             Service\NavManager::class => Service\Factory\NavManagerFactory::class,
+            Service\PaymentManager::class => Service\Factory\PaymentFactory::class,
             \Zend\Mvc\I18n\Translator::class => \Zend\Mvc\I18n\TranslatorFactory::class,
         ],
         'aliases' => [

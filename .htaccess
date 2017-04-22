@@ -2,13 +2,12 @@ php_flag opcache.enable Off
 
 #SetEnv APPLICATION_ENV development
 
-
-
 Options -Indexes
 
 RewriteEngine On
 
 #RewriteRule ^(.*)$ application/public/$1 [L,QSA]
+RewriteRule ^wishlist/?$ /mvc/../sos/wishlist/index.php [L]
 RewriteRule ^trips/?$ /mvc/public/scripts/trips.php [L]
 RewriteRule ^trips/([0-9]+)/?$ /mvc/public/scripts/trips.php?year=$1 [L]
 RewriteRule ^trips/([0-9]+)/([0-9A-zА-я_]+)/p([0-9]+)/?$ /mvc/public/scripts/trips.php?year=$1&trip=$2&page=$3 [L]

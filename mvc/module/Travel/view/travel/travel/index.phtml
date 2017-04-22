@@ -1,5 +1,22 @@
 <?php
 if(sizeof($travels) > 0){
+
+    $paginator = '';
+    if ($this->pages > 1) {
+        $paginator .= '
+        <!-- Pagination -->
+        <ul class="actions pagination">';
+        if ($this->page > 1) {
+            $paginator .= '<li><a href="' . $this->url((!preg_match('/^travels\//', $_SERVER['REQUEST_URI'])?'home':'travels'), ['action' => 'index', 'page' => ($this->page - 1)]) . '" class="button big previous">' . $this->translate('Previous Page') . '</a></li>';
+        }
+        if (($this->page + 1) <= $this->pages) {
+            $paginator .= '<li><a href="' . $this->url((!preg_match('/^travels\//', $_SERVER['REQUEST_URI'])?'home':'travels'), ['action' => 'index', 'page' => ($this->page + 1)]) . '" class="button big next">' . $this->translate('Next Page') . '</a></li>';
+        }
+        $paginator .= '</ul>';
+    }
+
+    echo $paginator;
+
     foreach($travels as $travel) {
         //date('F d, Y', $date)
         $date = strtotime($travel['date']);
@@ -7,16 +24,18 @@ if(sizeof($travels) > 0){
         <article class="post">
             <header>
                 <div class="title">
-                    <h2><a href="'.$this->url('travels_view', ['action' => 'view', 'url' => $travel['url']]).'">'.$travel['title'].'</a></h2>
-                    <p>'.$travel['subtitle'].'</p>
+                    <h2><a href="' . $this->url('travels_view', ['action' => 'view', 'url' => $travel['url']]) . '">' . $travel['title'] . '</a></h2>
+                    <p>' . $travel['subtitle'] . '</p>
                 </div>
                 <div class="meta">
-                    <time class="published" datetime="'.date('Y-m-d', $date).'">'.strftime('%a, %b %e, %Y', $date).'</time>
-                    <a href="'.$this->url('users', ['action' => 'view', 'id' => $travel['user_id']]).'" class="author"><span class="name" style="font-size: 0.8em;">'.$travel['full_name'].'</span><img src="/img/users/'.$travel['user_id'].'/small_'.$travel['photo'].'" alt="'.$travel['full_name'].'" /></a>
+                    <time class="published" datetime="' . date('Y-m-d', $date) . '">' . strftime('%a, %b %e, %Y', $date) . '</time>
+                    <a href="' . $this->url('users', ['action' => 'view', 'id' => $travel['user_id']]) . '" class="author"><span class="name" style="font-size: 0.8em;">' . $travel['full_name'] . '</span><img src="/img/users/' . $travel['user_id'] . '/small_' . $travel['photo'] . '" alt="' . $travel['full_name'] . '" /></a>
                 </div>
-            </header>
-            <a href="'.$this->url('travels_view', ['action' => 'view', 'url' => $travel['url']]).'" class="image featured"><img src="/img/travels/'.$travel['travel_id'].'/'.$travel['image'].'" alt="'.$travel['title'].'" /></a>
-            '.($travel['announce'] != ''?$travel['announce'].'<br /><br />':'').'
+            </header>';
+            if ($travel['image'] != '') {
+                echo '<a href="' . $this->url('travels_view', ['action' => 'view', 'url' => $travel['url']]) . '" class="image featured"><img src="/img/travels/' . $travel['travel_id'] . '/' . $travel['image'] . '" alt="' . $travel['title'] . '" /></a>';
+            }
+            echo ($travel['announce'] != ''?$travel['announce'].'<br /><br />':'').'
             <footer>
                 <ul class="actions">
                     <li><a href="'.$this->url('travels_view', ['action' => 'view', 'url' => $travel['url']]).'" class="button big">'.$this->translate('Continue Reading').'</a></li>
@@ -31,6 +50,8 @@ if(sizeof($travels) > 0){
             </footer>
         </article>';
     }
+
+    echo $paginator;
 }
 
 //// Posts List

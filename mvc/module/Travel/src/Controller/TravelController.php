@@ -33,11 +33,13 @@ class TravelController extends AbstractActionController
      * This is the default "index" action of the controller. It displays the
      * list of travels.
      */
-    public function indexAction($page = 1)
+    public function indexAction($page = [])
     {
         // Current page
-        if(!sizeof($page)){
-            $page = $this->params()->fromRoute('page');
+        if (!sizeof($page)) {
+            $page = (int)$this->params()->fromRoute('page');
+        } else {
+            $page = $page['page'];
         }
 
         // Get travels list
@@ -46,6 +48,7 @@ class TravelController extends AbstractActionController
         $this->layout('layout/future-imperfect-simple');
         $view = new ViewModel([
             'travels' => $travels,
+            'page'  => $page,
             'pages' => $this->travelManager->getTravelsPages(),
         ]);
         $view->setTemplate('travel/travel/index');

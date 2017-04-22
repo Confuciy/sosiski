@@ -8,9 +8,6 @@ $this->pageBreadcrumbs()->setItems([
     $this->translate('Add Travel') => $this->url('travels_admin', ['action' => 'add']),
 ]);
 
-//echo '<pre>'; print_r($this->form); echo '</pre>';
-//die;
-
 $this->form->get('url')->setAttributes([
     'class'=>'form-control',
     'placeholder'=>$this->translate('Url'),
@@ -41,24 +38,27 @@ $this->form->get('submit')
     ->setValue($this->translate('Save'));
 
 $this->form->prepare();
-
-#echo '<pre>'; print_r($this->travel); echo '</pre>';
 ?>
 
 <h3><?= $this->travel['txt'][$_SESSION['locale']]['title']; ?></h3>
 <small style="color: grey;"><a href="<?= $this->url('travels_admin'); ?>">&larr; <?= $this->translate('Back to Travel'); ?></a> / <?= $this->translate('Travel Editing'); ?></small>
 <br /><br />
 
-<!--<script type="text/javascript" src="/js/moment/moment.js"></script>-->
-<!--<script type="text/javascript" src="/js/bootstrap-transition.js"></script>-->
-<!--<script type="text/javascript" src="/js/bootstrap-collapse.js"></script>-->
-
 <script type="text/javascript" src="/js/jquery-1.7.1.js"></script>
 <script type="text/javascript" src="/js/jquery-ui.js"></script>
 <link rel="stylesheet" href="/css/bootstrap-datepicker.css">
 
-<!--<script type="text/javascript" src="/js/bootstrap-datetimepicker-master/js/bootstrap-datetimepicker.min.js"></script>-->
-<!--<link rel="stylesheet" href="/js/bootstrap-datetimepicker-master/css/bootstrap-datetimepicker.min.css">-->
+<style type="text/css" media="screen">
+    .btn.jumbo {
+        font-size: 20px;
+        font-weight: normal;
+        padding: 14px 24px;
+        margin-right: 10px;
+        -webkit-border-radius: 6px;
+        -moz-border-radius: 6px;
+        border-radius: 6px;
+    }
+</style>
 
 <script type="text/javascript">
     function hideView(id) {
@@ -186,7 +186,7 @@ $this->form->prepare();
                 <textarea class="form-control" style="width: 100%;" name="<?= $lang['locale']; ?>[announce]" cols="140" rows="3"><?= $this->travel['txt'][$lang['locale']]['announce']; ?></textarea>
                 <br />
                 <h3><?= $this->translate('Text'); ?></h3>
-                <textarea class="form-control" style="width: 100%;" name="<?= $lang['locale']; ?>[text]" rows="60"><?= $this->travel['txt'][$lang['locale']]['text']; ?></textarea>
+                <textarea class="form-control" style="width: 100%;" id="text_<?= $lang['locale']; ?>" name="<?= $lang['locale']; ?>[text]" rows="60"><?= $this->travel['txt'][$lang['locale']]['text']; ?></textarea>
             </div>
         <?php endforeach; ?>
 
@@ -224,8 +224,6 @@ $this->form->prepare();
             <!-- The container for the uploaded files -->
             <div id="files" class="files">
                 <?php
-                #echo '<pre>'; print_r($images); echo '</pre>';
-                #die;
                 if (isset($this->images) and sizeof($this->images) > 0) {
                 ?>
                     <?php $col = 0;?>
@@ -237,7 +235,7 @@ $this->form->prepare();
                                 <i class="glyphicon glyphicon-eye-open"></i>
                                 <span><?= $this->translate('View/Hide'); ?></span>
                             </button>
-                            <button type="button" class="btn btn-danger delete btn-xs" onclick="deleteImage(<?= $col; ?>, '/img/uploads/index.php?travel_id=<?= $this->travel['travel_id']; ?>&file=<?= $image; ?>');">
+                            <button type="button" class="btn btn-danger delete btn-xs" onclick="if(confirm('<?= $this->translate('Do you really want to delete this image?'); ?>')){deleteImage(<?= $col; ?>, '/img/uploads/index.php?travel_id=<?= $this->travel['travel_id']; ?>&file=<?= $image; ?>');}">
                                 <i class="glyphicon glyphicon-trash"></i>
                                 <span><?= $this->translate('Delete'); ?></span>
                             </button>
@@ -293,7 +291,7 @@ $this->form->prepare();
                         dataType: 'json',
                         autoUpload: false,
                         acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
-                        maxFileSize: 999000,
+                        maxFileSize: 8192000,
                         // Enable image resizing, except for Android and Opera,
                         // which actually support image resizing, but fail to
                         // send Blob objects via XHR requests:
@@ -349,7 +347,7 @@ $this->form->prepare();
 //                                $(data.context.children()[index])
 //                                    .wrap(link);
                                 $(data.context.children()[index])
-                                    .append('<div class="form-group form-group-sm"><br /><b><?= $this->translate('Link'); ?></b><br /><br /><input type="text" class="form-control" style="width: 80%;" value="/img/travels/<?= $this->travel['travel_id']; ?>/files/' + file.name + '">' +
+                                    .append('<div class="form-group form-group-sm"><br /><img src="/img/travels/<?= $this->travel['travel_id']; ?>/files/thumbnail/' + file.name + '"><br /><br /><b><?= $this->translate('Link'); ?></b><br /><input type="text" class="form-control" style="width: 80%;" value="/img/travels/<?= $this->travel['travel_id']; ?>/files/' + file.name + '">' +
                                         '<br /><b><?= $this->translate('Image Fit'); ?></b><input type="text" class="form-control" style="width: 80%;" value="<div class=&quot;12u$&quot;><span class=&quot;image fit&quot;><img src=&quot;/img/travels/<?= $this->travel['travel_id']; ?>/files/' + file.name + '&quot; alt=&quot;&quot;></span></div>">' +
                                         '<b><?= $this->translate('Image Left'); ?></b><input type="text" class="form-control" style="width: 80%;" value="<span class=&quot;image left&quot; style=&quot;&quot;><img src=&quot;/img/travels/<?= $this->travel['travel_id']; ?>/files/' + file.name + '&quot; alt=&quot;&quot;></span>">' +
                                         '<b><?= $this->translate('Image Right'); ?></b><input type="text" class="form-control" style="width: 80%;" value="<span class=&quot;image right&quot; style=&quot;&quot;><img src=&quot;/img/travels/<?= $this->travel['travel_id']; ?>/files/' + file.name + '&quot; alt=&quot;&quot;></span>"><br /><br /></div>');
