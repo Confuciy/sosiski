@@ -56,6 +56,23 @@ class TravelController extends AbstractActionController
         return $view;
     }
 
+    /**
+     * List mini-post of travels
+     */
+    public function miniPostsAction($limit = [])
+    {
+        // Get travels list
+        $travels = $this->travelManager->getTravelsMiniPostsList($limit['limit']);
+
+        $this->layout('layout/future-imperfect-simple');
+        $view = new ViewModel([
+            'travels' => $travels,
+        ]);
+        $view->setTemplate('travel/travel/mini-posts');
+
+        return $view;
+    }
+
     public function viewAction()
     {
         // Current url

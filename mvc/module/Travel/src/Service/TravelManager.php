@@ -1,12 +1,14 @@
 <?php
 namespace Travel\Service;
 
+use Travel\Entity\Travel;
 use Zend\Db\TableGateway\TableGateway;
 
 /**
  * This service is responsible for adding/editing users
  * and changing user password.
  */
+
 class TravelManager
 {
     /**
@@ -14,6 +16,12 @@ class TravelManager
      * @var int
      */
     private $page_limit = 2;
+
+    /**
+     * Article type id
+     * @var int
+     */
+    private $article_type_id = 1;
 
     /**
      * @var Zend\Db\Adapter\Adapter
@@ -56,8 +64,13 @@ class TravelManager
      * Get pages of travels
      * @return float
      */
-    public function getTravelsPages(){
-        $select = "SELECT COUNT(*) as count FROM travels";
+    public function getTravelsPages($admin = 0)
+    {
+        if (!empty($admin)) {
+            $this->page_limit = 30;
+        }
+
+        $select = "SELECT COUNT(*) as count FROM articles WHERE type_id = ".$this->article_type_id;
         $travels = $this->dbAdapter->query($select, 'execute')->current();
 
         $pages = ceil($travels['count'] / $this->page_limit);
@@ -72,24 +85,61 @@ class TravelManager
      */
     public function getTravelsList($page = 1, $admin = 0)
     {
-        $res = new TableGateway('travels', $this->dbAdapter);
+        $res = new TableGateway('articles', $this->dbAdapter);
         $sql = $res->getSql();
         $select = $sql->select();
-        $select->join('travels_txt', 'travels_txt.travel_id = travels.travel_id', ['lang_id', 'title', 'subtitle', 'announce', 'text']);
-        $select->join('user', 'user.id = travels.user_id', ['photo']);
-        $select->join('user_txt', '(user_txt.user_id = user.id and user_txt.lang_id = travels_txt.lang_id)', ['full_name']);
-        $select->join('lang', 'lang.lang_id = travels_txt.lang_id', []);
+        $select->join('articles_txt', 'articles_txt.article_id = articles.article_id', ['lang_id', 'title', 'subtitle', 'announce', 'text']);
+        $select->join('user', 'user.id = articles.user_id', ['photo']);
+        $select->join('user_txt', '(user_txt.user_id = user.id and user_txt.lang_id = articles_txt.lang_id)', ['full_name']);
+        $select->join('lang', 'lang.lang_id = articles_txt.lang_id', []);
+        $select->where(['articles.type_id' => $this->article_type_id]);
         if (empty($admin)) {
-            $select->where(['travels.status' => 1]);
+            $select->where(['articles.status' => 1]);
+        } else {
+            $this->page_limit = 30;
         }
         $select->where(['lang.locale' => $_SESSION['locale']]);
         $select->limit($this->page_limit);
         $select->offset(($page > 1?($page * $this->page_limit - $this->page_limit):0));
-        $select->order('travels.date DESC, travels.travel_id DESC');
-//        echo str_replace(['"', "'"], '', $select->getSqlString());
+        $select->order('articles.date DESC, articles.article_id DESC');
         $travels = $res->selectWith($select)->toArray();
 
         return $travels;
+    }
+
+    /**
+     * @param int $limit
+     * @return mixed
+     */
+    public function getTravelsMiniPostsList($limit = 5)
+    {
+        $select = "SELECT article_id FROM articles WHERE type_id = ".$this->article_type_id." AND status = 1";
+        $travel_ids_tmp = $this->dbAdapter->query($select, 'execute')->toArray();
+        if (sizeof($travel_ids_tmp) > 0) {
+            foreach ($travel_ids_tmp as $travel) {
+                $travel_ids[] = $travel['article_id'];
+            }
+            $rand_keys = array_rand($travel_ids, (sizeof($travel_ids) <= $limit?sizeof($travel_ids) - 1:$limit));
+
+            foreach ($rand_keys as $key) {
+                $rand_ids[] = $travel_ids[$key];
+            }
+
+            $res = new TableGateway('articles', $this->dbAdapter);
+            $sql = $res->getSql();
+            $select = $sql->select();
+            $select->join('articles_txt', 'articles_txt.article_id = articles.article_id', ['lang_id', 'title', 'subtitle', 'announce', 'text']);
+            $select->join('user', 'user.id = articles.user_id', ['photo']);
+            $select->join('user_txt', '(user_txt.user_id = user.id and user_txt.lang_id = articles_txt.lang_id)', ['full_name']);
+            $select->join('lang', 'lang.lang_id = articles_txt.lang_id', []);
+            $select->where(['articles.status' => 1]);
+            $select->where(['lang.locale' => $_SESSION['locale']]);
+            $select->where('articles.article_id IN ('.implode(', ', $rand_ids).')');
+            $select->order('articles.date DESC, articles.article_id DESC');
+            $travels = $res->selectWith($select)->toArray();
+
+            return $travels;
+        }
     }
 
     /**
@@ -99,16 +149,17 @@ class TravelManager
      */
     public function getTravelByUrl($url = '')
     {
-        $res = new TableGateway('travels', $this->dbAdapter);
+        $res = new TableGateway('articles', $this->dbAdapter);
         $sql = $res->getSql();
         $select = $sql->select();
-        $select->join('travels_txt', 'travels_txt.travel_id = travels.travel_id', ['lang_id', 'title', 'subtitle', 'announce', 'text']);
-        $select->join('user', 'user.id = travels.user_id', ['photo']);
-        $select->join('user_txt', '(user_txt.user_id = user.id and user_txt.lang_id = travels_txt.lang_id)', ['full_name']);
-        $select->join('lang', 'lang.lang_id = travels_txt.lang_id', []);
-        $select->where(['travels.url' => $url]);
+        $select->join('articles_txt', 'articles_txt.article_id = articles.article_id', ['lang_id', 'title', 'subtitle', 'announce', 'text']);
+        $select->join('user', 'user.id = articles.user_id', ['photo']);
+        $select->join('user_txt', '(user_txt.user_id = user.id and user_txt.lang_id = articles_txt.lang_id)', ['full_name']);
+        $select->join('lang', 'lang.lang_id = articles_txt.lang_id', []);
+        $select->where(['articles.type_id' => $this->article_type_id]);
+        $select->where(['articles.url' => $url]);
         if(!isset($_GET['preview'])) {
-            $select->where(['travels.status' => 1]);
+            $select->where(['articles.status' => 1]);
         }
         $select->where(['lang.locale' => $_SESSION['locale']]);
         $select->limit(1);
@@ -124,19 +175,19 @@ class TravelManager
      */
     public function getTravelForEdit($travel_id = 0, $langs = [])
     {
-        $res = new TableGateway('travels', $this->dbAdapter);
+        $res = new TableGateway('articles', $this->dbAdapter);
         $sql = $res->getSql();
         $select = $sql->select();
-        $select->join('user', 'user.id = travels.user_id', ['photo']);
+        $select->join('user', 'user.id = articles.user_id', ['photo']);
         $select->join('user_txt', '(user_txt.user_id = user.id)', ['full_name']);
         $select->join('lang', 'lang.lang_id = user_txt.lang_id', []);
-        $select->where(['travels.travel_id' => $travel_id]);
+        $select->where(['articles.article_id' => $travel_id]);
         $select->where(['lang.locale' => $_SESSION['locale']]);
         $select->limit(1);
         $travel = $res->selectWith($select)->toArray()[0];
 
         foreach ($langs as $lang){
-            $travel['txt'][$lang['locale']] = $this->getTravelByIdAndLocale($travel['travel_id'], $lang['locale']);
+            $travel['txt'][$lang['locale']] = $this->getTravelByIdAndLocale($travel['article_id'], $lang['locale']);
         }
 
         return $travel;
@@ -144,11 +195,11 @@ class TravelManager
 
     public function getTravelByIdAndLocale($travel_id = 0, $locale = '')
     {
-        $res = new TableGateway('travels_txt', $this->dbAdapter);
+        $res = new TableGateway('articles_txt', $this->dbAdapter);
         $sql = $res->getSql();
         $select = $sql->select();
-        $select->join('lang', 'lang.lang_id = travels_txt.lang_id', []);
-        $select->where(['travels_txt.travel_id' => $travel_id]);
+        $select->join('lang', 'lang.lang_id = articles_txt.lang_id', []);
+        $select->where(['articles_txt.article_id' => $travel_id]);
         $select->where(['lang.locale' => $locale]);
         $select->limit(1);
         $travel = $res->selectWith($select)->toArray()[0];
@@ -195,6 +246,40 @@ class TravelManager
         return $this->fileSizeConvert($size_sum);
     }
 
+    public function generate_preview($dir, $name = '', $prefix = '', $x = 0, $y = 0, $size, $quality){
+        if($name == ''){
+            return false;
+        }
+        if($size === false){
+            return false;
+        }
+
+        $icfunc = "imagecreatefromjpeg";
+
+        if(!function_exists($icfunc)){
+            return false;
+        }
+
+        $isrc = $icfunc($dir.'/'.$name);
+
+        $x_ratio = $x / $size[0];
+        $y_ratio = $y / $size[1];
+        $ratio = max($x_ratio, $y_ratio);
+        $use_x_ratio = ($x_ratio == $ratio);
+        $n_w   = $use_x_ratio  ? $x  : floor($size[0] * $ratio);
+        $n_h  = !$use_x_ratio ? $y : floor($size[1] * $ratio);
+
+        $idest = imagecreatetruecolor($x, $y);
+        $color = imagecolorallocate($idest, 255, 255, 255);
+        imagefill($idest, 0, 0, $color);
+        imagecopyresized($idest, $isrc, 0, 0, 0, 0, $n_w, $n_h, $size[0], $size[1]);
+
+        unlink($dir.'/'.$prefix.'_'.$name);
+        imagejpeg($idest, $dir.'/'.$prefix.'_'.$name, $quality);
+        imagedestroy($isrc);
+        imagedestroy($idest);
+    }
+
     public function editTravel($travel, $data){
         $update_data = [
             'url' => $data['url'],
@@ -204,26 +289,18 @@ class TravelManager
         ];
 
         if (isset($data['image']['name']) and $data['image']['name'] != '') {
-            if(!move_uploaded_file($data['image']['tmp_name'], $this->uploadPath.$travel['travel_id'].'/'.$data['image']['name'])) {
+            if(!move_uploaded_file($data['image']['tmp_name'], $this->uploadPath.$travel['article_id'].'/'.$data['image']['name'])) {
                 throw new \Exception($this->translator->translate('Can\'t upload image!'));
             } else {
-
+                // Optimization image
                 \Tinify\setKey("0dl-M4GFe_MUu_cCC9WphHJFM84Js2WA");
-                $source = \Tinify\fromFile($this->uploadPath.$travel['travel_id'].'/'.$data['image']['name']);
-                $source->toFile($this->uploadPath.$travel['travel_id'].'/'.$data['image']['name']);
+                $source = \Tinify\fromFile($this->uploadPath.$travel['article_id'].'/'.$data['image']['name']);
+                $source->toFile($this->uploadPath.$travel['article_id'].'/'.$data['image']['name']);
 
-                $dir = $this->uploadPath.$travel['travel_id'];
-//                if (is_dir($dir)) {
-//                    if ($dh = opendir($dir)) {
-//                        $col = 0;
-//                        while (($file = readdir($dh)) !== false) {
-//                            if($file != '.' and $file != '..' and $file != 'files' and is_file($dir.'/'.$file) and $file != $data['image']['name']){
-//                                unlink($dir.'/'.$file);
-//                            }
-//                        }
-//                        closedir($dh);
-//                    }
-//                }
+                // Generate previews
+                $size = getimagesize($this->uploadPath.$travel['article_id'].'/'.$data['image']['name']);
+                $this->generate_preview($this->uploadPath.$travel['article_id'], $data['image']['name'], 'medium', 300, 175, $size, 100);
+                $this->generate_preview($this->uploadPath.$travel['article_id'], $data['image']['name'], 'small', 64, 64, $size, 100);
             }
         }
 
@@ -231,18 +308,18 @@ class TravelManager
         $connection->beginTransaction();
 
         try {
-            $res = new TableGateway('travels', $this->dbAdapter);
+            $res = new TableGateway('articles', $this->dbAdapter);
             $sql = $res->getSql();
             $update = $sql->update();
-            $update->table('travels');
+            $update->table('articles');
             $update->set($update_data);
-            $update->where(array('travel_id' => $travel['travel_id']));
+            $update->where(array('article_id' => $travel['article_id']));
             $statement = $sql->prepareStatementForSqlObject($update);
             $statement->execute($sql);
 
             $langs = $_SESSION['langs'];
             foreach ($langs as $lang) {
-                $travel['txt'][$lang['locale']] = $this->getTravelByIdAndLocale($travel['travel_id'], $lang['locale']);
+                $travel['txt'][$lang['locale']] = $this->getTravelByIdAndLocale($travel['article_id'], $lang['locale']);
 
                 $update_data = [
                     'title' => trim($data[$lang['locale']]['title']),
@@ -252,12 +329,12 @@ class TravelManager
 //                    'text' => str_replace("\r\n", '<br />', trim($data[$lang['locale']]['text'])),
                 ];
 
-                $res = new TableGateway('travels_txt', $this->dbAdapter);
+                $res = new TableGateway('articles_txt', $this->dbAdapter);
                 $sql = $res->getSql();
                 $update = $sql->update();
-                $update->table('travels_txt');
+                $update->table('articles_txt');
                 $update->set($update_data);
-                $update->where(array('travel_id' => $travel['travel_id']));
+                $update->where(array('article_id' => $travel['article_id']));
                 $update->where(array('lang_id' => $lang['lang_id']));
                 $statement = $sql->prepareStatementForSqlObject($update);
                 $statement->execute($sql);
@@ -295,10 +372,8 @@ class TravelManager
             if(!empty($travel_id)) {
                 $langs = $_SESSION['langs'];
                 foreach ($langs as $lang) {
-//                    echo '<pre>'; print_r($lang); echo '</pre>';
-//                    die;
                     $create_txt_data = [
-                        'travel_id' => $travel_id,
+                        'article_id' => $travel_id,
                         'lang_id' => $lang['lang_id'],
                         'title' => '',
                         'subtitle' => '',
@@ -306,7 +381,7 @@ class TravelManager
                         'text' => '',
                     ];
 
-                    $res = new TableGateway('travels_txt', $this->dbAdapter);
+                    $res = new TableGateway('articles_txt', $this->dbAdapter);
                     $res->insert($create_txt_data);
                 }
             } else {
@@ -338,8 +413,8 @@ class TravelManager
         $connection = $this->dbAdapter->getDriver()->getConnection();
         $connection->beginTransaction();
 
-        $res = new TableGateway('travels', $this->dbAdapter);
-        $res->delete(['travel_id' => $travel_id]);
+        $res = new TableGateway('articles', $this->dbAdapter);
+        $res->delete(['article_id' => $travel_id]);
 
         // Commmit transaction
         $connection->commit();
@@ -373,10 +448,8 @@ class TravelManager
             ),
         );
 
-        foreach($arBytes as $arItem)
-        {
-            if($bytes >= $arItem["VALUE"])
-            {
+        foreach($arBytes as $arItem) {
+            if($bytes >= $arItem["VALUE"]) {
                 $result = $bytes / $arItem["VALUE"];
                 $result = str_replace(".", "," , strval(round($result, 2)))." ".$arItem["UNIT"];
                 break;
@@ -385,7 +458,8 @@ class TravelManager
         return $result;
     }
 
-    public function pr($arr = []){
+    public function pr($arr = [])
+    {
         echo '<pre>';
         print_r($arr);
         echo '</pre>';

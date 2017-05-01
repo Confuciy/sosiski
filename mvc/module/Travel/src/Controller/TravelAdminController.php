@@ -75,7 +75,7 @@ class TravelAdminController extends AbstractActionController
         $view = new ViewModel([
             'travels' => $travels,
             'page' => $page,
-            'pages' => $this->travelManager->getTravelsPages(),
+            'pages' => $this->travelManager->getTravelsPages(1),
         ]);
         $view->setTemplate('travel/travel-admin/index');
 

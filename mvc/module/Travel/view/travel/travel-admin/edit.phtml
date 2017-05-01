@@ -116,7 +116,7 @@ $this->form->prepare();
                 <?= $this->formLabel($this->form->get('url')); ?>
                 <?= $this->formElement($this->form->get('url')); ?>
                 <?= $this->formElementErrors($this->form->get('url')); ?>
-                <a href="<?= $this->url('travels_view', ['url' => $this->travel['url']]); ?>?preview=1" target="_blank<?= $this->travel['travel_id']; ?>"><?= $this->translate('Preview'); ?></a>
+                <a href="<?= $this->url('travels_view', ['url' => $this->travel['url']]); ?>?preview=1" target="_blank<?= $this->travel['article_id']; ?>"><?= $this->translate('Preview'); ?></a>
             </div>
             <br />
             <div class="form-group">
@@ -162,7 +162,7 @@ $this->form->prepare();
                 <?= $this->formLabel($this->form->get('image')); ?>
                 <?= $this->formElement($this->form->get('image')); ?>
                 <?= $this->formElementErrors($this->form->get('image')); ?>
-                <?= ($travel['image'] != ''?'<br /><img src="/img/travels/'.$this->travel['travel_id'].'/'.$this->travel['image'].'" width="100%">':'') ?>
+                <?= ($travel['image'] != ''?'<br /><img src="/img/travels/'.$this->travel['article_id'].'/'.$this->travel['image'].'" width="100%">':'') ?>
             </div>
             <br />
             <div class="form-group">
@@ -229,13 +229,13 @@ $this->form->prepare();
                     <?php $col = 0;?>
                     <?php foreach ($this->images as $image): ?>
                         <div id="image_<?= $col; ?>" style="clear: both; margin-bottom: 20px;">
-                            <img src="/img/travels/<?= $this->travel['travel_id']; ?>/files/thumbnail/<?= $image; ?>">
+                            <img src="/img/travels/<?= $this->travel['article_id']; ?>/files/thumbnail/<?= $image; ?>">
                             <div style="margin-top: 5px;">
                             <button type="button" class="btn btn-info btn-xs" onclick="hideView(<?php $rand = rand(1, 10000); echo $rand; ?>);">
                                 <i class="glyphicon glyphicon-eye-open"></i>
                                 <span><?= $this->translate('View/Hide'); ?></span>
                             </button>
-                            <button type="button" class="btn btn-danger delete btn-xs" onclick="if(confirm('<?= $this->translate('Do you really want to delete this image?'); ?>')){deleteImage(<?= $col; ?>, '/img/uploads/index.php?travel_id=<?= $this->travel['travel_id']; ?>&file=<?= $image; ?>');}">
+                            <button type="button" class="btn btn-danger delete btn-xs" onclick="if(confirm('<?= $this->translate('Do you really want to delete this image?'); ?>')){deleteImage(<?= $col; ?>, '/img/uploads/index.php?travel_id=<?= $this->travel['article_id']; ?>&file=<?= $image; ?>');}">
                                 <i class="glyphicon glyphicon-trash"></i>
                                 <span><?= $this->translate('Delete'); ?></span>
                             </button>
@@ -243,13 +243,13 @@ $this->form->prepare();
                             <div class="form-group form-group-sm" id="div_<?= $rand; ?>" style="display: none;">
                                 <br />
                                 <b><?= $this->translate('Link'); ?></b>
-                                <input class="form-control" style="width: 80%;" value="/img/travels/<?= $this->travel['travel_id']; ?>/files/<?= $image; ?>" type="text">
+                                <input class="form-control" style="width: 80%;" value="/img/travels/<?= $this->travel['article_id']; ?>/files/<?= $image; ?>" type="text">
                                 <b><?= $this->translate('Image Fit'); ?></b>
-                                <input class="form-control" style="width: 80%;" value="&lt;div class=&quot;12u$&quot;&gt;&lt;span class=&quot;image fit&quot;&gt;&lt;img src=&quot;/img/travels/<?= $this->travel['travel_id']; ?>/files/<?= $image; ?>&quot; alt=&quot;&quot;&gt;&lt;/span&gt;&lt;/div&gt;" type="text">
+                                <input class="form-control" style="width: 80%;" value="&lt;div class=&quot;12u$&quot;&gt;&lt;span class=&quot;image fit&quot;&gt;&lt;img src=&quot;/img/travels/<?= $this->travel['article_id']; ?>/files/<?= $image; ?>&quot; alt=&quot;&quot;&gt;&lt;/span&gt;&lt;/div&gt;" type="text">
                                 <b><?= $this->translate('Image Left'); ?></b>
-                                <input class="form-control" style="width: 80%;" value="&lt;span class=&quot;image left&quot; style=&quot;&quot;&gt;&lt;img src=&quot;/img/travels/<?= $this->travel['travel_id']; ?>/files/<?= $image; ?>&quot; alt=&quot;&quot;&gt;&lt;/span&gt;" type="text">
+                                <input class="form-control" style="width: 80%;" value="&lt;span class=&quot;image left&quot; style=&quot;&quot;&gt;&lt;img src=&quot;/img/travels/<?= $this->travel['article_id']; ?>/files/<?= $image; ?>&quot; alt=&quot;&quot;&gt;&lt;/span&gt;" type="text">
                                 <b><?= $this->translate('Image Right'); ?></b>
-                                <input class="form-control" style="width: 80%;" value="&lt;span class=&quot;image right&quot; style=&quot;&quot;&gt;&lt;img src=&quot;/img/travels/<?= $this->travel['travel_id']; ?>/files/<?= $image; ?>&quot; alt=&quot;&quot;&gt;&lt;/span&gt;" type="text">
+                                <input class="form-control" style="width: 80%;" value="&lt;span class=&quot;image right&quot; style=&quot;&quot;&gt;&lt;img src=&quot;/img/travels/<?= $this->travel['article_id']; ?>/files/<?= $image; ?>&quot; alt=&quot;&quot;&gt;&lt;/span&gt;" type="text">
                                 <br />
                             </div>
                         </div>
@@ -266,7 +266,7 @@ $this->form->prepare();
                 $(function () {
                     'use strict';
                     // Change this to the location of your server-side upload handler:
-                    var url = '/img/uploads/index.php?travel_id=<?= $this->travel['travel_id']; ?>',
+                    var url = '/img/uploads/index.php?travel_id=<?= $this->travel['article_id']; ?>',
                         uploadButton = $('<button/>')
                             .addClass('btn btn-primary')
                             .prop('type', 'button')
@@ -347,10 +347,10 @@ $this->form->prepare();
 //                                $(data.context.children()[index])
 //                                    .wrap(link);
                                 $(data.context.children()[index])
-                                    .append('<div class="form-group form-group-sm"><br /><img src="/img/travels/<?= $this->travel['travel_id']; ?>/files/thumbnail/' + file.name + '"><br /><br /><b><?= $this->translate('Link'); ?></b><br /><input type="text" class="form-control" style="width: 80%;" value="/img/travels/<?= $this->travel['travel_id']; ?>/files/' + file.name + '">' +
-                                        '<br /><b><?= $this->translate('Image Fit'); ?></b><input type="text" class="form-control" style="width: 80%;" value="<div class=&quot;12u$&quot;><span class=&quot;image fit&quot;><img src=&quot;/img/travels/<?= $this->travel['travel_id']; ?>/files/' + file.name + '&quot; alt=&quot;&quot;></span></div>">' +
-                                        '<b><?= $this->translate('Image Left'); ?></b><input type="text" class="form-control" style="width: 80%;" value="<span class=&quot;image left&quot; style=&quot;&quot;><img src=&quot;/img/travels/<?= $this->travel['travel_id']; ?>/files/' + file.name + '&quot; alt=&quot;&quot;></span>">' +
-                                        '<b><?= $this->translate('Image Right'); ?></b><input type="text" class="form-control" style="width: 80%;" value="<span class=&quot;image right&quot; style=&quot;&quot;><img src=&quot;/img/travels/<?= $this->travel['travel_id']; ?>/files/' + file.name + '&quot; alt=&quot;&quot;></span>"><br /><br /></div>');
+                                    .append('<div class="form-group form-group-sm"><br /><img src="/img/travels/<?= $this->travel['article_id']; ?>/files/thumbnail/' + file.name + '"><br /><br /><b><?= $this->translate('Link'); ?></b><br /><input type="text" class="form-control" style="width: 80%;" value="/img/travels/<?= $this->travel['article_id']; ?>/files/' + file.name + '">' +
+                                        '<br /><b><?= $this->translate('Image Fit'); ?></b><input type="text" class="form-control" style="width: 80%;" value="<div class=&quot;12u$&quot;><span class=&quot;image fit&quot;><img src=&quot;/img/travels/<?= $this->travel['article_id']; ?>/files/' + file.name + '&quot; alt=&quot;&quot;></span></div>">' +
+                                        '<b><?= $this->translate('Image Left'); ?></b><input type="text" class="form-control" style="width: 80%;" value="<span class=&quot;image left&quot; style=&quot;&quot;><img src=&quot;/img/travels/<?= $this->travel['article_id']; ?>/files/' + file.name + '&quot; alt=&quot;&quot;></span>">' +
+                                        '<b><?= $this->translate('Image Right'); ?></b><input type="text" class="form-control" style="width: 80%;" value="<span class=&quot;image right&quot; style=&quot;&quot;><img src=&quot;/img/travels/<?= $this->travel['article_id']; ?>/files/' + file.name + '&quot; alt=&quot;&quot;></span>"><br /><br /></div>');
                             } else if (file.error) {
                                 var error = $('<span class="text-danger"/>').text(file.error);
                                 $(data.context.children()[index])

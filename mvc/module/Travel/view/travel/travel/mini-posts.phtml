@@ -1,0 +1,26 @@
+<?php
+if(sizeof($travels) > 0){
+    echo '
+    <!-- Mini Posts -->
+    <section>
+        <div class="mini-posts">';
+            foreach($travels as $travel) {
+                $date = strtotime($travel['date']);
+                echo '
+                <!-- Mini Post -->
+                <article class="mini-post">
+                    <header>
+                        <h3><a href="' . $this->url('travels_view', ['action' => 'view', 'url' => $travel['url']]) . '">' . $travel['title'] . '</a></h3>
+                        <time class="published" datetime="' . date('Y-m-d', $date) . '">' . strftime('%a, %b %e, %Y', $date) . '</time>
+                        <a href="' . $this->url('users', ['action' => 'view', 'id' => $travel['user_id']]) . '" class="author"><img src="/img/users/' . $travel['user_id'] . '/small_' . $travel['photo'] . '" alt="' . $travel['full_name'] . '" /></a>
+                    </header>';
+                    if ($travel['image'] != '') {
+                        echo '<a href="' . $this->url('travels_view', ['action' => 'view', 'url' => $travel['url']]) . '" class="image featured"><img src="/img/travels/' . $travel['article_id'] . '/medium_' . $travel['image'] . '" alt="' . $travel['title'] . '" /></a>';
+                    }
+                echo '
+                </article>';
+            }
+        echo '
+        </div>
+    </section>';
+}

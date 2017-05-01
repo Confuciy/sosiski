@@ -33,17 +33,17 @@ $this->pageBreadcrumbs()->setItems([
         <?php //echo '<pre>'; print_r($travel); echo '</pre>'; ?>
 
         <tr>
-            <td><?= $this->escapeHtml($travel['travel_id']); ?></td>
+            <td><?= $this->escapeHtml($travel['article_id']); ?></td>
             <td style="text-align: center;"><?php echo ($travel['status'] == 1?'<span class="label label-success">&nbsp;&nbsp;</span>':'<span class="label label-danger">&nbsp;&nbsp;</span>'); ?></td>
             <td>
-                <a href="<?= $this->url('travels_admin', ['action' => 'edit', 'id' => $travel['travel_id']]); ?>">
+                <a href="<?= $this->url('travels_admin', ['action' => 'edit', 'id' => $travel['article_id']]); ?>">
                     <?= ($travel['title'] != ''?$this->escapeHtml($travel['title']):$this->translate('Untitled')); ?>
                 </a>
                 <br /><small>[<?= $travel['images_size']; ?>]</small>
             </td>
             <td><small><?= date('d.m.Y', strtotime($travel['date'])); ?> / <?= strftime('%a, %b <b>%e</b>, %Y', strtotime($travel['date'])); ?></small></td>
             <td>
-                <a class="btn btn-default btn-sm" href="<?= $this->url('travels_admin', ['action' => 'delete', 'id' => $travel['travel_id']]); ?>"
+                <a class="btn btn-default btn-sm" href="<?= $this->url('travels_admin', ['action' => 'delete', 'id' => $travel['article_id']]); ?>"
                     onclick="if(!confirm('<?= $this->translate('Are you sure you want to delete this travel?'); ?>')){return false;}">
                     <span class="glyphicon glyphicon-remove"></span>
                 </a>

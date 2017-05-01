@@ -78,7 +78,7 @@
 
 				<?= $this->content ?>
 
-				<!-- Actions -->
+				<!-- Travels Actions -->
 				<?= $this->travelViewHelper()->action('index', ['page' => $this->page]); ?>
 
 				<?php
@@ -575,6 +575,9 @@ print 'It took ' + i + ' iterations to sort the deck.';</code></pre>
 
 				<!-- Intro  -->
 				<?= $this->authViewHelper()->action('intro'); ?>
+
+				<!-- Mini Posts -->
+				<?= $this->travelViewHelper()->action('miniPosts', ['limit' => 5]); ?>
 
 				<!-- Mini Posts -->
 				<?php /* ?>
