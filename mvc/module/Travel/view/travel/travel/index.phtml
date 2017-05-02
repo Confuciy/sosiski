@@ -1,4 +1,8 @@
 <?php
+
+//echo '<pre>'; print_r($travels); echo '</pre>';
+//die;
+
 if(sizeof($travels) > 0){
 
     $paginator = '';
@@ -37,14 +41,29 @@ if(sizeof($travels) > 0){
             <footer>
                 <ul class="actions">
                     <li><a href="'.$this->url('travels_view', ['action' => 'view', 'url' => $travel['url']]).'" class="button big">'.$this->translate('Continue Reading').'</a></li>
-                </ul>
-                <!--
-                <ul class="stats">
-                    <li><a href="#">General</a></li>
-                    <li><a href="#" class="icon fa-heart">28</a></li>
-                    <li><a href="#" class="icon fa-comment">128</a></li>
-                </ul>
-                -->
+                </ul>';
+
+                echo '<ul class="stats">';
+                    if (isset($travel['tags'][$_SESSION['locale']]) and sizeof($travel['tags'][$_SESSION['locale']]) > 0) {
+                        echo '<li style="line-height: 2 !important;">';
+                            $tags = [];
+                            foreach ($travel['tags'][$_SESSION['locale']] as $tag) {
+                                $tags[] = '<a href="'.$this->url('tag', ['action' => 'tag', 'tag_name' => $tag]).'">'.$tag.'</a>';
+                            }
+                            echo implode(' | ', $tags);
+                        echo '</li>';
+                    }
+                echo '</ul>';
+
+
+//                <!--
+//                <ul class="stats">
+//                    <li><a href="#">General</a></li>
+//                    <li><a href="#" class="icon fa-heart">28</a></li>
+//                    <li><a href="#" class="icon fa-comment">128</a></li>
+//                </ul>
+//                -->
+            echo '
             </footer>
         </article>';
     }

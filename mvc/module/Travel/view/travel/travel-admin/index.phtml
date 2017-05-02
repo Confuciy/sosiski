@@ -26,6 +26,7 @@ $this->pageBreadcrumbs()->setItems([
         <th>&nbsp;</th>
         <th><?= $this->translate('Title'); ?></th>
         <th><?= $this->translate('Date Created'); ?></th>
+        <th><?= $this->translate('Tags'); ?></th>
         <th><?= $this->translate('Actions'); ?></th>
     </tr>
 
@@ -42,6 +43,11 @@ $this->pageBreadcrumbs()->setItems([
                 <br /><small>[<?= $travel['images_size']; ?>]</small>
             </td>
             <td><small><?= date('d.m.Y', strtotime($travel['date'])); ?> / <?= strftime('%a, %b <b>%e</b>, %Y', strtotime($travel['date'])); ?></small></td>
+            <td>
+                <?php if (isset($travel['tags'][$_SESSION['locale']]) and sizeof($travel['tags'][$_SESSION['locale']]) > 0): ?>
+                    <?php echo implode(', ', $travel['tags'][$_SESSION['locale']]); ?>
+                <?php endif; ?>
+            </td>
             <td>
                 <a class="btn btn-default btn-sm" href="<?= $this->url('travels_admin', ['action' => 'delete', 'id' => $travel['article_id']]); ?>"
                     onclick="if(!confirm('<?= $this->translate('Are you sure you want to delete this travel?'); ?>')){return false;}">

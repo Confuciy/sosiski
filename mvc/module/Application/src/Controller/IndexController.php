@@ -117,4 +117,10 @@ class IndexController extends AbstractActionController
         // Go to prefer page
         return $this->redirect()->toUrl((isset($_SERVER['HTTP_REFERER']) and $_SERVER['HTTP_REFERER'] != '')?$_SERVER['HTTP_REFERER']:'/');
     }
+
+    public function tagAction()
+    {
+        $tag_name = (string)$this->params()->fromRoute('tag_name');
+        die(rawurldecode($tag_name));
+    }
 }

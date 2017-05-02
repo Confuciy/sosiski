@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: sosiski.net\n"
-"POT-Creation-Date: 2017-04-23 02:22+0300\n"
-"PO-Revision-Date: 2017-04-23 02:24+0300\n"
+"POT-Creation-Date: 2017-05-02 08:50+0300\n"
+"PO-Revision-Date: 2017-05-02 08:51+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru_RU\n"
@@ -92,15 +92,15 @@ msgstr "Переключение навигации"
 msgid "You're not administrator"
 msgstr "Вы, не администратор"
 
-#: Travel/src/Controller/TravelAdminController.php:164
+#: Travel/src/Controller/TravelAdminController.php:167
 msgid "Cannot create travel!"
 msgstr "Невозможно создать путешествие"
 
-#: Travel/src/Controller/TravelAdminController.php:185
+#: Travel/src/Controller/TravelAdminController.php:188
 msgid "Travel was deleted successfully."
 msgstr "Путешествие было успешно удалено."
 
-#: Travel/src/Controller/TravelAdminController.php:190
+#: Travel/src/Controller/TravelAdminController.php:193
 msgid "Cannot delete travel!"
 msgstr "Невозможно удалить путешествие!"
 
@@ -159,14 +159,14 @@ msgstr "Неверные формат!"
 msgid "Please, Enter Date"
 msgstr "Пожалуйста, введите дату"
 
-#: Travel/src/Service/TravelManager.php:207
+#: Travel/src/Service/TravelManager.php:300
 msgid "Can't upload image!"
 msgstr "Не удается загрузить изображение!"
 
 #: Application/view/application/index/about.phtml:2
 #: Application/view/application/index/about.phtml:8
 #: Application/view/application/index/about.phtml:12
-#: Application/view/layout/future-imperfect.phtml:684
+#: Application/view/layout/future-imperfect.phtml:687
 msgid "About"
 msgstr "О нас"
 
@@ -212,7 +212,7 @@ msgstr "Наша жизнь"
 #: Application/view/layout/admin.phtml:45
 #: Application/view/layout/future-imperfect-simple.phtml:32
 #: Application/view/layout/future-imperfect.phtml:32
-#: Travel/view/travel/travel-admin/edit.phtml:104
+#: Travel/view/travel/travel-admin/edit.phtml:112
 msgid "English"
 msgstr "Английский"
 
@@ -243,7 +243,7 @@ msgstr "Поиск"
 msgid "Menu"
 msgstr "Меню"
 
-#: Application/view/layout/future-imperfect.phtml:685
+#: Application/view/layout/future-imperfect.phtml:688
 msgid ""
 "Hello, we are a family living in Moscow, Russia. Papa Lesha, Mama Dasha and "
 "two sons Akim and Artemy, living. A lot of walking, playing, sometimes "
@@ -255,7 +255,7 @@ msgstr ""
 "фотографирует и программирует, мама занимается детьми, а дети получают "
 "удовольствие :)"
 
-#: Application/view/layout/future-imperfect.phtml:687
+#: Application/view/layout/future-imperfect.phtml:690
 msgid "Learn More"
 msgstr "Подробнее"
 
@@ -290,74 +290,87 @@ msgstr "Назад к путешествиям"
 msgid "Travel Editing"
 msgstr "Редактирование путешествия"
 
-#: Travel/view/travel/travel-admin/edit.phtml:102
+#: Travel/view/travel/travel-admin/edit.phtml:110
 msgid "Main Info"
 msgstr "Основная информация"
 
-#: Travel/view/travel/travel-admin/edit.phtml:104
+#: Travel/view/travel/travel-admin/edit.phtml:112
 msgid "Russian"
 msgstr "Русский"
 
-#: Travel/view/travel/travel-admin/edit.phtml:106
+#: Travel/view/travel/travel-admin/edit.phtml:114
 msgid "Images"
 msgstr "Изображения"
 
-#: Travel/view/travel/travel-admin/edit.phtml:119
+#: Travel/view/travel/travel-admin/edit.phtml:127
 msgid "Preview"
 msgstr "Превью"
 
-#: Travel/view/travel/travel-admin/edit.phtml:179
-#: Travel/view/travel/travel-admin/edit.phtml:180
+#: Travel/view/travel/travel-admin/edit.phtml:170
+#: Travel/view/travel/travel-admin/index.phtml:29
+msgid "Tags"
+msgstr "Теги"
+
+#: Travel/view/travel/travel-admin/edit.phtml:173
+msgid "Russian tags"
+msgstr "Русские теги"
+
+#: Travel/view/travel/travel-admin/edit.phtml:173
+msgid "English tags"
+msgstr "Английские теги"
+
+#: Travel/view/travel/travel-admin/edit.phtml:198
+#: Travel/view/travel/travel-admin/edit.phtml:199
 #: Travel/view/travel/travel-admin/index.phtml:27
 msgid "Title"
 msgstr "Заголовок"
 
-#: Travel/view/travel/travel-admin/edit.phtml:182
-#: Travel/view/travel/travel-admin/edit.phtml:183
+#: Travel/view/travel/travel-admin/edit.phtml:201
+#: Travel/view/travel/travel-admin/edit.phtml:202
 msgid "Subtitle"
 msgstr "Подзаголовок"
 
-#: Travel/view/travel/travel-admin/edit.phtml:185
+#: Travel/view/travel/travel-admin/edit.phtml:204
 msgid "Announce"
 msgstr "Анонс"
 
-#: Travel/view/travel/travel-admin/edit.phtml:188
+#: Travel/view/travel/travel-admin/edit.phtml:207
 msgid "Text"
 msgstr "Текст"
 
-#: Travel/view/travel/travel-admin/edit.phtml:212
+#: Travel/view/travel/travel-admin/edit.phtml:231
 msgid "Add files..."
 msgstr "Добавить файлы"
 
-#: Travel/view/travel/travel-admin/edit.phtml:236
+#: Travel/view/travel/travel-admin/edit.phtml:255
 msgid "View/Hide"
 msgstr "Посмотреть / Скрыть"
 
-#: Travel/view/travel/travel-admin/edit.phtml:238
+#: Travel/view/travel/travel-admin/edit.phtml:257
 msgid "Do you really want to delete this image?"
 msgstr "Вы действительно хотите удалить это изображение?"
 
-#: Travel/view/travel/travel-admin/edit.phtml:240
+#: Travel/view/travel/travel-admin/edit.phtml:259
 msgid "Delete"
 msgstr "Удалить"
 
-#: Travel/view/travel/travel-admin/edit.phtml:245
-#: Travel/view/travel/travel-admin/edit.phtml:350
+#: Travel/view/travel/travel-admin/edit.phtml:264
+#: Travel/view/travel/travel-admin/edit.phtml:369
 msgid "Link"
 msgstr "Ссылка"
 
-#: Travel/view/travel/travel-admin/edit.phtml:247
-#: Travel/view/travel/travel-admin/edit.phtml:351
+#: Travel/view/travel/travel-admin/edit.phtml:266
+#: Travel/view/travel/travel-admin/edit.phtml:370
 msgid "Image Fit"
 msgstr "Вписать изображение"
 
-#: Travel/view/travel/travel-admin/edit.phtml:249
-#: Travel/view/travel/travel-admin/edit.phtml:352
+#: Travel/view/travel/travel-admin/edit.phtml:268
+#: Travel/view/travel/travel-admin/edit.phtml:371
 msgid "Image Left"
 msgstr "Изображение слева"
 
-#: Travel/view/travel/travel-admin/edit.phtml:251
-#: Travel/view/travel/travel-admin/edit.phtml:353
+#: Travel/view/travel/travel-admin/edit.phtml:270
+#: Travel/view/travel/travel-admin/edit.phtml:372
 msgid "Image Right"
 msgstr "Изображение справа"
 
@@ -368,28 +381,28 @@ msgstr "Изображение справа"
 msgid "Manage Travels"
 msgstr "Управление путешествиями"
 
-#: Travel/view/travel/travel-admin/index.phtml:29
+#: Travel/view/travel/travel-admin/index.phtml:30
 #: User/view/user/user/index.phtml:29
 msgid "Actions"
 msgstr "Действия"
 
-#: Travel/view/travel/travel-admin/index.phtml:40
+#: Travel/view/travel/travel-admin/index.phtml:41
 msgid "Untitled"
 msgstr "Без названия"
 
-#: Travel/view/travel/travel-admin/index.phtml:47
+#: Travel/view/travel/travel-admin/index.phtml:53
 msgid "Are you sure you want to delete this travel?"
 msgstr "Вы уверены, что хотите удалить это путешествие?"
 
-#: Travel/view/travel/travel/index.phtml:9
+#: Travel/view/travel/travel/index.phtml:14
 msgid "Previous Page"
 msgstr "Предыдущая страница"
 
-#: Travel/view/travel/travel/index.phtml:12
+#: Travel/view/travel/travel/index.phtml:17
 msgid "Next Page"
 msgstr "Следующая страница"
 
-#: Travel/view/travel/travel/index.phtml:38
+#: Travel/view/travel/travel/index.phtml:43
 msgid "Continue Reading"
 msgstr "Продолжить чтение"
 

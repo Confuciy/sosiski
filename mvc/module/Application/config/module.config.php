@@ -58,6 +58,16 @@ return [
                     ],
                 ],
             ],
+            'tag' => [
+                'type'    => Segment::class,
+                'options' => [
+                    'route'    => '/tag[/:tag_name][/]',
+                    'defaults' => [
+                        'controller' => Controller\IndexController::class,
+                        'action'     => 'tag',
+                    ],
+                ],
+            ],
         ],
     ],
     'controllers' => [
@@ -80,7 +90,7 @@ return [
         'controllers' => [
             Controller\IndexController::class => [
                 // Allow anyone to visit "index" and "about" actions
-                ['actions' => ['index', 'about', 'changeLanguage'], 'allow' => '*'],
+                ['actions' => ['index', 'about', 'changeLanguage', 'tag'], 'allow' => '*'],
                 // Allow authorized users to visit "settings" action
                 ['actions' => ['settings'], 'allow' => '@']
             ],

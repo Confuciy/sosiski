@@ -1,15 +1,16 @@
 <?php
 namespace Travel\Service;
 
-use Travel\Entity\Travel;
+//use Travel\Entity\Travel;
 use Zend\Db\TableGateway\TableGateway;
+use Application\Service\ArticleTagsManager;
 
 /**
  * This service is responsible for adding/editing users
  * and changing user password.
  */
 
-class TravelManager
+class TravelManager extends ArticleTagsManager
 {
     /**
      * Limit travels on page
@@ -26,7 +27,7 @@ class TravelManager
     /**
      * @var Zend\Db\Adapter\Adapter
      */
-    private $dbAdapter;
+    protected $dbAdapter;
 
     private $translator;
 
@@ -103,6 +104,12 @@ class TravelManager
         $select->offset(($page > 1?($page * $this->page_limit - $this->page_limit):0));
         $select->order('articles.date DESC, articles.article_id DESC');
         $travels = $res->selectWith($select)->toArray();
+
+        if (sizeof($travels) > 0) {
+            foreach ($travels as $key => $travel) {
+                $travels[$key]['tags'] = $this->getArticleTags($travel['article_id'], $_SESSION['locale']);
+            }
+        }
 
         return $travels;
     }
@@ -338,6 +345,20 @@ class TravelManager
                 $update->where(array('lang_id' => $lang['lang_id']));
                 $statement = $sql->prepareStatementForSqlObject($update);
                 $statement->execute($sql);
+
+                // Update tags
+                if (isset($data['tags'][$lang['locale']]) and sizeof($data['tags'][$lang['locale']]) > 0 and trim($data['tags'][$lang['locale']]) != '') {
+                    $tags = explode(',', $data['tags'][$lang['locale']]);
+
+                    if ($this->checkArticleTags($travel['article_id'], $lang['lang_id'], $tags) == true) {
+                        $this->deleteArticleTagsByArticleIdAndLangId($travel['article_id'], $lang['lang_id']);
+                        foreach ($tags as $tag) {
+                            $this->setArticleTag($travel['article_id'], $lang['lang_id'], $tag);
+                        }
+                    }
+                } elseif (isset($data['tags'][$lang['locale']]) and trim($data['tags'][$lang['locale']]) == '') {
+                    $this->deleteArticleTagsByArticleIdAndLangId($travel['article_id'], $lang['lang_id']);
+                }
             }
 
             $connection->commit();
@@ -362,7 +383,7 @@ class TravelManager
 
         try {
             // Try to insert travel data
-            $res = new TableGateway('travels', $this->dbAdapter);
+            $res = new TableGateway('articles', $this->dbAdapter);
             $res->insert($create_data);
 
             // Get travel_id

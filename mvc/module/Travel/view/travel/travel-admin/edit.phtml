@@ -87,6 +87,14 @@ $this->form->prepare();
     }
 </script>
 
+<script type="text/javascript" src="/js/bootstrap-tagsinput-latest/dist/bootstrap-tagsinput.min.js"></script>
+<link rel="stylesheet" href="/js/bootstrap-tagsinput-latest/dist/bootstrap-tagsinput.css">
+<style>
+    .bootstrap-tagsinput {
+        width: 100% !important;
+    }
+</style>
+
 <br />
 
 <div>
@@ -156,6 +164,17 @@ $this->form->prepare();
                     </div>
                 </div>
                 <?php */ ?>
+            </div>
+            <br />
+            <div class="form-group">
+                <h3><?= $this->translate('Tags'); ?></h3>
+                <br />
+                <?php foreach ($this->langs as $lang): ?>
+                    <b><?= ($lang['locale'] == 'ru_RU'?$this->translate('Russian tags'):$this->translate('English tags')); ?></b>
+                    <br />
+                    <input type="text" name="tags[<?= $lang['locale'] ?>]" value="<?= implode(',', $this->tags[$lang['locale']]) ?>" data-role="tagsinput" />
+                    <br /><br />
+                <?php endforeach; ?>
             </div>
             <br />
             <div class="form-group">
@@ -372,5 +391,15 @@ $this->form->prepare();
         </div>
     </div>
 </div>
+
+<script>
+    $('#travel-form').on('keyup keypress', function(e) {
+        var keyCode = e.keyCode || e.which;
+        if (keyCode === 13) {
+            e.preventDefault();
+            return false;
+        }
+    });
+</script>
 
 <br /><br />

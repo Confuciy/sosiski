@@ -67,7 +67,7 @@ class TravelAdminController extends AbstractActionController
         $travels = $this->travelManager->getTravelsList($page, 1);
         if (sizeof($travels) > 0) {
             foreach($travels as $key => &$travel){
-                $travels[$key]['images_size'] = $this->travelManager->getTravelImagesSize($travel['travel_id']);
+                $travels[$key]['images_size'] = $this->travelManager->getTravelImagesSize($travel['article_id']);
             }
         }
 
@@ -124,12 +124,15 @@ class TravelAdminController extends AbstractActionController
 
         // Get travel's images
         $images = $this->travelManager->getTravelImages($travel_id);
+        // Get travel's tags
+        $tags = $this->travelManager->getArticleTags($travel_id);
 
         $this->layout('layout/admin');
         $view = new ViewModel([
             'travel' => $travel,
             'langs' => $langs,
             'images' => $images,
+            'tags' => $tags,
             'form' => $form
         ]);
         $view->setTemplate('travel/travel-admin/edit');
