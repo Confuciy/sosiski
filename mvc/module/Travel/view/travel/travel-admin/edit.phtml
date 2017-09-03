@@ -62,7 +62,7 @@ $this->form->prepare();
 
 <script type="text/javascript">
     function hideView(id) {
-        if($('#div_' + id).css('display') == 'none'){
+        if ($('#div_' + id).css('display') == 'none') {
             $('#div_' + id).show();
         } else {
             $('#div_' + id).hide();
@@ -75,10 +75,10 @@ $this->form->prepare();
         $.ajax({
             type: "DELETE",
             url: url,
-            dataType : "html",
-            data: ({ }),
+            dataType: "html",
+            data: ({}),
             async: false,
-            success: function (data){
+            success: function (data) {
                 $('#image_' + id).hide();
             }
         });
@@ -247,7 +247,7 @@ $this->form->prepare();
                 ?>
                     <?php $col = 0;?>
                     <?php foreach ($this->images as $image): ?>
-                        <div id="image_<?= $col; ?>" style="clear: both; margin-bottom: 20px;">
+                        <div id="image_<?= $col; ?>" style="clear: both; margin-bottom: 20px;"> <!--float: left; width: 200px; height: 170px;-->
                             <img src="/img/travels/<?= $this->travel['article_id']; ?>/files/thumbnail/<?= $image; ?>">
                             <div style="margin-top: 5px;">
                             <button type="button" class="btn btn-info btn-xs" onclick="hideView(<?php $rand = rand(1, 10000); echo $rand; ?>);">
