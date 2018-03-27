@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="PublishConfigData" autoUpload="On explicit save action" promptOnRemoteOverwrite="CHECK_TIMESTAMP" serverName="sftp.sosiski.net" notifyRemoteChanges="true">
+    <serverData>
+      <paths name="ftp.sosiski.net">
+        <serverdata>
+          <mappings>
+            <mapping local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="futuramus.ru">
+        <serverdata>
+          <mappings>
+            <mapping local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="geo-objects.ru">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/htdocs_geo_objects" local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="oiu.ru">
+        <serverdata>
+          <mappings>
+            <mapping local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="sftp.sosiski.net">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/htdocs_sosiski" local="$PROJECT_DIR$" web="/" />
+          </mappings>
+          <excludedPaths>
+            <excludedPath path="/htdocs_sosiski/sos" />
+            <excludedPath path="/htdocs_sosiski/application/vendor" />
+            <excludedPath path="/htdocs_sosiski/application/data" />
+            <excludedPath local="true" path="$PROJECT_DIR$/sos" />
+            <excludedPath local="true" path="$PROJECT_DIR$/application/vendor" />
+            <excludedPath local="true" path="$PROJECT_DIR$/application/public" />
+            <excludedPath local="true" path="$PROJECT_DIR$/application/data" />
+            <excludedPath path="/htdocs_sosiski/application/public/js" />
+            <excludedPath path="/htdocs_sosiski/application/public/fonts" />
+            <excludedPath path="/htdocs_sosiski/application/public/img" />
+          </excludedPaths>
+        </serverdata>
+      </paths>
+    </serverData>
+    <option name="myAutoUpload" value="ON_EXPLICIT_SAVE" />
+  </component>
+</project>

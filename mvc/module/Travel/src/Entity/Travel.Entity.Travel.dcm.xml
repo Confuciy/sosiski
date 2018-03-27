@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="Travel\Entity\Travel" table="travel">
+    <id name="travel_id" type="integer" column="travel_id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="user_id" type="string" column="user_id" precision="0" scale="0" nullable="false"/>
+    <field name="url" type="string" column="url" precision="0" scale="0" nullable="false"/>
+    <field name="image" type="string" column="image" precision="0" scale="0" nullable="false"/>
+    <field name="date" type="string" column="date" precision="0" scale="0" nullable="false"/>
+    <field name="status" type="string" column="status" precision="0" scale="0" nullable="false"/>
+    <many-to-many field="travel_txt" target-entity="Travel\Entity\TravelTxt" fetch="LAZY">
+      <join-table name="travel_txt">
+        <join-columns>
+          <join-column name="travel_id, lang_id" referenced-column-name="travel_id"/>
+        </join-columns>
+        <inverse-join-columns>
+          <join-column name="lang_id" referenced-column-name="lang_id" nullable="1"/>
+        </inverse-join-columns>
+      </join-table>
+    </many-to-many>
+  </entity>
+</doctrine-mapping>
