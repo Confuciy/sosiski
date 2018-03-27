@@ -8,7 +8,6 @@ $token_file = $files_path.'/instagram_token.txt';
 if (file_exists($main_path.'/vendor/autoload.php')) {
     $loader = include $main_path.'/vendor/autoload.php';
 }
-
 if (file_exists($main_path.'/config/autoload/global.php')) {
     $global = include $main_path.'/config/autoload/global.php';
 }
@@ -16,26 +15,26 @@ if (file_exists($main_path.'/config/autoload/local.php')) {
     $local = include $main_path.'/config/autoload/local.php';
 }
 
-$adapter = new Zend\Db\Adapter\Adapter(array(
+$adapter = new Zend\Db\Adapter\Adapter([
     'driver' => $global['db']['driver'],
     'dsn' => $global['db']['dsn'],
     'username' => $local['db']['username'],
     'password' => $local['db']['password'],
     'driver_options' => $global['db']['driver_options'],
-));
+]);
 
 if(isset($_GET['code'])){
     $handle = fopen($code_file, 'w+');
     fwrite($handle, $_GET['code']);
     fclose($handle);
 
-    $data = array(
+    $data = [
         'client_id' => 'b29e26b3d4f34883a06aa475a629b08e',
         'client_secret' => '5e7d14ee62674baf9919a38bba4d158c',
         'grant_type' => 'authorization_code',
         'redirect_uri' => 'http://sosiski.net/scripts/instagram/instagram.php',
         'code' => $_GET['code']
-    );
+    ];
 
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, 'https://api.instagram.com/oauth/access_token');
@@ -85,8 +84,6 @@ $html = '
                             $title = $row['location']['name'];
                         } else {
                             if($row['caption']['text'] != '') {
-//                                $text_arr = explode(' ', $row['caption']['text']);
-//                                $title = implode(' ', $text_arr);
                                 $title = mb_substr($row['caption']['text'], 0, 40, 'UTF-8').'..';
                             }
                         }
@@ -114,9 +111,10 @@ $html = '
     }
 }
 
+// Преобразование месяцев
 function getNormalMouth($str = '', $locale = '')
 {
-    if($locale != 'ru_RU'){
+    if ($locale != 'ru_RU') {
         return $str;
     }
 
